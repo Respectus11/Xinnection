@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* Design tokens — pinned from the product spec. Do not drift.
+   ink: primary text; dusk: dashboard chrome; mist: light surfaces;
+   gold: single accent (primary CTA / active states, never a wash);
+   eucalyptus: success/confirmations; flag: crisis & high-risk only;
+   line: mist-darkened hairline used instead of shadows. */
+@theme {
+  --color-ink: #10161f;
+  --color-dusk: #1b2a3d;
+  --color-mist: #edefe4;
+  --color-line: #d8dbcb;
+  --color-gold: #c9a227;
+  --color-eucalyptus: #4c7a6b;
+  --color-eucalyptus-deep: #3a5d50;
+  --color-flag: #b4432f;
+
+  /* Modular type scale: base 16px, ratio 1.25 */
+  --text-xs: 0.694rem;
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.563rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-4xl: 3.052rem;
+}
+
+/* Companion families (Noto Sans + Noto Sans Ethiopic) loaded via next/font —
+   latin glyphs from Noto Sans, Ethiopic glyphs fall through to Noto Sans
+   Ethiopic so switching locales never breaks rhythm. */
+@theme inline {
+  --font-sans: var(--font-noto-sans), var(--font-noto-ethiopic), ui-sans-serif, system-ui,
+    sans-serif;
+}
+
+body {
+  line-height: 1.6;
+}
+
+/* The one deliberate motion moment: when a new message joins the thread,
+   the thread line quietly reveals it. Disabled for reduced motion. */
+@keyframes threadline-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.threadline-reveal > li:last-child {
+  animation: threadline-in 500ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .threadline-reveal > li:last-child {
+    animation: none;
+  }
+}
