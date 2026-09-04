@@ -1,0 +1,214 @@
+{
+  "common": {
+    "appName": "Xinnection",
+    "tagline": "ናይ ምዝረር ሰላማዊ ክፍሊ",
+    "language": "ቋንቋ",
+    "cancel": "ተወይዎ",
+    "goHome": "ናብ መንበረ ገጽ ተመለስ",
+    "errorGeneric": "ጸገም ተካይዱ ኣሎ። በጃኻ ደጊምካ ፈትን።",
+    "rateLimited": "ሎሚ ሓያሎት መልእኽቲ ሰዲኻ ኣሎኻ — ሞያዊ ብዛዕባ ዝነገርካዮ ክመልስ እዩ። በጃኻ ጥቑቕ ተጸበት።",
+    "notFoundTitle": "ኣገጻ ኣይተረኽበን",
+    "notFoundBody": "እቲ ኣገጻ ዘይነብር እዩ።"
+  },
+  "landing": {
+    "heroPrompt": "እንታይ ኣብ ሕማቕካ ኣሎ?",
+    "heroHelper": "ብዝሒ ቋንቋ ጽሓፍ። ስምካ ክትህብ ኣየድልካን።",
+    "chooseCategory": "ብዛዕባ እንታይ እዩ?",
+    "send": "ሰዲድ",
+    "sending": "ክስደድ ኣሎ…",
+    "submitError": "መልእኽትካ ኣይሰደደን። በጃኻ ደጊምካ ፈትን።"
+  },
+  "consent": {
+    "title": "ቅድሚ ምጅማርካ",
+    "body": "እዚ ኣገልግሎት ስም ኣይሕተትን። ስምኻ፣ ኢመይልካ ወይ ናይ መንነት ሓበሬታ ኣይንሓትትን።",
+    "limitsTitle": "ስውርነት ዘይሸፍኖም",
+    "limits": "ኣብ ግዜ ኣድንኻ ከም ዘሎ ኣይተፈልጥን እንተ ኣረግትካ፡ ሞያዊ ነቲ ናይ ውጽኢት ኣገባብና ክኸውን ይኽእል። ሓበሬታኻ ንምሽያጥ ወይ ንፖስታ ኣይንጥቀመሉን።",
+    "continue": "ቀጥል"
+  },
+  "crisis": {
+    "bannerTitle": "ሎሚ ኣብ ኣድንኻ እንተ ኣለኻ",
+    "bannerBody": "ኣብዚ ክትጽበት ኣየድልካን። እዞም ኣብ ሕጂ ዘገድስካ ይኽእሉ፦",
+    "hospital": "ናብ ቅርቢ ሆስፒታል ናይ ድንገት ክፍሊ ኪድ።",
+    "befrienders": "Befrienders Worldwide — ናይ ደገፍ ቁጽሪ ቅርቢ ኣረኺቡ",
+    "who": "WHO — ናይ ኣእምሮ ጥዕና ሓበሬታ",
+    "reviewNote": "ናይ ከባቢ ደገፍ ቁጽርታት ትኽክለንነቶም ይረጋገጽ ኣሎ።"
+  },
+  "saved": {
+    "title": "ኮድካ",
+    "body": "ነዚ ዕላል ክትመልስ ብዚ ኮድ ጥራይ እዩ። ንኻ ክንረኽቦ ኣይንኽእልን።",
+    "codeLabel": "ኮድካ",
+    "copy": "ኮዱ ቅዳ",
+    "copied": "ተቐዲኡ ኣሎ",
+    "linkLabel": "ወይ ነዚ መስለፊ ዕቕብ",
+    "copyLink": "መስለፊ ቅዳ",
+    "copiedLink": "ተቐዲኡ ኣሎ",
+    "qrLabel": "ብስልኺ ንምዕቃብ ቅንቢት",
+    "continue": "ዕቀብኩዎ — ዕላለይ ክፈት"
+  },
+  "lookup": {
+    "title": "መልሲ ምህላዉ ረኣይ",
+    "label": "ኮድካ",
+    "placeholder": "cloud-river-stone-42-k7q",
+    "action": "ዕላለይ ክፈት",
+    "notFound": "ብዚ ኮድ ዕላል ኣይተረኽበን። በጃኻ ኮድ ኣጸንቕ — ኮዳት ኣይትመለሱን።"
+  },
+  "thread": {
+    "you": "ንስኻ",
+    "professional": "ሞያዊ",
+    "emptyState": "መልእኽትካ ኣብ ዞብ ኣቱኻ በጺሑ ኣሎ። ሞያዊ ኣብዚ ክመልስ እዩ።",
+    "replyLabel": "ነቲ ዕላል ውሰኽ",
+    "send": "ሰዲድ",
+    "delete": "ነዚ ዕላል ስርሕ",
+    "deleteConfirmTitle": "ነዚ ዕላል ከተስርሖ?",
+    "deleteConfirmBody": "እዚ ኩሉ ነገር፣ ኮድካ ሰማዚሙ፣ ብዘይ መሊሱ ይስርሕ። ምምላስ ኣይትኽእልን።",
+    "deleteYes": "እወ፡ ኩሉ ስርሕ",
+    "deleted": "ተዛዚሙ። ኩሉ ነገር ተሰሪሑ ኣሎ። ርእስኻ ጠብቕ።",
+    "lookup": "መልሲ ምህላዉ ረኣይ"
+  },
+  "status": {
+    "open": "ክፉት",
+    "inProgress": "ኣብ ስራሕ",
+    "resolved": "ተፈቲኑ",
+    "escalated": "ተዓሊሙ"
+  },
+  "categories": {
+    "anxiety": "ጭንቀት",
+    "grief": "ሓዘን",
+    "relationships": "ዝምድናታት",
+    "academicStress": "ናይ ትምህርቲ ጸቕጢ",
+    "family": "ስድራ",
+    "work": "ስራሕ",
+    "crisisSelfHarm": "ኣድንኻ / ራስኻ ምውዳእ",
+    "other": "ካልእ"
+  },
+  "languages": {
+    "en": "English",
+    "am": "አማርኛ",
+    "om": "Afaan Oromoo",
+    "ti": "ትግርኛ"
+  },
+  "proStatus": {
+    "active": "ንቁ",
+    "suspended": "ተከልኪሉ",
+    "pending": "ዝጽበ"
+  },
+  "labels": {
+    "source": "ምንጪ",
+    "status": "ኩነታት",
+    "professional": "ሞያዊ",
+    "actions": "ተግባራት"
+  },
+  "auth": {
+    "professionalTitle": "ናይ ሞያዊ ኣተሓሓዛ",
+    "adminTitle": "ናይ ምሕደራ ኣተሓሓዛ",
+    "email": "ኢመይል",
+    "password": "መሕለፊ ቃል",
+    "totp": "ናይ ማረጋግጺ ኮድ",
+    "totpHint": "ካብ ናይ ማረጋግጺ ኣፕ 6-ቁጽሪ ኮድ",
+    "signIn": "ኣተው",
+    "signingIn": "ኣብ ምእታው ኣሎ…",
+    "invalid": "ምእታው ኣይተሳኽነን። ኢመይልካ፣ መሕለፊ ቃልካን ኮድካን ኣረጋግጽ።",
+    "suspended": "እዚ ኣካውንት ተከልኪሉ ኣሎ። ምስ ምሕደራ ተራኸቡ።"
+  },
+  "nav": {
+    "queue": "ዕላላት",
+    "caseload": "ጉዳየይ",
+    "overview": "ሓፈሻዊ ርእይታ",
+    "onboarding": "ምዝገባ ሞያውቲ",
+    "professionals": "ሞያውቲ",
+    "flags": "ህቡብ ኣድንኻ",
+    "audit": "መዝገብ ኣገባብ",
+    "signOut": "ውጻእ"
+  },
+  "queue": {
+    "title": "ዘይተዓዲሎም ዕላላት",
+    "filterCategory": "ምድብ",
+    "filterLanguage": "ቋንቋ",
+    "all": "ኩሉ",
+    "empty": "ሎሚ ዘይተዓዲሎም ዕላላት የሎን።",
+    "claim": "ውሰድ",
+    "claiming": "ትውሰድ ኣላ…",
+    "claimed": "ጉዳይ ክፍት",
+    "waiting": "ይጸንሕ ኣሎ",
+    "flagged": "ህቡብ ኣድንኻ",
+    "messages": "መልእኽታት",
+    "caseloadCount": "{count, plural, =0 {ንቁ ጉዳያት የብና} one {# ንቁ ጉዳይ} other {# ንቁ ጉዳያት}}",
+    "alreadyClaimed": "ካልእ ሞያዊ ቐዲሙ ውዒሉዎ።"
+  },
+    "case": {
+    "backToQueue": "ናብ ዕላላት ተመለስ",
+    "statusLabel": "ኩነታት",
+    "replyLabel": "መልሲ ጽሓፍ",
+    "send": "መልሲ ሰዲድ",
+    "flag": "ከም ህቡብ ኣድንኻ ምልክት ግበር",
+    "flagConfirm": "እዚ ጉዳይ ኣብ ናይ ምሕደራ ቅጽበታዊ ርእይታ ይርከብ። ዝሕተት ሰብ ዝኾነ ለውጢ ኣይርከቦን።",
+    "flaggedDone": "ንዕላዊ ትኩረት ተለይቱ ኣሎ",
+    "notYours": "እዚ ጉዳይ ናትካ ኣይኮነን።"
+  },
+  "admin": {
+    "openCases": "ክፉታት ጉዳያት",
+    "unclaimed": "ዘይተዓዲል ወረደ",
+    "activeFlags": "ንቁ ህቡብ ኣድንኻ ምልክታት",
+    "pendingPros": "ዝጽበው ሞያውቲ",
+    "agingTitle": "ንዑድ ዝኾኑ ዕላላት",
+    "agingBody": "ካብ 24 ሰዓት ንላዕሊ ዘይተዓዲሎም፦",
+    "onboardingTitle": "ሰርዚ ምዝገባ ሞያውቲ",
+    "onboardingEmpty": "ዝጽበው ኣፕሊኬሽን የሎን።",
+    "approve": "ኣጽድቕ",
+    "reject": "ውድቅ ግበር",
+    "rejectReason": "ምኽንያት ምውድቃት",
+    "prosTitle": "ምሕደራ ሞያውቲ",
+    "searchPlaceholder": "ብስም፣ ብኢመይል ወይ ብቁጽሪ ፍቓድ ርገጽ",
+    "suspend": "ከልክል",
+    "reinstate": "መልስ",
+    "suspendReason": "ምኽንያት ምክልኻል",
+    "flagsTitle": "ናይ ህቡብ ኣድንኻ ቅጽበታዊ ርእይታ",
+    "flagsEmpty": "ንቁ ህቡብ ኣድንኻ ምልክታት የቦን።",
+    "resolve": "ተከታተልኩ ኣወዲኡ",
+    "auditTitle": "መዝገብ ኣገባብ",
+    "auditEmpty": "ዝማማጽ መዝገብ የሎን።",
+    "filterAction": "ተግባር",
+    "filterActor": "ተግባርተኛ መለልዩ",
+    "filterFrom": "ካብ",
+    "filterTo": "ክሳብ",
+    "apply": "ተግብር",
+    "clear": "ስርሕ",
+    "when": "መዓስ",
+    "actor": "ተግባርተኛ",
+    "action": "ተግባር",
+    "target": "ዒላማ",
+    "notes": "ሓበሬታ",
+    "credentials": "ሰርቲፊኬት",
+    "license": "ፍቓድ",
+    "specialty": "ፍሉይ ሞያ",
+    "languages": "ቋንቋታት",
+    "name": "ስም",
+    "email": "ኢመይል",
+    "assignedTo": "ንዝተመደበሉ",
+    "unassigned": "ዘይተመደበ",
+    "category": "ምድብ",
+    "threadCreated": "ዝተሰደደሉ",
+    "flagRaised": "ዝተለይበሉ"
+  },
+  "auditActions": {
+    "thread": {
+      "claim": "ዕላል ተዓዲሉ",
+      "status": "ኩነታት ዕላል ተቐይሩ",
+      "flag": "ዕላል ከም ህቡብ ኣድንኻ ተለይቡ"
+    },
+    "professional": {
+      "approve": "ሞያዊ ተጽድቂቡ",
+      "reject": "ናይ ሞያዊ ኣፕሊኬሽን ተውዲቑ",
+      "suspend": "ሞያዊ ተከልኪሉ",
+      "reinstate": "ሞያዊ ተመሊሱ"
+    },
+    "flag": {
+      "resolve": "ህቡብ ኣድንኻ ምልክት ተከታተለ"
+    }
+  },
+  "source": {
+    "seekerSelection": "ብምርጫ ተጠቃሚ",
+    "keywordScreen": "ብፍተሻ ቃላት",
+    "professional": "ብሞያዊ"
+  }
+}
