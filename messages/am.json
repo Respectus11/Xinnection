@@ -1,0 +1,214 @@
+{
+  "common": {
+    "appName": "Xinnection",
+    "tagline": "የሚነገርበት ጸጥ ያለ ክፍል",
+    "language": "ቋንቋ",
+    "cancel": "ተወው",
+    "goHome": "ወደ መነሻ ገጽ ተመለስ",
+    "errorGeneric": "ችግር አጋጥሟል። እባክዎ እንደገና ይሞክሩ።",
+    "rateLimited": "ዛሬ ጥቂት መልእክቶችን ልከዋል — ባለሙያ ስለሚጋሩት ምንም አይርሱት። እባክዎ ጥቂት ይጠብቁ።",
+    "notFoundTitle": "ገጹ አልተገኘም",
+    "notFoundBody": "የሚፈልጉት ገጽ የለም።"
+  },
+  "landing": {
+    "heroPrompt": "ምን በአእምሮዎ ላይ አለ?",
+    "heroHelper": "በማንኛውም ቋንቋ ይጻፉ። ስምዎን መስጠት አያስፈልግዎትም።",
+    "chooseCategory": "ስለ ምን ነው?",
+    "send": "ላክ",
+    "sending": "በመላክ ላይ…",
+    "submitError": "መልእክትዎ አልተላከም። እባክዎ እንደገና ይሞክሩ።"
+  },
+  "consent": {
+    "title": "ከመጀመርዎ በፊት",
+    "body": "ይህ አገልግሎት ስም አይጠይቅም። ስምዎን፣ ኢሜይልዎን ወይም ማንነትዎን የሚያሳይ ማንኛውም ነገር አንጠይቅም።",
+    "limitsTitle": "ስም የማይሸፈንበት ሁኔታ",
+    "limits": "በአደጋ ውስጥ መሆኑን ካጋሉ፣ ባለሙያ የደህንነት ሂደታችንን ሊከተል ይችላል። ውሂብዎ ለሽያጥ ወይም ለማስታወቂያ አይውልም።",
+    "continue": "ቀጥል"
+  },
+  "crisis": {
+    "bannerTitle": "አሁን በአደጋ ውስጥ ከሆኑ",
+    "bannerBody": "እዚህ መልስ እስከሚጠብቁ አይቆዩ። እነዚህ አሁን ሊረዱዎት ይችላሉ፦",
+    "hospital": "ወደ ቅርቡ ሆስፒታል ድንገተኛ ክፍል ይሂዱ።",
+    "befrienders": "Befrienders Worldwide — ቅርብ የድጋፍ መስመር ያግኙ",
+    "who": "የዓለም ጤና ድርጅት — የአእምሮ ጤና መረጃ",
+    "reviewNote": "የአካባቢ የድጋፍ መስመሮች ትክክለኛነት እየተረጋገጠ ነው።"
+  },
+  "saved": {
+    "title": "ኮድዎ",
+    "body": "ወደዚህ ውይይት የሚመለሱት በዚህ ኮድ ብቻ ነው። ለእርስዎ ማግኘት አንችልም።",
+    "codeLabel": "ኮድዎ",
+    "copy": "ኮዱን ቅዳ",
+    "copied": "ተቀድቷል",
+    "linkLabel": "ወይም ይህን አገናኝ ያስቀምጡ",
+    "copyLink": "አገናኙን ቅዳ",
+    "copiedLink": "ተቀድቷል",
+    "qrLabel": "በስልክዎ ለማስቀመጥ ይቃኙ",
+    "continue": "አስቀምጬዋለሁ — ውይይቴን ክፈት"
+  },
+  "lookup": {
+    "title": "መልስ መኖሩን ይመልከቱ",
+    "label": "ኮድዎ",
+    "placeholder": "cloud-river-stone-42-k7q",
+    "action": "ውይይቴን ክፈት",
+    "notFound": "ለዚህ ኮድ ውይይት አልተገኘም። ኮዱን በጥንቃቄ ያረጋግጡ — ኮዶች ሊመለሱ አይችሉም።"
+  },
+  "thread": {
+    "you": "እርስዎ",
+    "professional": "ባለሙያ",
+    "emptyState": "መልእክትዎ ወደ ቡድናችን ደርሷል። ባለሙያ እዚህ ይመልሳል — ጊዜ ሲኖርዎ ይመለከቱ።",
+    "replyLabel": "ወደ ውይይቱ ጨምር",
+    "send": "ላክ",
+    "delete": "ውይይቱን አጥፋ",
+    "deleteConfirmTitle": "ውይይቱን ይሰርዙ?",
+    "deleteConfirmBody": "ይህ ሁሉንም ነገር፣ ኮድዎን ጨምሮ፣ በቋሚነት ይሰርዛል። መመለስ አይቻልም።",
+    "deleteYes": "አዎን፣ ሁሉንም አጥፋ",
+    "deleted": "ተጠናቋል። ሁሉም ነገር ተሰርዟል። ለራስዎ ይጠንከሩ።",
+    "lookup": "መልስ መኖሩን ይመልከቱ"
+  },
+  "status": {
+    "open": "ክፍት",
+    "inProgress": "በሂደት ላይ",
+    "resolved": "ተፈትቷል",
+    "escalated": "ከፍ ብሏል"
+  },
+  "categories": {
+    "anxiety": "ጭንቀት",
+    "grief": "ሀዘን",
+    "relationships": "ግንኙነቶች",
+    "academicStress": "የትምህርት ጫና",
+    "family": "ቤተሰብ",
+    "work": "ሥራ",
+    "crisisSelfHarm": "አደጋ / ራስን መጉማት",
+    "other": "ሌላ"
+  },
+  "languages": {
+    "en": "English",
+    "am": "አማርኛ",
+    "om": "Afaan Oromoo",
+    "ti": "ትግርኛ"
+  },
+  "proStatus": {
+    "active": "ንቁ",
+    "suspended": "ታግዥ",
+    "pending": "በመጠባበቅ ላይ"
+  },
+  "labels": {
+    "source": "ምንጭ",
+    "status": "ሁኔታ",
+    "professional": "ባለሙያ",
+    "actions": "እርምጃዎች"
+  },
+  "auth": {
+    "professionalTitle": "የባለሙያ መግቢያ",
+    "adminTitle": "የአስተዳደር መግቢያ",
+    "email": "ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "totp": "የማረጋገጫ ኮድ",
+    "totpHint": "ከማረጋገጫ መተግበሪያዎ የሚገኘው 6-አሃዝ ኮድ",
+    "signIn": "ግባ",
+    "signingIn": "በመግባት ላይ…",
+    "invalid": "መግባት አልተሳካም። ኢሜይልዎን፣ የይለፍ ቃልዎን እና ኮዱን ያረጋግጡ።",
+    "suspended": "ይህ መለያ ታግዷል። ከአስተዳደሩ ጋር ይግባቡ።"
+  },
+  "nav": {
+    "queue": "ሰልፍ",
+    "caseload": "የእኔ ጉዳዮች",
+    "overview": "አጠቃላይ እይታ",
+    "onboarding": "አዲስ ባለሙያ ምዝገባ",
+    "professionals": "ባለሙያዎች",
+    "flags": "ከፍተኛ ስጋት ያላቸው",
+    "audit": "የክንውን መዝገብ",
+    "signOut": "ውጣ"
+  },
+  "queue": {
+    "title": "ያልተይዙ ውይይቶች",
+    "filterCategory": "ምድብ",
+    "filterLanguage": "ቋንቋ",
+    "all": "ሁሉም",
+    "empty": "አሁን ያልተይዙ ውይይቶች የሉም።",
+    "claim": "ይያዝ",
+    "claiming": "በመያዝ ላይ…",
+    "claimed": "ጉዳዩን ክፈት",
+    "waiting": "ቆይቷል",
+    "flagged": "ከፍተኛ ስጋት",
+    "messages": "መልእክቶች",
+    "caseloadCount": "{count, plural, =0 {ንቁ ጉዳዮች የሉም} one {# ንቁ ጉዳይ} other {# ንቁ ጉዳዮች}}",
+    "alreadyClaimed": "ሌላ ባለሙያ ቀድሞ ይዟል።"
+  },
+    "case": {
+    "backToQueue": "ወደ ሰልፍ ተመለስ",
+    "statusLabel": "ሁኔታ",
+    "replyLabel": "መልስ ጻፍ",
+    "send": "መልስ ላክ",
+    "flag": "እንደ ከፍተኛ ስጋት ምልክት አድርግ",
+    "flagConfirm": "ጉዳዩ ወደ አስተዳደር ክትትል ይታያል። የሚፈልጉት ሰው ምንም ለውጥ አያይዝም።",
+    "flaggedDone": "ለአስቸኳይ ትኩረት ተለይቷል",
+    "notYours": "ይህ ጉዳይ የእርስዎ አይደለም።"
+  },
+  "admin": {
+    "openCases": "ክፍት ጉዳዮች",
+    "unclaimed": "ያልተይዙ ሰልፍ",
+    "activeFlags": "ንቁ ከፍተኛ ስጋት ምልክቶች",
+    "pendingPros": "በመጠባበቅ ላይ ያሉ ባለሙያዎች",
+    "agingTitle": "በጣም ዘምነው የቆዩ ውይይቶች",
+    "agingBody": "ከ24 ሰዓት በላይ ያልተይዙ፦",
+    "onboardingTitle": "የባለሙያ ምዝገባ ሰልፍ",
+    "onboardingEmpty": "በመጠባበቅ ላይ ያሉ ማመልከቻዎች የሉም።",
+    "approve": "አጽድቅ",
+    "reject": "አትቀበል",
+    "rejectReason": "የማልቀበል ምክንያት",
+    "prosTitle": "የባለሙያዎች አስተዳደር",
+    "searchPlaceholder": "በስም፣ በኢሜይል ወይም በፍቃድ ቁጥር ይፈልጉ",
+    "suspend": "አግድ",
+    "reinstate": "መልስ",
+    "suspendReason": "የመከልከል ምክንያት",
+    "flagsTitle": "የከፍተኛ ስጋት ክትትል",
+    "flagsEmpty": "ንቁ ከፍተኛ ስጋት ምልክቶች የሉም።",
+    "resolve": "ክትትል ተጠናቋል",
+    "auditTitle": "የክንውን መዝገብ",
+    "auditEmpty": "የሚስማማ መዝገብ የለም።",
+    "filterAction": "እርምጃ",
+    "filterActor": "የተጠቃሚ መለያ",
+    "filterFrom": "ከ",
+    "filterTo": "እስከ",
+    "apply": "ተግብር",
+    "clear": "አጽዳ",
+    "when": "መቼ",
+    "actor": "ተጠቃሚ",
+    "action": "እርምጃ",
+    "target": "ዒላማ",
+    "notes": "ማስታወሻዎች",
+    "credentials": "ምስክርነት",
+    "license": "ፍቃድ",
+    "specialty": "ልዩ ሙያ",
+    "languages": "ቋንቋዎች",
+    "name": "ስም",
+    "email": "ኢሜይል",
+    "assignedTo": "የተመደበለት",
+    "unassigned": "ያልተመደበ",
+    "category": "ምድብ",
+    "threadCreated": "የተላከበት",
+    "flagRaised": "የተለየበት"
+  },
+  "auditActions": {
+    "thread": {
+      "claim": "ውይይት ተይዟል",
+      "status": "የውይይት ሁኔታ ተቀይሯል",
+      "flag": "ውይይት እንደ ከፍተኛ ስጋት ተለይቷል"
+    },
+    "professional": {
+      "approve": "ባለሙያ ጸድቋል",
+      "reject": "የባለሙያ ማመልከቻ ውድቅ ተደርጓል",
+      "suspend": "ባለሙያ ታግዟል",
+      "reinstate": "ባለሙያ ተመልሷል"
+    },
+    "flag": {
+      "resolve": "የከፍተኛ ስጋት ምልክት ተከታትሏል"
+    }
+  },
+  "source": {
+    "seekerSelection": "በተጠቃሚ ምርጫ",
+    "keywordScreen": "በቃላት ፍተሻ",
+    "professional": "በባለሙያ"
+  }
+}
