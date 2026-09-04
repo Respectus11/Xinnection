@@ -1,0 +1,174 @@
+// Xinnection — Prisma schema.
+//
+// Architectural constraint (from the product spec): no table or column may
+// store a seeker's real identity, IP address, device fingerprint, or email.
+// Seekers are identified solely by a hashed random token.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ThreadStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  ESCALATED
+}
+
+enum SenderRole {
+  SEEKER
+  PROFESSIONAL
+}
+
+enum ProfessionalStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum CrisisFlagSource {
+  // Seeker picked the crisis/self-harm category themselves.
+  SEEKER_SELECTION
+  // Server-side per-language keyword screening matched the message text.
+  KEYWORD_SCREEN
+  // A professional flagged the thread as high risk (internal signal only).
+  PROFESSIONAL
+}
+
+enum AuditActorType {
+  ADMIN
+  PROFESSIONAL
+  SYSTEM
+}
+
+// One anonymous session per seeker conversation. Only the token HASH is
+// stored — the raw token exists only in the seeker's possession.
+model AnonymousSession {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  expiresAt  DateTime
+  thread     Thread?
+
+  @@index([expiresAt])
+}
+
+model Thread {
+  id          String           @id @default(cuid())
+  sessionId   String           @unique
+  session     AnonymousSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  language    String
+  status      ThreadStatus     @default(OPEN)
+  claimedById String?
+  claimedBy   Professional?    @relation(fields: [claimedById], references: [id], onDelete: SetNull)
+  claimedAt   DateTime?
+  // Per-thread data encryption key (DEK), wrapped with the master key.
+  // Deleting the thread destroys the DEK; backups of ciphertext alone are
+  // then unreadable (crypto-shredding aid).
+  wrappedDek  String
+  dekVersion  Int              @default(1)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  messages    Message[]
+  crisisFlags CrisisFlag[]
+
+  @@index([status, claimedById])
+  @@index([categoryId])
+  @@index([createdAt])
+}
+
+// Message bodies are encrypted at the application layer (AES-256-GCM with a
+// per-thread key) before they ever reach the database.
+model Message {
+  id         String     @id @default(cuid())
+  threadId   String
+  thread     Thread     @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  senderRole SenderRole
+  ciphertext String
+  iv         String
+  authTag    String
+  keyVersion Int        @default(1)
+  createdAt  DateTime   @default(now())
+
+  @@index([threadId, createdAt])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  sortOrder Int
+  isCrisis  Boolean  @default(false)
+  active    Boolean  @default(true)
+  threads   Thread[]
+}
+
+model Professional {
+  id             String             @id @default(cuid())
+  email          String             @unique
+  passwordHash   String
+  // TOTP shared secret, wrapped with the master key (never stored raw).
+  totpSecretEnc  String
+  fullName       String
+  credentials    String
+  licenseNumber  String             @unique
+  specialty      String
+  languages      String[]
+  status         ProfessionalStatus @default(PENDING)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  claimedThreads Thread[]
+}
+
+model AdminUser {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  totpSecretEnc String
+  role          AdminRole @default(ADMIN)
+  createdAt     DateTime  @default(now())
+}
+
+// Every admin mutation writes here via the shared audit utility — never
+// message content, only actor, action, target and non-sensitive metadata.
+model AuditLogEntry {
+  id         String          @id @default(cuid())
+  actorType  AuditActorType
+  actorId    String
+  action     String
+  targetType String
+  targetId   String
+  metadata   Json?
+  createdAt  DateTime        @default(now())
+
+  @@index([action])
+  @@index([actorId])
+  @@index([createdAt])
+}
+
+model CrisisFlag {
+  id           String           @id @default(cuid())
+  threadId     String
+  thread       Thread           @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  source       CrisisFlagSource
+  reason       String?
+  raisedById   String?
+  raisedAt     DateTime         @default(now())
+  resolvedAt   DateTime?
+  resolvedById String?
+
+  @@index([resolvedAt, raisedAt])
+  @@index([threadId])
+}
