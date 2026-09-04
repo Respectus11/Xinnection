@@ -1,0 +1,214 @@
+{
+  "common": {
+    "appName": "Xinnection",
+    "tagline": "Bakka tasgabbii dubbachuu",
+    "language": "Afaan",
+    "cancel": "Dhiisi",
+    "goHome": "Gara fuula duraa deebi'i",
+    "errorGeneric": "Wanti dogoggora ta'eera. Maaloo irra deebi'ii yaalaa.",
+    "rateLimited": "Har'a ergaan muraasa ergaa atte — ogeeyyiin waan qooddatte deebii ni kennu. Maaloo xiqqoo eegaa.",
+    "notFoundTitle": "Fuulli hin argamne",
+    "notFoundBody": "Fuula barbaaddu hin jiru."
+  },
+  "landing": {
+    "heroPrompt": "Maaltu sammuun kee irra jira?",
+    "heroHelper": "Afaan kamiyyuu barreessi. Maqaa kee kennuu hin barbaachisu.",
+    "chooseCategory": "Wanti kun waan tokko ti?",
+    "send": "Ergi",
+    "sending": "Ergaa jira…",
+    "submitError": "Ergaanni kee hin eramne. Maaloo irra deebi'ii yaalaa."
+  },
+  "consent": {
+    "title": "Osoo hin jalaliin dura",
+    "body": "Tajaajili kun maqaa hin gaafatu. Maqaa, imeelii ykn odeeffannoo adda baasu kamiyyuu hin gaafannu.",
+    "limitsTitle": "Waan sochii'n hin haguuggamu",
+    "limits": "Yoo attamii keessa osoo jirtu ta'e ibsattan, ogeen tasgabbii karaa nagaa keenya hordofuu mala. Deetaan kee gurgachaa ykn beeksisarratti fayyadamu hin jiru.",
+    "continue": "Itti fufi"
+  },
+  "crisis": {
+    "bannerTitle": "Yoo attamii keessa ta'e",
+    "bannerBody": "Asitti deebii eeguu hin eegalina. Kun waan yeroo ammaa gargaaruu danda'u:",
+    "hospital": "Gara hospitaala dhiyoo waajjira waan hashiluu qabu keessa seeni.",
+    "befrienders": "Befrienders Worldwide — lakkooftsaa dhiyoo argadhu",
+    "who": "WHO — oodeeffannoo fayyaa sammuuti",
+    "reviewNote": "Lakkooftsota naannoo akka sirrii ta'ani mirkaneefamaa jiru."
+  },
+  "saved": {
+    "title": "Koodii kee",
+    "body": "Koodiin kun karaa qofa gara haasawa kottu. Nu irraa deebisuu hin dandeenyu.",
+    "codeLabel": "Koodii kee",
+    "copy": "Koodii waraabuu",
+    "copied": "Waraabameera",
+    "linkLabel": "Ykn liinkii kana olkaa'i",
+    "copyLink": "Liinkii waraabuu",
+    "copiedLink": "Waraabameera",
+    "qrLabel": "Bilbildaa kee olkaa'uf qabee",
+    "continue": "Nan olkaa'edhe — haasawa koo bani"
+  },
+  "lookup": {
+    "title": "Deebii jirutuu ilaali",
+    "label": "Koodii kee",
+    "placeholder": "cloud-river-stone-42-k7q",
+    "action": "Haasawa koo bani",
+    "notFound": "Koodii kanaan haasawaa hin argamne. Maaloo koodii sirreeffaa — koodiin deebisuu hin danda'amu."
+  },
+  "thread": {
+    "you": "Ati",
+    "professional": "Ogeessa",
+    "emptyState": "Ergaan kee garee keenya ga'eera. Ogeessi asitti deebi'a — yeroo qabnu ilaali.",
+    "replyLabel": "Haasawatti dabalaa",
+    "send": "Ergi",
+    "delete": "Haasawa kana haqi",
+    "deleteConfirmTitle": "Haasawa kana haqdaa?",
+    "deleteConfirmBody": "Kun wanti hundumaa, koodii keeti dabalatee, yeroo hundumaafi haqa. Deebi'u hin danda'amu.",
+    "deleteYes": "Eeyyee, hundumaa haqi",
+    "deleted": "Xumurameera. Wantoota hundumaa haqameera. Nageenya kee eegadhu.",
+    "lookup": "Deebii jirutuu ilaali"
+  },
+  "status": {
+    "open": "Banamaa",
+    "inProgress": "Hojii irraa",
+    "resolved": "Furameera",
+    "escalated": "Ol kaa'ame"
+  },
+  "categories": {
+    "anxiety": "Sodaa",
+    "grief": "Gadda",
+    "relationships": "Hariiroo",
+    "academicStress": "Dhiibbaa barnootaa",
+    "family": "Maatii",
+    "work": "Hojii",
+    "crisisSelfHarm": "Balaa / of mure",
+    "other": "Kan biraa"
+  },
+  "languages": {
+    "en": "English",
+    "am": "አማርኛ",
+    "om": "Afaan Oromoo",
+    "ti": "ትግርኛ"
+  },
+  "proStatus": {
+    "active": "Sochii jiru",
+    "suspended": "Dhaabame",
+    "pending": "Eegamaa"
+  },
+  "labels": {
+    "source": "Madda",
+    "status": "Haala",
+    "professional": "Ogeessa",
+    "actions": "Hojii"
+  },
+  "auth": {
+    "professionalTitle": "Seensa ogeessaa",
+    "adminTitle": "Seensa bulchinsaa",
+    "email": "Imeelii",
+    "password": "Jecha icciitii",
+    "totp": "Koodii ragaa",
+    "totpHint": "Koodii 6-lakkii appii ragaa kee irraa",
+    "signIn": "Seeni",
+    "signingIn": "Seenaa jira…",
+    "invalid": "Seensi hin milkoofne. Imeelii, jecha icciitii fi koodii kee mirkaneessi.",
+    "suspended": "Herregaan kun dhaabameera. Bulchinsa wajjin qunnamii."
+  },
+  "nav": {
+    "queue": "Hordoffii",
+    "caseload": "Hojii koo",
+    "overview": "Ilaalcha waliigalaa",
+    "onboarding": "Galmee ogeessaa",
+    "professionals": "Ogeeyyiin",
+    "flags": "Balaa olaanaa",
+    "audit": "Galmee hojii",
+    "signOut": "Ba'i"
+  },
+  "queue": {
+    "title": "Haasawota hin qabamin",
+    "filterCategory": "Ramaddaa",
+    "filterLanguage": "Afaan",
+    "all": "Hundi",
+    "empty": "Amma haasawota hin qabamin hin jiru.",
+    "claim": "Qabadhu",
+    "claiming": "Qabaa jira…",
+    "claimed": "Famoo bani",
+    "waiting": "Eegaa jira",
+    "flagged": "Balaa olaanaa",
+    "messages": "ergaama",
+    "caseloadCount": "{count, plural, =0 {Famoo sochii qabu hin jiru} one {# famoo sochii qabu} other {# famoota sochii qaban}}",
+    "alreadyClaimed": "Kan biraa duraan qabateera."
+  },
+    "case": {
+    "backToQueue": "Gara hordoffiitti deebi'i",
+    "statusLabel": "Haala",
+    "replyLabel": "Deebii barreessi",
+    "send": "Deebii ergi",
+    "flag": "Akkka balaa olaanaa mallatteessi",
+    "flagConfirm": "Famoon kun ilaalcha bulchinsaatiif mul'ata. Namni simmatti'in jijjiirama hin argu.",
+    "flaggedDone": "Akkaa bolsiistuu mallatteefameera",
+    "notYours": "Famoon kun kan kee miti."
+  },
+  "admin": {
+    "openCases": "Famoo banaman",
+    "unclaimed": "Hordoffii hin qabamin",
+    "activeFlags": "Mallattooleen balaa olaanaa sochii jiran",
+    "pendingPros": "Ogeeyyiin eegaman",
+    "agingTitle": "Haasawota yeroo dheeraa turani",
+    "agingBody": "Sa'aatiin 24 caalaa hin qabaminne:",
+    "onboardingTitle": "Hordoffii galmee ogeessaa",
+    "onboardingEmpty": "Iyyata eegamu hin jiru.",
+    "approve": "Mirkaneessi",
+    "reject": "Didi",
+    "rejectReason": "Sababa diddaa",
+    "prosTitle": "Bulchina ogeeyyiin",
+    "searchPlaceholder": "Maqaa, imeelii ykn lakkoofsa hayyamootiin barbaadi",
+    "suspend": "Dhaabi",
+    "reinstate": "Deebisi",
+    "suspendReason": "Sababa dhaabbii",
+    "flagsTitle": "Ilaalcha balaa olaanaa",
+    "flagsEmpty": "Mallattoon balaa olaanaa sochii jiru hin jiru.",
+    "resolve": "Ilaalchee xumure",
+    "auditTitle": "Galmee hojii",
+    "auditEmpty": "Galmee wal simu hin jiru.",
+    "filterAction": "Hojii",
+    "filterActor": "Mogoola",
+    "filterFrom": "Garaa",
+    "filterTo": "Garatti",
+    "apply": "Hojiifchi",
+    "clear": "Haqi",
+    "when": "Yoom",
+    "actor": "Raawwataa",
+    "action": "Hojii",
+    "target": "Tuqaan",
+    "notes": "Yaadannoo",
+    "credentials": "Ragaa",
+    "license": "Hayyama",
+    "specialty": "Dandeettii addaa",
+    "languages": "Afaanota",
+    "name": "Maqaa",
+    "email": "Imeelii",
+    "assignedTo": "Kan kennameef",
+    "unassigned": "Kan hin kennameef",
+    "category": "Ramaddaa",
+    "threadCreated": "Ergame",
+    "flagRaised": "Mallatteeffame"
+  },
+  "auditActions": {
+    "thread": {
+      "claim": "Haasawaa qabameera",
+      "status": "Haala haasawaa jijjiirameera",
+      "flag": "Haasawa akka balaa olaanaa mallatteefameera"
+    },
+    "professional": {
+      "approve": "Ogeessi mirkaneefameera",
+      "reject": "Iyyata ogeessaa didameera",
+      "suspend": "Ogeessi dhaabameera",
+      "reinstate": "Ogeessi deebifameera"
+    },
+    "flag": {
+      "resolve": "Mallattoon balaa olaanaa ilaalameera"
+    }
+  },
+  "source": {
+    "seekerSelection": "Filannoo fayyadamaa",
+    "keywordScreen": "Sakatta'aa jechootaa",
+    "professional": "Ogeessaa"
+  }
+}
