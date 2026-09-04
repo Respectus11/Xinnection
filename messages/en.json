@@ -1,0 +1,214 @@
+{
+  "common": {
+    "appName": "Xinnection",
+    "tagline": "A quiet room to speak",
+    "language": "Language",
+    "cancel": "Cancel",
+    "goHome": "Go to the home page",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "rateLimited": "You've sent a few messages already today — a professional will still respond to what you've shared. Please wait a little while.",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you're looking for doesn't exist."
+  },
+  "landing": {
+    "heroPrompt": "What's on your mind?",
+    "heroHelper": "Write in any language. You don't need to give your name.",
+    "chooseCategory": "What is this about?",
+    "send": "Send",
+    "sending": "Sending…",
+    "submitError": "Your message could not be sent. Please try again."
+  },
+  "consent": {
+    "title": "Before you begin",
+    "body": "This service is anonymous. You never give us your name, email, or anything that identifies you.",
+    "limitsTitle": "What anonymity does not cover",
+    "limits": "If you share that you are in immediate danger, a professional may follow our safety process. Your data is never sold or used for advertising.",
+    "continue": "Continue"
+  },
+  "crisis": {
+    "bannerTitle": "If you are in immediate danger",
+    "bannerBody": "Please don't wait for a reply here. These steps can help right now:",
+    "hospital": "Go to your nearest hospital emergency department, or call local emergency services.",
+    "befrienders": "Befrienders Worldwide — find a helpline near you",
+    "who": "World Health Organization — mental health resources",
+    "reviewNote": "Local helpline details are being verified for accuracy."
+  },
+  "saved": {
+    "title": "Your code",
+    "body": "This is the only way back to this conversation. We cannot recover it for you.",
+    "codeLabel": "Your code",
+    "copy": "Copy code",
+    "copied": "Copied",
+    "linkLabel": "Or save this link",
+    "copyLink": "Copy link",
+    "copiedLink": "Copied",
+    "qrLabel": "Scan to save it on your phone",
+    "continue": "I saved it — open my conversation"
+  },
+  "lookup": {
+    "title": "Check for a reply",
+    "label": "Your code",
+    "placeholder": "cloud-river-stone-42-k7q",
+    "action": "Open my conversation",
+    "notFound": "No conversation found for that code. Check it carefully — codes cannot be recovered."
+  },
+  "thread": {
+    "you": "You",
+    "professional": "Professional",
+    "emptyState": "Your message is with our team. A professional will reply here — check back when you can.",
+    "replyLabel": "Add to the conversation",
+    "send": "Send",
+    "delete": "Delete this conversation",
+    "deleteConfirmTitle": "Delete this conversation?",
+    "deleteConfirmBody": "This permanently deletes everything, including your code. It cannot be undone.",
+    "deleteYes": "Yes, delete everything",
+    "deleted": "It's done. Everything has been deleted. Take care of yourself.",
+    "lookup": "Check for a reply"
+  },
+  "status": {
+    "open": "Open",
+    "inProgress": "In progress",
+    "resolved": "Resolved",
+    "escalated": "Escalated"
+  },
+  "categories": {
+    "anxiety": "Anxiety",
+    "grief": "Grief",
+    "relationships": "Relationships",
+    "academicStress": "Academic stress",
+    "family": "Family",
+    "work": "Work",
+    "crisisSelfHarm": "Crisis / Self-harm",
+    "other": "Other"
+  },
+  "languages": {
+    "en": "English",
+    "am": "አማርኛ",
+    "om": "Afaan Oromoo",
+    "ti": "ትግርኛ"
+  },
+  "proStatus": {
+    "active": "Active",
+    "suspended": "Suspended",
+    "pending": "Pending"
+  },
+  "labels": {
+    "source": "Source",
+    "status": "Status",
+    "professional": "Professional",
+    "actions": "Actions"
+  },
+  "auth": {
+    "professionalTitle": "Professional sign in",
+    "adminTitle": "Admin sign in",
+    "email": "Email",
+    "password": "Password",
+    "totp": "Authentication code",
+    "totpHint": "The 6-digit code from your authenticator app",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "invalid": "Sign-in failed. Check your email, password, and code.",
+    "suspended": "This account is suspended. Contact an administrator."
+  },
+  "nav": {
+    "queue": "Queue",
+    "caseload": "My caseload",
+    "overview": "Overview",
+    "onboarding": "Onboarding",
+    "professionals": "Professionals",
+    "flags": "High-risk cases",
+    "audit": "Audit log",
+    "signOut": "Sign out"
+  },
+  "queue": {
+    "title": "Unclaimed threads",
+    "filterCategory": "Category",
+    "filterLanguage": "Language",
+    "all": "All",
+    "empty": "No unclaimed threads right now.",
+    "claim": "Claim",
+    "claiming": "Claiming…",
+    "claimed": "Open case",
+    "waiting": "Waiting",
+    "flagged": "High risk",
+    "messages": "messages",
+    "caseloadCount": "{count, plural, =0 {No active cases} one {# active case} other {# active cases}}",
+    "alreadyClaimed": "Someone else already claimed this conversation."
+  },
+    "case": {
+    "backToQueue": "Back to queue",
+    "statusLabel": "Status",
+    "replyLabel": "Write a reply",
+    "send": "Send reply",
+    "flag": "Flag as high risk",
+    "flagConfirm": "This surfaces the case in the admin oversight view. The seeker will not see any change.",
+    "flaggedDone": "Flagged for urgent attention",
+    "notYours": "This case is not claimed by you."
+  },
+  "admin": {
+    "openCases": "Open cases",
+    "unclaimed": "Unclaimed queue",
+    "activeFlags": "Active high-risk flags",
+    "pendingPros": "Professionals pending verification",
+    "agingTitle": "Threads waiting too long",
+    "agingBody": "Unclaimed for more than 24 hours:",
+    "onboardingTitle": "Professional onboarding queue",
+    "onboardingEmpty": "No pending applications.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectReason": "Reason for rejection",
+    "prosTitle": "Professional management",
+    "searchPlaceholder": "Search by name, email, or license number",
+    "suspend": "Suspend",
+    "reinstate": "Reinstate",
+    "suspendReason": "Reason for suspension",
+    "flagsTitle": "High-risk oversight",
+    "flagsEmpty": "No active high-risk flags.",
+    "resolve": "Mark reviewed",
+    "auditTitle": "Audit log",
+    "auditEmpty": "No audit entries match.",
+    "filterAction": "Action",
+    "filterActor": "Actor ID",
+    "filterFrom": "From",
+    "filterTo": "To",
+    "apply": "Apply",
+    "clear": "Clear",
+    "when": "When",
+    "actor": "Actor",
+    "action": "Action",
+    "target": "Target",
+    "notes": "Notes",
+    "credentials": "Credentials",
+    "license": "License",
+    "specialty": "Specialty",
+    "languages": "Languages",
+    "name": "Name",
+    "email": "Email",
+    "assignedTo": "Assigned to",
+    "unassigned": "Unassigned",
+    "category": "Category",
+    "threadCreated": "Submitted",
+    "flagRaised": "Flagged"
+  },
+  "auditActions": {
+    "thread": {
+      "claim": "Thread claimed",
+      "status": "Thread status changed",
+      "flag": "Thread flagged as high risk"
+    },
+    "professional": {
+      "approve": "Professional approved",
+      "reject": "Professional application rejected",
+      "suspend": "Professional suspended",
+      "reinstate": "Professional reinstated"
+    },
+    "flag": {
+      "resolve": "High-risk flag reviewed"
+    }
+  },
+  "source": {
+    "seekerSelection": "By the seeker",
+    "keywordScreen": "By keyword screening",
+    "professional": "By a professional"
+  }
+}
