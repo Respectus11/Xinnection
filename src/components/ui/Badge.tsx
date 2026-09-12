@@ -2,12 +2,14 @@ import type { ReactNode } from "react";
 
 type Tone = "neutral" | "gold" | "eucalyptus" | "flag";
 
+// Status and meta indicators. Each tone is a subtle vertical gradient with a
+// soft inset highlight — small dimensional touches, never flat single-color
+// fills, never skeuomorphic. See .pill-* in globals.css.
 const toneClasses: Record<Tone, string> = {
-  neutral: "border-ink/25 text-ink/80",
-  // Selected category state: gold border, never a filled background.
-  gold: "border-gold text-ink",
-  eucalyptus: "border-eucalyptus text-eucalyptus-deep",
-  flag: "border-flag text-flag",
+  neutral: "pill-neutral",
+  gold: "pill-gold",
+  eucalyptus: "pill-eucalyptus",
+  flag: "pill-flag",
 };
 
 export function Badge({
@@ -20,10 +22,6 @@ export function Badge({
   className?: string;
 }) {
   return (
-    <span
-      className={`inline-flex items-center gap-1 border px-2 py-0.5 text-sm font-medium ${toneClasses[tone]} ${className}`}
-    >
-      {children}
-    </span>
+    <span className={`pill ${toneClasses[tone]} ${className}`}>{children}</span>
   );
 }
