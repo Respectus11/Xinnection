@@ -33,3 +33,7 @@ yarn-error.log*
 # local run artifacts
 server.log
 server.err
+
+# python bytecode caches from vendored agent skills
+__pycache__/
+*.pyc
