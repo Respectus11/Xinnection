@@ -8,7 +8,13 @@
     "errorGeneric": "Something went wrong. Please try again.",
     "rateLimited": "You've sent a few messages already today — a professional will still respond to what you've shared. Please wait a little while.",
     "notFoundTitle": "Page not found",
-    "notFoundBody": "The page you're looking for doesn't exist."
+    "notFoundBody": "The page you're looking for doesn't exist.",
+    "close": "Close",
+    "checkReplies": "Check for a reply"
+  },
+  "footer": {
+    "crisisNote": "If you are in immediate danger, please contact your local emergency services right away — this service is not an emergency line.",
+    "lookupNote": "Keep your code somewhere safe; it is the only way back to your conversation."
   },
   "landing": {
     "heroPrompt": "What's on your mind?",
@@ -16,7 +22,9 @@
     "chooseCategory": "What is this about?",
     "send": "Send",
     "sending": "Sending…",
-    "submitError": "Your message could not be sent. Please try again."
+    "submitError": "Your message could not be sent. Please try again.",
+    "privacyLine": "Anonymous by design — no name, no email, nothing that identifies you.",
+    "placeholder": "Write freely, in whatever words you have."
   },
   "consent": {
     "title": "Before you begin",
@@ -122,6 +130,7 @@
   },
   "queue": {
     "title": "Unclaimed threads",
+    "subtitle": "Crisis-flagged conversations always surface first.",
     "filterCategory": "Category",
     "filterLanguage": "Language",
     "all": "All",
@@ -158,6 +167,7 @@
     "reject": "Reject",
     "rejectReason": "Reason for rejection",
     "prosTitle": "Professional management",
+    "prosEmpty": "No professionals match this search.",
     "searchPlaceholder": "Search by name, email, or license number",
     "suspend": "Suspend",
     "reinstate": "Reinstate",
