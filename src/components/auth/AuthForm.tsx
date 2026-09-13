@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { HighlandsMark } from "@/components/ui/HighlandsMark";
 import { Button } from "@/components/ui/Button";
 import { Input, Label } from "@/components/ui/fields";
 
@@ -48,8 +49,11 @@ export function AuthForm({ portal }: { portal: "professional" | "admin" }) {
   }
 
   return (
-    <section className="mx-auto max-w-md">
-      <h1 className="text-2xl font-semibold">{portal === "admin" ? t("adminTitle") : t("professionalTitle")}</h1>
+    <section className="card p-6 sm:p-8">
+      <HighlandsMark variant="mark" className="h-6 w-auto text-eucalyptus" />
+      <h1 className="display mt-3 text-2xl text-ink">
+        {portal === "admin" ? t("adminTitle") : t("professionalTitle")}
+      </h1>
       <form className="mt-6 space-y-4" onSubmit={signIn}>
         <div>
           <Label htmlFor="email">{t("email")}</Label>
@@ -82,9 +86,10 @@ export function AuthForm({ portal }: { portal: "professional" | "admin" }) {
             onChange={(event) => setTotp(event.target.value)}
             autoComplete="one-time-code"
             placeholder="123456"
+            className="tnum"
             required
           />
-          <p className="mt-1 text-xs text-ink/50">{t("totpHint")}</p>
+          <p className="mt-1.5 text-xs text-ink/50">{t("totpHint")}</p>
         </div>
         {error && (
           <p role="alert" className="text-flag">
