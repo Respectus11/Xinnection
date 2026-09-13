@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { HighlandsMark } from "@/components/ui/HighlandsMark";
 import { Button } from "@/components/ui/Button";
 import { Input, Label } from "@/components/ui/fields";
 
@@ -12,15 +13,16 @@ export function ThreadLookupForm({ notFound = false }: { notFound?: boolean }) {
   const [code, setCode] = useState("");
 
   return (
-    <section className="mx-auto max-w-md">
-      <h1 className="text-2xl font-semibold">{t("title")}</h1>
+    <section className="card mx-auto mt-6 max-w-md p-6 sm:p-8">
+      <HighlandsMark variant="mark" className="h-6 w-auto text-eucalyptus/70" />
+      <h1 className="display mt-3 text-2xl text-ink">{t("title")}</h1>
       {notFound && (
         <p role="alert" className="mt-3 text-flag">
           {t("notFound")}
         </p>
       )}
       <form
-        className="mt-4"
+        className="mt-5"
         onSubmit={(event) => {
           event.preventDefault();
           const trimmed = code.trim();
@@ -36,7 +38,7 @@ export function ThreadLookupForm({ notFound = false }: { notFound?: boolean }) {
           autoComplete="off"
           spellCheck={false}
         />
-        <Button type="submit" variant="primary" className="mt-3 w-full" disabled={!code.trim()}>
+        <Button type="submit" variant="primary" className="mt-4 w-full" disabled={!code.trim()}>
           {t("action")}
         </Button>
       </form>
