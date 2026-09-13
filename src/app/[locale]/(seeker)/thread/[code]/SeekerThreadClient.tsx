@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { Dialog } from "@/components/ui/Dialog";
 import { Label, Textarea } from "@/components/ui/fields";
 
 // Seeker-side thread controls: adding a turn (proven by the anonymous code)
-// and the no-friction "delete my data" action with a plain-language confirm.
+// and the no-friction "delete my data" action with a plain-language confirm
+// dialog. The quiet 20s refresh works everywhere, including flaky networks;
+// new replies reach the visitor through the ThreadLine's extend motion.
 export function SeekerThreadClient({ threadId, code }: { threadId: string; code: string }) {
   const t = useTranslations("thread");
   const tCommon = useTranslations("common");
@@ -19,8 +22,6 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   const [deleting, setDeleting] = useState(false);
   const [deleted, setDeleted] = useState(false);
 
-  // Quiet auto-refresh of the server-rendered thread — a poor-man's realtime
-  // that works everywhere, including flaky 2G connections.
   useEffect(() => {
     const id = window.setInterval(() => router.refresh(), 20000);
     return () => window.clearInterval(id);
@@ -72,7 +73,7 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   }
 
   if (deleted) {
-    return <p className="border border-line bg-white p-4">{t("deleted")}</p>;
+    return <p className="card p-6 leading-relaxed text-ink/85">{t("deleted")}</p>;
   }
 
   return (
@@ -84,14 +85,13 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         onChange={(event) => setReply(event.target.value)}
         maxLength={5000}
         rows={4}
-        className="mt-1"
       />
       {notice && (
         <p role="alert" className="mt-2 text-flag">
           {notice}
         </p>
       )}
-      <div className="mt-3 flex flex-wrap items-center gap-3">
+      <div className="mt-4 flex flex-wrap items-center gap-4">
         <Button variant="primary" onClick={sendReply} disabled={sending || !reply.trim()}>
           {t("send")}
         </Button>
@@ -100,24 +100,28 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         </Button>
       </div>
 
-      {confirmDelete && (
-        <div
-          role="alertdialog"
-          aria-label={t("deleteConfirmTitle")}
-          className="mt-4 border border-line bg-white p-4"
-        >
-          <p className="font-semibold">{t("deleteConfirmTitle")}</p>
-          <p className="mt-1 text-ink/80">{t("deleteConfirmBody")}</p>
-          <div className="mt-3 flex flex-wrap gap-3">
-            <Button variant="primary" onClick={deleteThread} disabled={deleting}>
-              {t("deleteYes")}
-            </Button>
-            <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
-              {tCommon("cancel")}
-            </Button>
-          </div>
+      <Dialog
+        open={confirmDelete}
+        onClose={() => setConfirmDelete(false)}
+        labelledBy="delete-confirm-title"
+        title={t("deleteConfirmTitle")}
+        closeLabel={tCommon("cancel")}
+      >
+        <p className="mt-4 leading-relaxed text-ink/85">{t("deleteConfirmBody")}</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Button
+            variant="secondary"
+            className="border-flag/50 bg-white text-flag hover:border-flag hover:bg-flag/5"
+            onClick={deleteThread}
+            disabled={deleting}
+          >
+            {t("deleteYes")}
+          </Button>
+          <Button variant="ghost" onClick={() => setConfirmDelete(false)}>
+            {tCommon("cancel")}
+          </Button>
         </div>
-      )}
+      </Dialog>
     </div>
   );
 }

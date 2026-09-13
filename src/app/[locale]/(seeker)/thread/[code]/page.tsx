@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CrisisResourceBanner } from "@/components/CrisisResourceBanner";
+import { CrisisCard } from "@/components/ui/CrisisCard";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { ThreadLine } from "@/components/ui/ThreadLine";
 import { clientIpFromHeaders, rateLimit } from "@/lib/rateLimit";
 import { formatAgo } from "@/lib/time";
@@ -63,17 +64,19 @@ export default async function ThreadPage({
     <section>
       <h1 className="sr-only">{tThread("lookup")}</h1>
       {seekerVisibleFlag && (
-        <div className="mb-6">
-          <CrisisResourceBanner />
+        <div className="mb-8">
+          <CrisisCard />
         </div>
       )}
       {turns.length === 0 ? (
-        <p className="text-ink/70">{tThread("emptyState")}</p>
+        <EmptyState title={tThread("emptyState")} />
       ) : (
-        <ThreadLine
-          turns={turns}
-          labels={{ seeker: tThread("you"), professional: tThread("professional") }}
-        />
+        <div className="card p-6 sm:p-8">
+          <ThreadLine
+            turns={turns}
+            labels={{ seeker: tThread("you"), professional: tThread("professional") }}
+          />
+        </div>
       )}
       <SeekerThreadClient threadId={thread.id} code={code} />
     </section>
