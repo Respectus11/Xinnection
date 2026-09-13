@@ -1,7 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
-import { ComposeHero } from "./ComposeHero";
+import { SeekerComposer } from "@/components/seeker/SeekerComposer";
 
-// Landing page: the working textarea is the hero — not an illustration of one.
+// The homepage IS the composer — no "get started" detour, no marketing layer.
 export default async function LandingPage({
   params,
 }: {
@@ -9,5 +9,5 @@ export default async function LandingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <ComposeHero />;
+  return <SeekerComposer />;
 }
