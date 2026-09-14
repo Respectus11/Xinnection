@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Dialog } from "@/components/ui/Dialog";
+import { FlagIcon } from "@/components/ui/icons";
 import { Label, Textarea } from "@/components/ui/fields";
 import { STATUS_KEYS } from "@/components/status";
 
@@ -30,6 +31,7 @@ export function CaseClient({
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [flagDone, setFlagDone] = useState(flagged);
+  const [confirmFlag, setConfirmFlag] = useState(false);
 
   async function changeStatus(next: string) {
     if (busy || next === status) return;
@@ -81,6 +83,7 @@ export function CaseClient({
       if (!res.ok) setNotice(tCommon("errorGeneric"));
       else {
         setFlagDone(true);
+        setConfirmFlag(false);
         router.refresh();
       }
     } catch {
@@ -91,30 +94,35 @@ export function CaseClient({
   }
 
   return (
-    <div className="mt-12 border-t border-line pt-6">
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="mt-10 border-t border-line pt-7">
+      <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm font-medium text-ink/60">{t("statusLabel")}</span>
-        {STATUSES.map((s) => {
-          const active = s === status;
-          const tone = s === "RESOLVED" ? "eucalyptus" : s === "ESCALATED" ? "flag" : "neutral";
-          return (
-            <button
-              key={s}
-              type="button"
-              aria-pressed={active}
-              disabled={busy}
-              onClick={() => changeStatus(s)}
-              className={`focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
-                active ? "" : "opacity-70 hover:opacity-100"
-              }`}
-            >
-              <Badge tone={tone}>{tStatus(STATUS_KEYS[s])}</Badge>
-            </button>
-          );
-        })}
+        <div
+          role="group"
+          aria-label={t("statusLabel")}
+          className="inline-flex flex-wrap gap-1 rounded-full border border-line bg-white p-1 shadow-rest"
+        >
+          {STATUSES.map((s) => {
+            const active = s === status;
+            return (
+              <button
+                key={s}
+                type="button"
+                aria-pressed={active}
+                disabled={busy}
+                onClick={() => changeStatus(s)}
+                className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink disabled:cursor-not-allowed ${
+                  active ? "bg-dusk text-mist" : "text-ink/65 hover:text-ink"
+                }`}
+              >
+                {tStatus(STATUS_KEYS[s])}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-7">
         <Label htmlFor="case-reply">{t("replyLabel")}</Label>
         <Textarea
           id="case-reply"
@@ -122,25 +130,62 @@ export function CaseClient({
           onChange={(event) => setReply(event.target.value)}
           maxLength={5000}
           rows={4}
-          className="mt-1"
         />
         {notice && (
           <p role="alert" className="mt-2 text-flag">
             {notice}
           </p>
         )}
-        <Button variant="primary" className="mt-3" onClick={sendReply} disabled={busy || !reply.trim()}>
+        <Button
+          variant="primary"
+          className="mt-3"
+          onClick={sendReply}
+          disabled={busy || !reply.trim()}
+        >
           {t("send")}
         </Button>
       </div>
 
-      <div className="mt-8 border-t border-line pt-6">
+      <div className="mt-9 border-t border-line pt-6">
         {flagDone ? (
-          <Badge tone="flag">{t("flaggedDone")}</Badge>
+          <p className="pill pill-flag">
+            <FlagIcon className="h-3.5 w-3.5" />
+            {t("flaggedDone")}
+          </p>
         ) : (
-          <Button variant="secondary" onClick={flagHighRisk} disabled={busy}>
-            {t("flag")}
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              className="border-flag/40 bg-white text-flag hover:border-flag hover:bg-flag/5"
+              onClick={() => setConfirmFlag(true)}
+              disabled={busy}
+            >
+              <FlagIcon />
+              {t("flag")}
+            </Button>
+            <Dialog
+              open={confirmFlag}
+              onClose={() => setConfirmFlag(false)}
+              labelledBy="flag-confirm-title"
+              title={t("flag")}
+              closeLabel={tCommon("cancel")}
+            >
+              <p className="mt-4 leading-relaxed text-ink/85">{t("flagConfirm")}</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button
+                  variant="secondary"
+                  className="border-flag/50 text-flag hover:border-flag hover:bg-flag/5"
+                  onClick={flagHighRisk}
+                  disabled={busy}
+                >
+                  {t("flag")}
+                </Button>
+                <Button variant="ghost" onClick={() => setConfirmFlag(false)}>
+                  {tCommon("cancel")}
+                </Button>
+              </div>
+            </Dialog>
+          </>
         )}
       </div>
     </div>
