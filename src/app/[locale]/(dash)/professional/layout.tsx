@@ -27,9 +27,13 @@ export default async function ProfessionalLayout({
   ]);
 
   return (
-    <div className="flex min-h-screen">
-      <DashboardSidebar items={[{ href: "/professional", label: t("queue") }]} caseload={caseload} />
-      <main className="flex-1 px-6 py-8 lg:px-10">{children}</main>
+    <div className="min-h-screen md:flex">
+      <DashboardSidebar
+        items={[{ href: "/professional", label: t("queue") }]}
+        caseload={caseload}
+        home="/professional"
+      />
+      <main className="atmosphere min-w-0 flex-1 px-4 py-8 sm:px-6 lg:px-10">{children}</main>
     </div>
   );
 }
