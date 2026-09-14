@@ -35,11 +35,15 @@ export function ClaimButton({ threadId }: { threadId: string }) {
 
   return (
     <div className="text-right">
-      <Button variant="primary" onClick={claim} disabled={busy}>
+      {/* Secondary on purpose: a queue full of gold CTAs would be noise.
+          The row carries the emphasis; claiming is one quiet step. */}
+      <Button variant="secondary" onClick={claim} disabled={busy} className="min-w-24">
         {busy ? t("claiming") : t("claim")}
       </Button>
       {alreadyClaimed && (
-        <p className="mt-1 max-w-48 text-xs text-ink/60">{t("alreadyClaimed")}</p>
+        <p className="mt-1.5 max-w-44 text-xs leading-relaxed text-ink/60">
+          {t("alreadyClaimed")}
+        </p>
       )}
     </div>
   );

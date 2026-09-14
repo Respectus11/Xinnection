@@ -2,8 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { Select } from "@/components/ui/fields";
 
 // Category options are loaded server-side and passed in pre-translated.
+// The bar is sticky so filters stay reachable while scrolling a long queue.
 export function QueueFilters({
   categories,
   languages,
@@ -29,18 +31,15 @@ export function QueueFilters({
     router.replace(qs ? `${pathname}?${qs}` : pathname);
   }
 
-  const selectClasses =
-    "border border-line bg-white px-2 py-1.5 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink";
-
   return (
-    <div className="mt-4 flex flex-wrap gap-3">
+    <div className="sticky top-0 z-20 -mx-1 mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-line bg-mist/90 px-1 py-3 backdrop-blur-sm">
       {categories.length > 0 && (
-        <label className="flex items-center gap-2 text-sm">
+        <label className="flex items-center gap-2.5 text-sm">
           <span className="text-ink/60">{t("filterCategory")}</span>
-          <select
+          <Select
             value={selectedCategory}
             onChange={(event) => update({ category: event.target.value })}
-            className={selectClasses}
+            className="w-auto"
           >
             <option value="">{t("all")}</option>
             {categories.map((c) => (
@@ -48,15 +47,15 @@ export function QueueFilters({
                 {c.label}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
       )}
-      <label className="flex items-center gap-2 text-sm">
+      <label className="flex items-center gap-2.5 text-sm">
         <span className="text-ink/60">{t("filterLanguage")}</span>
-        <select
+        <Select
           value={selectedLanguage}
           onChange={(event) => update({ language: event.target.value })}
-          className={selectClasses}
+          className="w-auto"
         >
           <option value="">{t("all")}</option>
           {languages.map((l) => (
@@ -64,7 +63,7 @@ export function QueueFilters({
               {l.label}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
     </div>
   );
