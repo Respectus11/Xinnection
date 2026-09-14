@@ -1,6 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { categoryKey } from "@/components/categories";
 import { Badge } from "@/components/ui/Badge";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { prisma } from "@/lib/db";
 import { formatAgo } from "@/lib/time";
 import { routing } from "@/i18n/routing";
@@ -9,8 +11,9 @@ import { QueueFilters } from "./QueueFilters";
 
 export const dynamic = "force-dynamic";
 
-// Queue view: data-dense rows separated by hairlines, crisis-flagged items
-// always sorted to the top regardless of filters.
+// Queue view: data-dense rows separated by hairlines. Crisis-flagged items
+// are always sorted to the top regardless of filters — that ordering is a
+// safety property, not a preference, and the flag badge makes it legible.
 export default async function ProfessionalQueuePage({
   searchParams,
 }: {
@@ -48,7 +51,7 @@ export default async function ProfessionalQueuePage({
 
   return (
     <section className="mx-auto max-w-4xl">
-      <h1 className="text-2xl font-semibold">{t("title")}</h1>
+      <SectionHeading title={t("title")} kicker={t("subtitle")} />
       <QueueFilters
         categories={categories.map((c) => ({ slug: c.slug, label: tCats(categoryKey(c.slug)) }))}
         languages={routing.locales.map((code) => ({ code, label: tLang(code) }))}
@@ -56,32 +59,36 @@ export default async function ProfessionalQueuePage({
         selectedLanguage={language ?? ""}
       />
       {threads.length === 0 ? (
-        <p className="mt-8 text-ink/70">{t("empty")}</p>
+        <div className="mt-8">
+          <EmptyState title={t("empty")} />
+        </div>
       ) : (
-        <ul className="mt-6 border-t border-line">
+        <ul className="mt-2 border-t border-line">
           {threads.map((thread) => {
             const flagged = thread.crisisFlags.length > 0;
             return (
               <li
                 key={thread.id}
-                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-3"
+                className={`grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-3.5 pr-1 transition-colors duration-150 ${
+                  flagged ? "bg-white/55" : "hover:bg-white/35"
+                }`}
               >
                 <span
                   role={flagged ? "img" : undefined}
                   aria-label={flagged ? t("flagged") : undefined}
-                  className={`h-2.5 w-2.5 rounded-full ${flagged ? "bg-flag" : "bg-line"}`}
+                  className={`h-2 w-2 rounded-full ${flagged ? "bg-flag" : "bg-line"}`}
                 />
-                <div>
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge tone={flagged ? "flag" : "neutral"}>
                       {tCats(categoryKey(thread.category.slug))}
                     </Badge>
                     <span className="text-sm text-ink/60">{tLang(thread.language)}</span>
-                    <span className="text-sm text-ink/60">
+                    <span className="tnum text-sm text-ink/50">
                       {thread._count.messages} {t("messages")}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-sm text-ink/50">
+                  <p className="tnum mt-1 text-sm text-ink/50">
                     {t("waiting")} {formatAgo(thread.createdAt)}
                   </p>
                 </div>
