@@ -21,7 +21,7 @@ export default async function AdminLayout({
 
   const t = await getTranslations("nav");
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen md:flex">
       <DashboardSidebar
         items={[
           { href: "/admin", label: t("overview") },
@@ -30,8 +30,9 @@ export default async function AdminLayout({
           { href: "/admin/flags", label: t("flags") },
           { href: "/admin/audit", label: t("audit") },
         ]}
+        home="/admin"
       />
-      <main className="flex-1 px-6 py-8 lg:px-10">{children}</main>
+      <main className="atmosphere min-w-0 flex-1 px-4 py-8 sm:px-6 lg:px-10">{children}</main>
     </div>
   );
 }
