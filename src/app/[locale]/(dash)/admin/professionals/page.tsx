@@ -1,5 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Input } from "@/components/ui/fields";
 import { prisma } from "@/lib/db";
 import { ProfessionalActions } from "./ProfessionalActions";
 
@@ -33,46 +37,58 @@ export default async function ProfessionalsPage({
     orderBy: { createdAt: "desc" },
   });
 
-  const inputClasses =
-    "rounded border border-line bg-white px-3 py-2 text-base focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink";
-
   return (
     <section className="mx-auto max-w-4xl">
-      <h1 className="text-2xl font-semibold">{t("prosTitle")}</h1>
-      <form className="mt-4 flex max-w-xl flex-wrap gap-2" method="get">
-        <input name="q" defaultValue={q ?? ""} placeholder={t("searchPlaceholder")} className={`${inputClasses} w-full sm:w-auto sm:flex-1`} />
-        <button
-          type="submit"
-          className="rounded border border-ink/30 px-4 py-2 text-sm font-medium hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-        >
+      <SectionHeading title={t("prosTitle")} />
+      <form className="mt-5 flex max-w-xl flex-wrap items-center gap-2" method="get">
+        <Input
+          name="q"
+          defaultValue={q ?? ""}
+          placeholder={t("searchPlaceholder")}
+          className="w-full sm:flex-1"
+        />
+        <Button type="submit" variant="secondary">
           {t("apply")}
-        </button>
+        </Button>
         {q ? (
-          <a href="?" className="self-center text-sm underline underline-offset-4">
+          <a
+            href="?"
+            className="text-sm underline decoration-ink/30 underline-offset-4 transition-colors duration-150 hover:decoration-ink"
+          >
             {t("clear")}
           </a>
         ) : null}
       </form>
-      <ul className="mt-6 border-t border-line">
-        {professionals.map((professional) => (
-          <li key={professional.id} className="border-b border-line py-4">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <p className="font-semibold">{professional.fullName}</p>
-                <p className="text-sm text-ink/60">
-                  {professional.email} — {professional.specialty} — {professional.languages.join(", ")}
-                </p>
+      {professionals.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState title={t("prosEmpty")} />
+        </div>
+      ) : (
+        <ul className="mt-7 border-t border-line">
+          {professionals.map((professional) => (
+            <li
+              key={professional.id}
+              className="border-b border-line py-5 transition-colors duration-150 hover:bg-white/35"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-semibold">{professional.fullName}</p>
+                  <p className="mt-0.5 text-sm text-ink/60">
+                    {professional.email} — {professional.specialty} —{" "}
+                    {professional.languages.join(", ")}
+                  </p>
+                </div>
+                <Badge tone={STATUS_TONES[professional.status] ?? "neutral"}>
+                  {tPro(professional.status.toLowerCase())}
+                </Badge>
               </div>
-              <Badge tone={STATUS_TONES[professional.status] ?? "neutral"}>
-                {tPro(professional.status.toLowerCase())}
-              </Badge>
-            </div>
-            <div className="mt-3">
-              <ProfessionalActions professionalId={professional.id} status={professional.status} />
-            </div>
-          </li>
-        ))}
-      </ul>
+              <div className="mt-4">
+                <ProfessionalActions professionalId={professional.id} status={professional.status} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
