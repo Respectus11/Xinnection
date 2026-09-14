@@ -3,12 +3,14 @@ import { categoryKey } from "@/components/categories";
 import { config } from "@/lib/config";
 import { prisma } from "@/lib/db";
 import { formatAgo } from "@/lib/time";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const dynamic = "force-dynamic";
 
-// Admin overview: four compact stat blocks — clear numbers and labels, no
-// decorative gradient treatment — plus the unclaimed-thread aging alert,
-// which is the safety net for seekers waiting too long.
+// Admin overview: four compact stat blocks divided by hairlines — clear
+// numbers set in the display serif, no decorative gradient treatment, no
+// percentage badges. The unclaimed-thread aging alert is the safety net for
+// seekers waiting too long; it uses the shared dignified crisis register.
 export default async function AdminOverviewPage() {
   const t = await getTranslations("admin");
   const tNav = await getTranslations("nav");
@@ -32,33 +34,40 @@ export default async function AdminOverviewPage() {
   ]);
 
   const stats = [
-    { label: t("openCases"), value: openCases },
-    { label: t("unclaimed"), value: unclaimed },
-    { label: t("activeFlags"), value: activeFlags },
-    { label: t("pendingPros"), value: pendingPros },
+    { label: t("openCases"), value: openCases, alert: false },
+    { label: t("unclaimed"), value: unclaimed, alert: false },
+    { label: t("activeFlags"), value: activeFlags, alert: activeFlags > 0 },
+    { label: t("pendingPros"), value: pendingPros, alert: false },
   ];
 
   return (
-    <section className="mx-auto max-w-4xl">
-      <h1 className="text-2xl font-semibold">{tNav("overview")}</h1>
-      <dl className="mt-6 grid grid-cols-2 gap-px border border-line bg-line lg:grid-cols-4">
+    <section className="mx-auto max-w-5xl">
+      <SectionHeading title={tNav("overview")} />
+
+      <dl className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line shadow-rest lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-mist p-5">
+          <div key={stat.label} className="bg-white/70 p-5">
             <dt className="text-sm text-ink/60">{stat.label}</dt>
-            <dd className="mt-1 text-3xl font-semibold">{stat.value}</dd>
+            <dd
+              className={`display mt-1.5 text-3xl tnum ${
+                stat.alert ? "text-flag" : "text-ink"
+              }`}
+            >
+              {stat.value}
+            </dd>
           </div>
         ))}
       </dl>
 
       {aging.length > 0 && (
-        <div role="alert" className="mt-8 border-l-4 border-flag bg-white p-4">
-          <p className="font-semibold text-flag">{t("agingTitle")}</p>
-          <p className="mt-1 text-sm text-ink/70">{t("agingBody")}</p>
-          <ul className="mt-2 space-y-1">
+        <div role="alert" className="crisis-card mt-8 p-5">
+          <p className="display text-lg text-flag">{t("agingTitle")}</p>
+          <p className="mt-1.5 text-sm text-ink/75">{t("agingBody")}</p>
+          <ul className="mt-3 space-y-1.5">
             {aging.map((thread) => (
               <li key={thread.id} className="text-sm">
                 <span className="font-medium">{tCats(categoryKey(thread.category.slug))}</span>
-                <span className="text-ink/60"> — {formatAgo(thread.createdAt)}</span>
+                <span className="tnum text-ink/60"> — {formatAgo(thread.createdAt)}</span>
               </li>
             ))}
           </ul>
