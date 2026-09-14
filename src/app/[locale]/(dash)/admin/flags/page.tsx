@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import { categoryKey } from "@/components/categories";
 import { STATUS_KEYS } from "@/components/status";
 import { Badge } from "@/components/ui/Badge";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { prisma } from "@/lib/db";
 import { formatAgo } from "@/lib/time";
 import { ResolveFlagButton } from "./ResolveFlagButton";
@@ -15,7 +17,8 @@ const SOURCE_KEYS: Record<string, string> = {
 };
 
 // The safety net view: ALL currently flagged crisis cases platform-wide,
-// regardless of who claimed them, sorted by time since flagged.
+// regardless of who claimed them, oldest flag first. Reachable in one click
+// from the sidebar — never buried in a submenu.
 export default async function FlagsPage() {
   const t = await getTranslations("admin");
   const tLabels = await getTranslations("labels");
@@ -33,42 +36,44 @@ export default async function FlagsPage() {
 
   return (
     <section className="mx-auto max-w-5xl">
-      <h1 className="text-2xl font-semibold">{t("flagsTitle")}</h1>
+      <SectionHeading title={t("flagsTitle")} />
       {flags.length === 0 ? (
-        <p className="mt-8 text-ink/70">{t("flagsEmpty")}</p>
+        <div className="mt-8">
+          <EmptyState title={t("flagsEmpty")} />
+        </div>
       ) : (
-        <table className="mt-6 w-full border-collapse text-left text-sm">
-          <thead>
-            <tr className="border-b border-ink/30">
-              <th className="py-2 pr-4 font-medium">{t("category")}</th>
-              <th className="py-2 pr-4 font-medium">{t("threadCreated")}</th>
-              <th className="py-2 pr-4 font-medium">{t("flagRaised")}</th>
-              <th className="py-2 pr-4 font-medium">{tLabels("source")}</th>
-              <th className="py-2 pr-4 font-medium">{tLabels("status")}</th>
-              <th className="py-2 pr-4 font-medium">{tLabels("professional")}</th>
-              <th className="py-2 font-medium">{tLabels("actions")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {flags.map((flag) => (
-              <tr key={flag.id} className="border-b border-line align-top">
-                <td className="py-2 pr-4">
-                  <Badge tone="flag">{tCats(categoryKey(flag.thread.category.slug))}</Badge>
-                </td>
-                <td className="py-2 pr-4 text-ink/60">{formatAgo(flag.thread.createdAt)}</td>
-                <td className="py-2 pr-4 text-ink/60">{formatAgo(flag.raisedAt)}</td>
-                <td className="py-2 pr-4">{tSource(SOURCE_KEYS[flag.source])}</td>
-                <td className="py-2 pr-4">{tStatus(STATUS_KEYS[flag.thread.status])}</td>
-                <td className="py-2 pr-4">
-                  {flag.thread.claimedBy?.fullName ?? t("unassigned")}
-                </td>
-                <td className="py-2">
-                  <ResolveFlagButton flagId={flag.id} />
-                </td>
+        <div className="mt-7 overflow-x-auto">
+          <table className="hairline-table">
+            <thead>
+              <tr>
+                <th>{t("category")}</th>
+                <th>{t("threadCreated")}</th>
+                <th>{t("flagRaised")}</th>
+                <th>{tLabels("source")}</th>
+                <th>{tLabels("status")}</th>
+                <th>{tLabels("professional")}</th>
+                <th>{tLabels("actions")}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {flags.map((flag) => (
+                <tr key={flag.id}>
+                  <td>
+                    <Badge tone="flag">{tCats(categoryKey(flag.thread.category.slug))}</Badge>
+                  </td>
+                  <td className="tnum text-ink/60">{formatAgo(flag.thread.createdAt)}</td>
+                  <td className="tnum text-ink/60">{formatAgo(flag.raisedAt)}</td>
+                  <td>{tSource(SOURCE_KEYS[flag.source])}</td>
+                  <td>{tStatus(STATUS_KEYS[flag.thread.status])}</td>
+                  <td>{flag.thread.claimedBy?.fullName ?? t("unassigned")}</td>
+                  <td>
+                    <ResolveFlagButton flagId={flag.id} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );
