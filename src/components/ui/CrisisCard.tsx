@@ -1,23 +1,31 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { AlertDiamondIcon } from "./icons";
 
-// The most safety-critical component on the seeker side. Dignified by
-// structure: a quiet white card, a flag-toned left rule, room to breathe —
-// impossible to miss without ever being alarming. Links point to real,
-// verifiable international directories; local helpline slots are pending
-// verification — see docs/crisis-resources.md before launch.
 export function CrisisCard() {
   const t = useTranslations("crisis");
   return (
     <aside role="note" aria-label={t("bannerTitle")} className="crisis-card px-5 py-5">
-      <p className="display text-lg text-flag">{t("bannerTitle")}</p>
-      <p className="mt-1.5 text-ink/85">{t("bannerBody")}</p>
-      <p className="mt-3">{t("hospital")}</p>
-      <ul className="mt-3 space-y-1.5">
+      <div className="flex items-center gap-2">
+        <span style={{ color: "#D96B58" }}>
+          <AlertDiamondIcon className="h-4 w-4" />
+        </span>
+        <p className="display text-lg font-bold" style={{ color: "#D96B58" }}>
+          {t("bannerTitle")}
+        </p>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgba(241,245,249,0.85)" }}>
+        {t("bannerBody")}
+      </p>
+      <p className="mt-3 text-xs font-semibold uppercase tracking-[0.06em]" style={{ color: "rgba(226,232,240,0.8)" }}>
+        {t("hospital")}
+      </p>
+      <ul className="mt-2 space-y-1.5 text-sm">
         <li>
           <a
-            className="font-medium underline decoration-flag/40 underline-offset-4 transition-colors duration-150 hover:decoration-flag"
+            className="font-medium underline underline-offset-4 transition-colors duration-150"
+            style={{ color: "#D96B58", textDecorationColor: "rgba(217,107,88,0.4)" }}
             href="https://www.befrienders.org"
             target="_blank"
             rel="noreferrer"
@@ -27,7 +35,8 @@ export function CrisisCard() {
         </li>
         <li>
           <a
-            className="font-medium underline decoration-flag/40 underline-offset-4 transition-colors duration-150 hover:decoration-flag"
+            className="font-medium underline underline-offset-4 transition-colors duration-150"
+            style={{ color: "#D96B58", textDecorationColor: "rgba(217,107,88,0.4)" }}
             href="https://www.who.int/health-topics/mental-health"
             target="_blank"
             rel="noreferrer"
@@ -36,7 +45,9 @@ export function CrisisCard() {
           </a>
         </li>
       </ul>
-      <p className="mt-3 text-xs text-ink/60">{t("reviewNote")}</p>
+      <p className="mt-3 text-xs" style={{ color: "rgba(148,163,184,0.5)" }}>
+        {t("reviewNote")}
+      </p>
     </aside>
   );
 }
