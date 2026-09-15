@@ -58,6 +58,19 @@ const run = async () => {
   const healthBody = await health.json();
   check("health endpoint reports ok", health.status === 200 && healthBody.status === "ok", JSON.stringify(healthBody));
 
+  // 1b. Security posture: headers, robots, favicon, retention guard.
+  const secured = await fetch(`${BASE}/en`);
+  check("security: X-Frame-Options is DENY", secured.headers.get("x-frame-options") === "DENY", String(secured.headers.get("x-frame-options")));
+  check("security: CSP blocks framing", String(secured.headers.get("content-security-policy")).includes("frame-ancestors 'none'"));
+  check("security: nosniff", secured.headers.get("x-content-type-options") === "nosniff");
+  const robots = await fetch(`${BASE}/robots.txt`);
+  const robotsText = await robots.text();
+  check("robots disallows /admin and /professional", robots.ok && robotsText.includes("Disallow: /admin") && robotsText.includes("Disallow: /professional"), robotsText.slice(0, 120));
+  const icon = await fetch(`${BASE}/icon.svg`);
+  check("app icon serves", icon.status === 200, `status=${icon.status}`);
+  const maintenanceAnon = await fetch(`${BASE}/api/admin/maintenance`, { method: "POST" });
+  check("retention endpoint requires credentials", maintenanceAnon.status === 401, `status=${maintenanceAnon.status}`);
+
   // 2. Root redirects into the default locale
   const root = await fetch(`${BASE}/`, { redirect: "manual" });
   check("root redirects to /en", root.status >= 300 && root.status < 400 && String(root.headers.get("location")).startsWith("/en"), `status=${root.status} loc=${root.headers.get("location")}`);

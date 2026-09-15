@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const email = String(body.email ?? "").trim().toLowerCase();
     const password = String(body.password ?? "");
     const totp = String(body.totp ?? "").trim();
-    if (!email || !password || !totp) return errorResponse(400, "BAD_REQUEST");
+    if (!email || !password || (portal === "admin" && !totp)) return errorResponse(400, "BAD_REQUEST");
 
     // Per-IP+account throttle on sign-in attempts.
     const rl = await rateLimit(
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       if (user.status === "SUSPENDED") return errorResponse(423, "SUSPENDED");
       if (user.status === "PENDING") return errorResponse(403, "PENDING");
       if (!(await bcrypt.compare(password, user.passwordHash))) return fail();
-      if (!verifyTotp(user.totpSecretEnc, totp)) return fail();
+      // Authenticator removed for professionals: simple password sign-in
       const token = await createSessionToken({ sub: user.id, role: "PROFESSIONAL", name: user.fullName });
       await setSessionCookie(token);
       return Response.json({ ok: true });

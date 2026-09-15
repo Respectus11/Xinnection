@@ -6,7 +6,7 @@
     "cancel": "ተወይዎ",
     "goHome": "ናብ መንበረ ገጽ ተመለስ",
     "errorGeneric": "ጸገም ተካይዱ ኣሎ። በጃኻ ደጊምካ ፈትን።",
-    "rateLimited": "ሎሚ ሓያሎት መልእኽቲ ሰዲኻ ኣሎኻ — ሞያዊ ብዛዕባ ዝነገርካዮ ክመልስ እዩ። በጃኻ ጥቑቕ ተጸበት።",
+    "rateLimited": "ሎሚ ሓያሎት መልእኽቲ ሰዲኻ ኣሎኻ፣ ሞያዊ ብዛዕባ ዝነገርካዮ ክመልስ እዩ። በጃኻ ጥቑቕ ተጸበት።",
     "notFoundTitle": "ኣገጻ ኣይተረኽበን",
     "notFoundBody": "እቲ ኣገጻ ዘይነብር እዩ።"
   },
@@ -29,8 +29,8 @@
     "bannerTitle": "ሎሚ ኣብ ኣድንኻ እንተ ኣለኻ",
     "bannerBody": "ኣብዚ ክትጽበት ኣየድልካን። እዞም ኣብ ሕጂ ዘገድስካ ይኽእሉ፦",
     "hospital": "ናብ ቅርቢ ሆስፒታል ናይ ድንገት ክፍሊ ኪድ።",
-    "befrienders": "Befrienders Worldwide — ናይ ደገፍ ቁጽሪ ቅርቢ ኣረኺቡ",
-    "who": "WHO — ናይ ኣእምሮ ጥዕና ሓበሬታ",
+    "befrienders": "Befrienders Worldwide: ናይ ደገፍ ቁጽሪ ቅርቢ ኣረኺቡ",
+    "who": "WHO: ናይ ኣእምሮ ጥዕና ሓበሬታ",
     "reviewNote": "ናይ ከባቢ ደገፍ ቁጽርታት ትኽክለንነቶም ይረጋገጽ ኣሎ።"
   },
   "saved": {
@@ -43,14 +43,14 @@
     "copyLink": "መስለፊ ቅዳ",
     "copiedLink": "ተቐዲኡ ኣሎ",
     "qrLabel": "ብስልኺ ንምዕቃብ ቅንቢት",
-    "continue": "ዕቀብኩዎ — ዕላለይ ክፈት"
+    "continue": "ዕቀብኩዎ, ዕላለይ ክፈት"
   },
   "lookup": {
     "title": "መልሲ ምህላዉ ረኣይ",
     "label": "ኮድካ",
-    "placeholder": "cloud-river-stone-42-k7q",
+    "placeholder": "cloud river stone 42 k7q",
     "action": "ዕላለይ ክፈት",
-    "notFound": "ብዚ ኮድ ዕላል ኣይተረኽበን። በጃኻ ኮድ ኣጸንቕ — ኮዳት ኣይትመለሱን።"
+    "notFound": "ብዚ ኮድ ዕላል ኣይተረኽበን። በጃኻ ኮድ ኣጸንቕ, ኮዳት ኣይትመለሱን።"
   },
   "thread": {
     "you": "ንስኻ",
@@ -104,7 +104,7 @@
     "email": "ኢመይል",
     "password": "መሕለፊ ቃል",
     "totp": "ናይ ማረጋግጺ ኮድ",
-    "totpHint": "ካብ ናይ ማረጋግጺ ኣፕ 6-ቁጽሪ ኮድ",
+    "totpHint": "ካብ ናይ ማረጋግጺ ኣፕ 6 ቁጽሪ ኮድ",
     "signIn": "ኣተው",
     "signingIn": "ኣብ ምእታው ኣሎ…",
     "invalid": "ምእታው ኣይተሳኽነን። ኢመይልካ፣ መሕለፊ ቃልካን ኮድካን ኣረጋግጽ።",

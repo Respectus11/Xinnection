@@ -1,6 +1,7 @@
 import { errorResponse, handleApiError } from "@/lib/api";
 import { requireRole } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
+import { notifier } from "@/lib/notify";
 import { prisma } from "@/lib/db";
 
 // Admin professional management: approve / reject (onboarding), suspend
@@ -26,8 +27,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       case "approve": {
         if (professional.status !== "PENDING") return errorResponse(409, "INVALID_STATE");
         await prisma.professional.update({ where: { id }, data: { status: "ACTIVE" } });
-        // Stub: invitation email is out of scope for now (spec, Phase 3).
-        console.log(`[stub email] invitation would be sent to professional ${id}`);
+        // Staff notification behind a driver interface — the audited approve
+        // flow stays untouched when a real provider is wired in.
+        await notifier.professionalApproved({
+          id: professional.id,
+          email: professional.email,
+          fullName: professional.fullName,
+        });
         await writeAudit({
           actorType: "ADMIN",
           actorId: session.sub,

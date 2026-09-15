@@ -6,15 +6,20 @@
     "cancel": "Cancel",
     "goHome": "Go to the home page",
     "errorGeneric": "Something went wrong. Please try again.",
-    "rateLimited": "You've sent a few messages already today — a professional will still respond to what you've shared. Please wait a little while.",
+    "rateLimited": "You've sent a few messages already today. A professional will still respond to what you've shared. Please wait a little while.",
     "notFoundTitle": "Page not found",
     "notFoundBody": "The page you're looking for doesn't exist.",
     "close": "Close",
     "checkReplies": "Check for a reply"
   },
   "footer": {
-    "crisisNote": "If you are in immediate danger, please contact your local emergency services right away — this service is not an emergency line.",
+    "crisisNote": "If you are in immediate danger, please contact your local emergency services right away. This service is not an emergency line.",
     "lookupNote": "Keep your code somewhere safe; it is the only way back to your conversation."
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "body": "This page hit an unexpected problem. It is not your fault, please try again.",
+    "retry": "Try again"
   },
   "landing": {
     "heroPrompt": "What's on your mind?",
@@ -23,7 +28,7 @@
     "send": "Send",
     "sending": "Sending…",
     "submitError": "Your message could not be sent. Please try again.",
-    "privacyLine": "Anonymous by design — no name, no email, nothing that identifies you.",
+    "privacyLine": "Anonymous by design, no name, no email, nothing that identifies you.",
     "placeholder": "Write freely, in whatever words you have."
   },
   "consent": {
@@ -37,8 +42,8 @@
     "bannerTitle": "If you are in immediate danger",
     "bannerBody": "Please don't wait for a reply here. These steps can help right now:",
     "hospital": "Go to your nearest hospital emergency department, or call local emergency services.",
-    "befrienders": "Befrienders Worldwide — find a helpline near you",
-    "who": "World Health Organization — mental health resources",
+    "befrienders": "Befrienders Worldwide: find a helpline near you",
+    "who": "World Health Organization: mental health resources",
     "reviewNote": "Local helpline details are being verified for accuracy."
   },
   "saved": {
@@ -51,19 +56,19 @@
     "copyLink": "Copy link",
     "copiedLink": "Copied",
     "qrLabel": "Scan to save it on your phone",
-    "continue": "I saved it — open my conversation"
+    "continue": "I saved it, open my conversation"
   },
   "lookup": {
     "title": "Check for a reply",
     "label": "Your code",
-    "placeholder": "cloud-river-stone-42-k7q",
+    "placeholder": "cloud river stone 42 k7q",
     "action": "Open my conversation",
-    "notFound": "No conversation found for that code. Check it carefully — codes cannot be recovered."
+    "notFound": "No conversation found for that code. Check it carefully, codes cannot be recovered."
   },
   "thread": {
     "you": "You",
     "professional": "Professional",
-    "emptyState": "Your message is with our team. A professional will reply here — check back when you can.",
+    "emptyState": "Your message is with our team. A professional will reply here, check back when you can.",
     "replyLabel": "Add to the conversation",
     "send": "Send",
     "delete": "Delete this conversation",
@@ -86,7 +91,7 @@
     "academicStress": "Academic stress",
     "family": "Family",
     "work": "Work",
-    "crisisSelfHarm": "Crisis / Self-harm",
+    "crisisSelfHarm": "Crisis / Self harm",
     "other": "Other"
   },
   "languages": {
@@ -112,10 +117,10 @@
     "email": "Email",
     "password": "Password",
     "totp": "Authentication code",
-    "totpHint": "The 6-digit code from your authenticator app",
+    "totpHint": "The 6 digit code from your authenticator app",
     "signIn": "Sign in",
     "signingIn": "Signing in…",
-    "invalid": "Sign-in failed. Check your email, password, and code.",
+    "invalid": "Sign in failed. Check your email, password, and code.",
     "suspended": "This account is suspended. Contact an administrator."
   },
   "nav": {
@@ -124,13 +129,13 @@
     "overview": "Overview",
     "onboarding": "Onboarding",
     "professionals": "Professionals",
-    "flags": "High-risk cases",
+    "flags": "High risk cases",
     "audit": "Audit log",
     "signOut": "Sign out"
   },
   "queue": {
     "title": "Unclaimed threads",
-    "subtitle": "Crisis-flagged conversations always surface first.",
+    "subtitle": "Crisis flagged conversations always surface first.",
     "filterCategory": "Category",
     "filterLanguage": "Language",
     "all": "All",
@@ -157,7 +162,7 @@
   "admin": {
     "openCases": "Open cases",
     "unclaimed": "Unclaimed queue",
-    "activeFlags": "Active high-risk flags",
+    "activeFlags": "Active high risk flags",
     "pendingPros": "Professionals pending verification",
     "agingTitle": "Threads waiting too long",
     "agingBody": "Unclaimed for more than 24 hours:",
@@ -172,8 +177,8 @@
     "suspend": "Suspend",
     "reinstate": "Reinstate",
     "suspendReason": "Reason for suspension",
-    "flagsTitle": "High-risk oversight",
-    "flagsEmpty": "No active high-risk flags.",
+    "flagsTitle": "High risk oversight",
+    "flagsEmpty": "No active high risk flags.",
     "resolve": "Mark reviewed",
     "auditTitle": "Audit log",
     "auditEmpty": "No audit entries match.",
@@ -213,7 +218,10 @@
       "reinstate": "Professional reinstated"
     },
     "flag": {
-      "resolve": "High-risk flag reviewed"
+      "resolve": "High risk flag reviewed"
+    },
+    "maintenance": {
+      "purge": "Expired conversations purged"
     }
   },
   "source": {

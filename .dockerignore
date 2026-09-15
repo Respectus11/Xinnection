@@ -1,0 +1,13 @@
+# Keep secrets and local artifacts out of the image (the build needs no env
+# values at all — validation happens at server start, not build time).
+.env
+.env.*
+node_modules
+.next
+.git
+.agents
+coverage
+server.log
+server.err
+*.tsbuildinfo
+__pycache__

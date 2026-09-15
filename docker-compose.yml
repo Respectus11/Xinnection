@@ -27,5 +27,37 @@ services:
       timeout: 3s
       retries: 12
 
+  # One-off schema migration against the running database.
+  # Usage: docker compose run --rm migrate
+  migrate:
+    build:
+      context: .
+      target: build
+    profiles: ["tools"]
+    command: sh -c "npx prisma migrate deploy"
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # The application itself (standalone Next.js server, non-root).
+  # Expects DATABASE_URL/REDIS_URL pointed at the `db`/`redis` service hosts.
+  app:
+    build: .
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+
 volumes:
   xinnection-pgdata:

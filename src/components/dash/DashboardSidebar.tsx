@@ -7,11 +7,6 @@ import { HighlandsMark } from "@/components/ui/HighlandsMark";
 
 export type NavItem = { href: string; label: string };
 
-// Dashboard chrome: a deep dusk rail over the mist content area — the
-// deliberate visual shift that marks "this is the working tool". Active items
-// earn a thin gold edge; the caseload block sits at the bottom like a quiet
-// instrument readout. On small screens the rail becomes a dusk top bar with
-// a scrollable nav row, so the tool stays usable at 375px.
 export function DashboardSidebar({
   items,
   caseload,

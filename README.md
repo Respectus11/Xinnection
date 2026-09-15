@@ -1,15 +1,16 @@
 # Xinnection
 
 An anonymous mental-health support platform for Ethiopia — *a quiet room to
-speak*. Seekers write in Amharic, Afaan Oromoo, Tigrinya, or English; verified
-professionals respond; admins oversee safety. Built per the phased spec in
-`build-prompts.md` (Phases 0–3 implemented here).
+speak*. Seekers write anonymously in whatever language they like (the
+interface ships English-first; Amharic, Afaan Oromoo and Tigrinya content is
+modeled end-to-end pending native-speaker review); verified professionals
+respond; admins oversee safety.
 
 ## Stack
 
 - Next.js 15 (App Router) + TypeScript + Tailwind CSS v4
 - PostgreSQL via Prisma, Redis (rate limiting) — both via Docker Compose
-- next-intl: `en`, `am` (Amharic), `om` (Afaan Oromoo), `ti` (Tigrinya)
+- next-intl (UI ships `en`; content languages: `en`, `am` (Amharic), `om` (Afaan Oromoo), `ti` (Tigrinya))
 - Auth: email + password + TOTP (bcrypt, jose JWT in an httpOnly cookie)
 - Tests: Vitest
 
@@ -45,6 +46,8 @@ any authenticator app to sign in.
 | `npm run db:up`     | Start Docker Postgres + Redis    |
 | `npm run db:migrate`| Prisma migrate dev               |
 | `npm run db:seed`   | Seed development data            |
+| `npm run db:deploy` | Apply migrations (production)    |
+| `npm run smoke`     | End-to-end smoke vs live server  |
 
 ## How it fits together
 
@@ -64,17 +67,28 @@ any authenticator app to sign in.
   single audit funnel (`audit.ts`), and crisis screening (`screening.ts`).
 
 Design tokens live in `src/app/globals.css` (ink/dusk/mist/gold/eucalyptus/
-flag, 1.25 modular scale, hairline borders instead of shadows). Fonts:
-Noto Sans + Noto Sans Ethiopic via `next/font`.
+flag, 1.25 modular scale, hairline borders instead of shadows). Fonts —
+Fraunces (display serif) and Noto Sans + Noto Sans Ethiopic — are
+self-hosted variable woff2 files; nothing is fetched from Google Fonts at
+build time or runtime.
+
+## Deployment
+
+See `docs/DEPLOY.md` for the container build, migrations, retention cron,
+key rotation and the pre-launch checklist. In short: fill the env matrix,
+`docker compose build`, `docker compose run --rm migrate`,
+`docker compose up -d app`, then run `npm run smoke` against the live host.
 
 ## Docs
 
+- `docs/DEPLOY.md` — environment matrix, release steps, operations notes
+- `docs/design-system.md` — tokens, type, motion and the avoid-list
 - `docs/crisis-resources.md` — what is verified, what needs local review
 - `docs/translation-review.md` — REQUIRED native review of am/om/ti copy
-- `docs/security-notes.md` — threat-model decisions and Phase 5 leftovers
+- `docs/security-notes.md` — threat-model decisions and leftovers
 
-## Roadmap (spec Phases 4–5, not in this build)
+## Roadmap (not in this build)
 
-PWA + offline drafts, 2G/3G performance budgets, session-expiry job,
-privacy-preserving CAPTCHA, log-scrubber config for error tracking, crisis
-escalation runbook, penetration test and privacy audit.
+PWA + offline drafts, 2G/3G performance budgets, email provider for staff
+approvals, privacy-preserving CAPTCHA, log-scrubber config for error
+tracking, crisis escalation runbook, penetration test and privacy audit.

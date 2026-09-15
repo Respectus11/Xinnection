@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -18,10 +18,14 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "common" });
   return {
-    title: `${t("appName")} — ${t("tagline")}`,
+    title: `${t("appName")}: ${t("tagline")}`,
     description: t("tagline"),
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: "#090D15",
+};
 
 export default async function LocaleLayout({
   children,
@@ -34,8 +38,6 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  // data-script flips display headings to a script companion family when a
-  // non-Latin locale is re-enabled (see globals.css .display).
   const script = locale === "en" ? "latin" : "ethiopic";
 
   return (
@@ -44,7 +46,7 @@ export default async function LocaleLayout({
       data-script={script}
       className={`${notoSans.variable} ${notoEthiopic.variable} ${fraunces.variable}`}
     >
-      <body className="bg-mist font-sans text-ink antialiased">
+      <body className="font-sans text-ink antialiased" style={{ background: "#081524" }}>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

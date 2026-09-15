@@ -6,7 +6,7 @@
     "cancel": "Dhiisi",
     "goHome": "Gara fuula duraa deebi'i",
     "errorGeneric": "Wanti dogoggora ta'eera. Maaloo irra deebi'ii yaalaa.",
-    "rateLimited": "Har'a ergaan muraasa ergaa atte — ogeeyyiin waan qooddatte deebii ni kennu. Maaloo xiqqoo eegaa.",
+    "rateLimited": "Har'a ergaan muraasa ergaa atte, ogeeyyiin waan qooddatte deebii ni kennu. Maaloo xiqqoo eegaa.",
     "notFoundTitle": "Fuulli hin argamne",
     "notFoundBody": "Fuula barbaaddu hin jiru."
   },
@@ -29,8 +29,8 @@
     "bannerTitle": "Yoo attamii keessa ta'e",
     "bannerBody": "Asitti deebii eeguu hin eegalina. Kun waan yeroo ammaa gargaaruu danda'u:",
     "hospital": "Gara hospitaala dhiyoo waajjira waan hashiluu qabu keessa seeni.",
-    "befrienders": "Befrienders Worldwide — lakkooftsaa dhiyoo argadhu",
-    "who": "WHO — oodeeffannoo fayyaa sammuuti",
+    "befrienders": "Befrienders Worldwide: lakkooftsaa dhiyoo argadhu",
+    "who": "WHO: oodeeffannoo fayyaa sammuuti",
     "reviewNote": "Lakkooftsota naannoo akka sirrii ta'ani mirkaneefamaa jiru."
   },
   "saved": {
@@ -43,19 +43,19 @@
     "copyLink": "Liinkii waraabuu",
     "copiedLink": "Waraabameera",
     "qrLabel": "Bilbildaa kee olkaa'uf qabee",
-    "continue": "Nan olkaa'edhe — haasawa koo bani"
+    "continue": "Nan olkaa'edhe, haasawa koo bani"
   },
   "lookup": {
     "title": "Deebii jirutuu ilaali",
     "label": "Koodii kee",
-    "placeholder": "cloud-river-stone-42-k7q",
+    "placeholder": "cloud river stone 42 k7q",
     "action": "Haasawa koo bani",
-    "notFound": "Koodii kanaan haasawaa hin argamne. Maaloo koodii sirreeffaa — koodiin deebisuu hin danda'amu."
+    "notFound": "Koodii kanaan haasawaa hin argamne. Maaloo koodii sirreeffaa, koodiin deebisuu hin danda'amu."
   },
   "thread": {
     "you": "Ati",
     "professional": "Ogeessa",
-    "emptyState": "Ergaan kee garee keenya ga'eera. Ogeessi asitti deebi'a — yeroo qabnu ilaali.",
+    "emptyState": "Ergaan kee garee keenya ga'eera. Ogeessi asitti deebi'a, yeroo qabnu ilaali.",
     "replyLabel": "Haasawatti dabalaa",
     "send": "Ergi",
     "delete": "Haasawa kana haqi",
@@ -104,7 +104,7 @@
     "email": "Imeelii",
     "password": "Jecha icciitii",
     "totp": "Koodii ragaa",
-    "totpHint": "Koodii 6-lakkii appii ragaa kee irraa",
+    "totpHint": "Koodii 6 lakkii appii ragaa kee irraa",
     "signIn": "Seeni",
     "signingIn": "Seenaa jira…",
     "invalid": "Seensi hin milkoofne. Imeelii, jecha icciitii fi koodii kee mirkaneessi.",

@@ -1,3 +1,6 @@
+// Development seed: categories, one super admin, one active professional,
+// one pending application, and three demo threads with printed codes so the
+// whole flow can be exercised by hand. Local development only.
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import {
@@ -13,6 +16,13 @@ import { generateSeekerCode } from "../src/lib/token";
 // one pending application, and three demo threads with printed codes so the
 // whole flow can be exercised by hand. Local development only.
 const prisma = new PrismaClient();
+
+// Hard stop: the seed prints staff credentials and TOTP seeds to stdout. It
+// must never run against a production deployment.
+if (process.env.NODE_ENV === "production") {
+  console.error("Refusing to seed: NODE_ENV is production. Seeding is development-only.");
+  process.exit(1);
+}
 
 const SEED_TOTP_ADMIN = "JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP";
 const SEED_TOTP_PRO = "KRSXG5CTMVRXEZLUKRSXG5CTMVRXEZLU";

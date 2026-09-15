@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { DashboardSidebar } from "@/components/dash/DashboardSidebar";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+
+// The professional workspace is a staff tool and never indexed.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 // RBAC at the layout layer (API routes enforce it independently): only the
 // Professional role may enter the professional workspace. Caseload count is

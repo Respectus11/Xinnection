@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { DashboardSidebar } from "@/components/dash/DashboardSidebar";
@@ -6,6 +7,9 @@ import { getSession } from "@/lib/auth";
 // RBAC at the layout layer (API routes enforce it independently): only
 // ADMIN / SUPER_ADMIN roles may enter the admin module. The high-risk
 // oversight view is reachable from here in one click — never buried.
+// The admin module is a staff tool and never indexed.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 export default async function AdminLayout({
   children,
   params,
