@@ -13,6 +13,10 @@ import { screenForCrisis } from "./screening";
 import { generateSeekerCode } from "./token";
 
 export const LOCALES = ["en", "am", "om", "ti"] as const;
+// Content languages a conversation may be written in. Deliberately separate
+// from the UI locale list (i18n/routing.ts): the interface ships English-only
+// while professionals still filter and read threads written in any of these.
+export const CONTENT_LANGUAGES = LOCALES;
 export type ContentLanguage = (typeof LOCALES)[number];
 
 export function isContentLanguage(value: unknown): value is ContentLanguage {
@@ -43,36 +47,43 @@ export async function createThread(input: {
   language: ContentLanguage;
 }): Promise<CreateThreadResult> {
   const category = await prismaCategory(input.categorySlug);
-  const code = generateSeekerCode();
-  const tokenHash = hashToken(code);
-  const dek = generateThreadKey();
-  const sealed = sealForThread(dek, input.content);
   const crisisFlagged = category.isCrisis || screenForCrisis(input.content, input.language);
 
-  await prisma.anonymousSession.create({
-    data: {
-      tokenHash,
-      expiresAt: new Date(Date.now() + config.anonSessionDays * 24 * 60 * 60 * 1000),
-      thread: {
-        create: {
-          categoryId: category.id,
-          language: input.language,
-          wrappedDek: wrapThreadKey(dek),
-          crisisFlags: crisisFlagged
-            ? { create: { source: category.isCrisis ? "SEEKER_SELECTION" : "KEYWORD_SCREEN" } }
-            : undefined,
-          messages: { create: { senderRole: "SEEKER", ...sealed } },
+  // One nested create returns the thread id (no second lookup query). A code
+  // collision on the unique tokenHash is astronomically unlikely (~43 bits)
+  // but must not surface as a 500 — retry once with a fresh code.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const code = generateSeekerCode();
+    const dek = generateThreadKey();
+    const sealed = sealForThread(dek, input.content);
+    try {
+      const session = await prisma.anonymousSession.create({
+        data: {
+          tokenHash: hashToken(code),
+          expiresAt: new Date(Date.now() + config.anonSessionDays * 24 * 60 * 60 * 1000),
+          thread: {
+            create: {
+              categoryId: category.id,
+              language: input.language,
+              wrappedDek: wrapThreadKey(dek),
+              crisisFlags: crisisFlagged
+                ? { create: { source: category.isCrisis ? "SEEKER_SELECTION" : "KEYWORD_SCREEN" } }
+                : undefined,
+              messages: { create: { senderRole: "SEEKER", ...sealed } },
+            },
+          },
         },
-      },
-    },
-  });
-
-  const created = await prisma.thread.findFirstOrThrow({
-    where: { session: { tokenHash } },
-    select: { id: true },
-  });
-
-  return { code, threadId: created.id, crisisFlagged };
+        select: { thread: { select: { id: true } } },
+      });
+      if (!session.thread) throw new Error("THREAD_CREATE_UNREACHABLE");
+      return { code, threadId: session.thread.id, crisisFlagged };
+    } catch (error) {
+      const code = (error as { code?: string } | null)?.code;
+      if (code !== "P2002" || attempt === 1) throw error;
+    }
+  }
+  // Unreachable — the loop either returned or threw.
+  throw new Error("THREAD_CREATE_UNREACHABLE");
 }
 
 export async function getThreadByCode(code: string) {

@@ -3,9 +3,9 @@ import { categoryKey } from "@/components/categories";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CONTENT_LANGUAGES } from "@/lib/threads";
 import { prisma } from "@/lib/db";
 import { formatAgo } from "@/lib/time";
-import { routing } from "@/i18n/routing";
 import { ClaimButton } from "./ClaimButton";
 import { QueueFilters } from "./QueueFilters";
 
@@ -54,7 +54,7 @@ export default async function ProfessionalQueuePage({
       <SectionHeading title={t("title")} kicker={t("subtitle")} />
       <QueueFilters
         categories={categories.map((c) => ({ slug: c.slug, label: tCats(categoryKey(c.slug)) }))}
-        languages={routing.locales.map((code) => ({ code, label: tLang(code) }))}
+        languages={CONTENT_LANGUAGES.map((code) => ({ code, label: tLang(code) }))}
         selectedCategory={category ?? ""}
         selectedLanguage={language ?? ""}
       />
