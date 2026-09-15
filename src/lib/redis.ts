@@ -6,10 +6,10 @@ const globalForRedis = globalThis as unknown as { redis?: Redis };
 export const redis =
   globalForRedis.redis ??
   new Redis(config.redisUrl, {
-    lazyConnect: false,
+    lazyConnect: true,
     maxRetriesPerRequest: 1,
-    retryStrategy: (times) => Math.min(times * 500, 5000),
-    enableOfflineQueue: true,
+    retryStrategy: (times) => (times > 2 ? null : Math.min(times * 500, 2000)),
+    enableOfflineQueue: false,
   });
 
 redis.on("error", (err) => {
@@ -17,4 +17,7 @@ redis.on("error", (err) => {
   console.warn("[redis] connection issue (rate limiting degraded):", err.message);
 });
 
-if (process.env.NODE_ENV !== "production") globalForRedis.redis = redis;
+// Cached on globalThis unconditionally: route modules can be instantiated
+// per request context in some runtimes, and one shared client per process
+// is correct in both development and production.
+globalForRedis.redis = redis;

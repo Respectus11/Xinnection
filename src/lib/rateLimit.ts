@@ -8,6 +8,13 @@ export type RateLimitResult = { ok: boolean; retryAfterSec: number };
 // and keys expire by themselves. This is how we reconcile "rate limit abuse"
 // with the architectural rule of never logging seeker IPs: the IP is
 // processed transiently and exists only inside a short-TTL Redis key.
+// Fail-open by default: when Redis is down, availability of the seeker flow
+// matters more than perfect spam prevention (docs/security-notes.md). The
+// Redis client logs loudly. Operators can tighten this with
+// RATE_LIMIT_FAIL_OPEN=false — e.g. if abuse ever makes availability the
+// lesser risk.
+const FAIL_OPEN = process.env.RATE_LIMIT_FAIL_OPEN !== "false";
+
 export async function rateLimit(
   scope: string,
   identity: string,
@@ -23,9 +30,7 @@ export async function rateLimit(
     const ttl = await redis.ttl(key);
     return { ok: false, retryAfterSec: ttl > 0 ? ttl : windowSec };
   } catch {
-    // Fail open: when Redis is down, availability of the seeker flow matters
-    // more than perfect spam prevention. The Redis client logs loudly.
-    return { ok: true, retryAfterSec: 0 };
+    return { ok: FAIL_OPEN, retryAfterSec: FAIL_OPEN ? 0 : 30 };
   }
 }
 
