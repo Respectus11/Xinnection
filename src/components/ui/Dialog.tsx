@@ -3,10 +3,6 @@
 import { useEffect, useRef } from "react";
 import { CloseIcon } from "./icons";
 
-// Accessible modal: fade + rise (200ms ease-out), focus moves into the
-// surface on open, Escape closes, Tab is trapped, focus returns to the
-// trigger on close. Motion is pure CSS and collapses under
-// prefers-reduced-motion via the global kill-switch.
 export function Dialog({
   open,
   onClose,
@@ -68,7 +64,8 @@ export function Dialog({
 
   return (
     <div
-      className="dialog-backdrop fixed inset-0 z-50 flex items-end justify-center bg-ink/45 p-4 backdrop-blur-[2px] sm:items-center"
+      className="dialog-backdrop fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
+      style={{ background: "rgba(9,13,21,0.8)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
     >
       <div
@@ -77,18 +74,31 @@ export function Dialog({
         aria-modal="true"
         aria-labelledby={labelledBy}
         tabIndex={-1}
-        className="dialog-surface card w-full max-w-lg p-6 focus:outline-none sm:p-7"
+        className="dialog-surface w-full max-w-lg rounded-2xl p-6 focus:outline-none sm:p-7"
+        style={{
+          background: "rgba(14,22,36,0.95)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderTop: "1px solid rgba(255,255,255,0.16)",
+          backdropFilter: "blur(24px)",
+          boxShadow: "0 16px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(78,216,189,0.15)",
+          color: "#F1F5F9",
+        }}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 id={labelledBy} className="display text-xl text-ink">
+          <h2
+            id={labelledBy}
+            className="display text-xl font-bold"
+            style={{ color: "#F1F5F9" }}
+          >
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="-m-1 rounded p-1 text-ink/65 transition-colors duration-150 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="-m-1 rounded-lg p-1 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-[#F1F5F9]"
+            style={{ color: "rgba(148,163,184,0.7)" }}
           >
             <CloseIcon />
           </button>

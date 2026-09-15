@@ -46,17 +46,29 @@ export function ThreadLine({
             <span aria-hidden className="threadline-seg" />
             <span
               aria-hidden
-              className={`absolute left-0 top-[7px] h-[15px] w-[15px] rounded-full border-2 border-dusk ${
-                turn.role === "SEEKER" ? "bg-dusk" : "bg-mist"
+              className={`absolute left-0 top-[7px] h-[15px] w-[15px] rounded-full border-2 border-[#090D15] ${
+                turn.role === "SEEKER" ? "bg-[#32BCA0]" : "bg-[#D4AF6A]"
               }`}
-              style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)" }}
+              style={{
+                boxShadow:
+                  turn.role === "SEEKER"
+                    ? "0 0 10px rgba(50,188,160,0.4), inset 0 1px 0 rgba(255,255,255,0.4)"
+                    : "0 0 10px rgba(212,175,106,0.4), inset 0 1px 0 rgba(255,255,255,0.4)",
+              }}
             />
             <div className="threadline-body">
-              <p className="text-sm font-semibold text-ink/65">
+              <p
+                className="text-xs font-semibold uppercase tracking-[0.08em]"
+                style={{ color: turn.role === "SEEKER" ? "#4ED8BD" : "#D4AF6A" }}
+              >
                 {turn.role === "SEEKER" ? labels.seeker : labels.professional}
               </p>
-              <p className="mt-1.5 whitespace-pre-wrap text-ink/95">{turn.text}</p>
-              <p className="tnum mt-1.5 text-xs text-ink/60">{turn.at}</p>
+              <p className="mt-1.5 whitespace-pre-wrap text-base leading-relaxed" style={{ color: "#F1F5F9" }}>
+                {turn.text}
+              </p>
+              <p className="tnum mt-1.5 text-xs" style={{ color: "rgba(148,163,184,0.6)" }}>
+                {turn.at}
+              </p>
             </div>
           </li>
         ))}

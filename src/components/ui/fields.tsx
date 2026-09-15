@@ -5,40 +5,65 @@ import type {
   TextareaHTMLAttributes,
 } from "react";
 
-// Fields carry a quiet rest shadow and gain real lift on focus — physical,
-// not flashy. Focus ring is ink for guaranteed contrast.
+const fieldStyle: React.CSSProperties = {
+  background: "rgba(14, 22, 36, 0.72)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  color: "#F1F5F9",
+  backdropFilter: "blur(12px)",
+};
+
 const fieldClasses =
-  "w-full rounded-md border border-line bg-white px-3 py-2 text-base text-ink shadow-rest placeholder:text-ink/60 transition-shadow duration-150 ease-soft focus:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink";
+  "w-full rounded-xl px-4 py-3.5 text-base transition-all duration-200 ease-soft placeholder:text-[rgba(148,163,184,0.45)] focus:outline-none focus:ring-2 focus:ring-[rgba(78,216,189,0.4)] focus:border-[rgba(78,216,189,0.55)]";
 
 export function Input({
   className = "",
+  style,
   ...props
 }: InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className={`${fieldClasses} ${className}`} />;
+  return (
+    <input
+      {...props}
+      style={{ ...fieldStyle, ...style }}
+      className={`${fieldClasses} ${className}`}
+    />
+  );
 }
 
 export function Textarea({
   className = "",
+  style,
   ...props
 }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       {...props}
-      className={`${fieldClasses} min-h-32 leading-relaxed ${className}`}
+      style={{ ...fieldStyle, ...style }}
+      className={`${fieldClasses} min-h-32 leading-relaxed resize-none ${className}`}
     />
   );
 }
 
 export function Select({
   className = "",
+  style,
   ...props
 }: SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select {...props} className={`${fieldClasses} py-1.5 text-sm ${className}`} />;
+  return (
+    <select
+      {...props}
+      style={{ ...fieldStyle, ...style }}
+      className={`${fieldClasses} py-2 text-sm ${className}`}
+    />
+  );
 }
 
 export function Label({ children, htmlFor }: { children: ReactNode; htmlFor?: string }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-ink">
+    <label
+      htmlFor={htmlFor}
+      className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em]"
+      style={{ color: "rgba(216,240,236,0.5)" }}
+    >
       {children}
     </label>
   );
