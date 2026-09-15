@@ -11,6 +11,8 @@ import { Label, Textarea } from "@/components/ui/fields";
 // and the no-friction "delete my data" action with a plain-language confirm
 // dialog. The quiet 20s refresh works everywhere, including flaky networks;
 // new replies reach the visitor through the ThreadLine's extend motion.
+const ACTIVE_CODE_KEY = "xinnection_active_code";
+
 export function SeekerThreadClient({ threadId, code }: { threadId: string; code: string }) {
   const t = useTranslations("thread");
   const tCommon = useTranslations("common");
@@ -21,6 +23,16 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleted, setDeleted] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (code) {
+        window.localStorage.setItem(ACTIVE_CODE_KEY, code);
+      }
+    } catch {
+      // Ignore
+    }
+  }, [code]);
 
   useEffect(() => {
     const id = window.setInterval(() => router.refresh(), 20000);
@@ -63,8 +75,16 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ code }),
       });
-      if (res.ok) setDeleted(true);
-      else setNotice(tCommon("errorGeneric"));
+      if (res.ok) {
+        try {
+          window.localStorage.removeItem(ACTIVE_CODE_KEY);
+        } catch {
+          // Ignore
+        }
+        setDeleted(true);
+      } else {
+        setNotice(tCommon("errorGeneric"));
+      }
     } catch {
       setNotice(tCommon("errorGeneric"));
     } finally {
@@ -73,11 +93,11 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   }
 
   if (deleted) {
-    return <p className="card p-6 leading-relaxed text-ink/85">{t("deleted")}</p>;
+    return <p className="card p-6 leading-relaxed text-sm" style={{ color: "#F1F5F9" }}>{t("deleted")}</p>;
   }
 
   return (
-    <div className="mt-12 border-t border-line pt-8">
+    <div className="mt-12 border-t border-[rgba(255,255,255,0.08)] pt-8">
       <Label htmlFor="reply">{t("replyLabel")}</Label>
       <Textarea
         id="reply"
@@ -87,7 +107,7 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         rows={4}
       />
       {notice && (
-        <p role="alert" className="mt-2 text-flag">
+        <p role="alert" className="mt-2 text-sm" style={{ color: "#D96B58" }}>
           {notice}
         </p>
       )}
@@ -107,11 +127,17 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         title={t("deleteConfirmTitle")}
         closeLabel={tCommon("cancel")}
       >
-        <p className="mt-4 leading-relaxed text-ink/85">{t("deleteConfirmBody")}</p>
+        <p className="mt-4 leading-relaxed text-sm" style={{ color: "rgba(226,232,240,0.85)" }}>
+          {t("deleteConfirmBody")}
+        </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button
             variant="secondary"
-            className="border-flag/50 bg-white text-flag hover:border-flag hover:bg-flag/5"
+            style={{
+              border: "1px solid rgba(217,107,88,0.5)",
+              background: "rgba(217,107,88,0.12)",
+              color: "#D96B58",
+            }}
             onClick={deleteThread}
             disabled={deleting}
           >
