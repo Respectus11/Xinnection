@@ -37,5 +37,5 @@ export function generateSeekerCode(): string {
   const word = () => securePick(WORDS);
   const digits = String(crypto.randomInt(0, 100)).padStart(2, "0");
   const suffix = Array.from({ length: 3 }, () => securePick(CODE_ALPHABET)).join("");
-  return `${word()}-${word()}-${word()}-${digits}-${suffix}`;
+  return `${word()} ${word()} ${word()} ${digits} ${suffix}`;
 }

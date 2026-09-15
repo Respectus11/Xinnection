@@ -76,6 +76,6 @@ export function unwrapSecret(wrapped: string): string {
 // raw token exists nowhere server-side. Lookup is normalized to be forgiving
 // of people retyping a code from paper (case, whitespace).
 export function hashToken(rawToken: string): string {
-  const normalized = rawToken.trim().toLowerCase().replace(/\s+/g, "");
+  const normalized = rawToken.trim().toLowerCase().replace(/[\s-]+/g, "");
   return crypto.createHmac("sha256", config.tokenPepper).update(normalized).digest("hex");
 }
