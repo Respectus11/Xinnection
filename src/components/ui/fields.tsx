@@ -8,7 +8,7 @@ import type {
 // Fields carry a quiet rest shadow and gain real lift on focus — physical,
 // not flashy. Focus ring is ink for guaranteed contrast.
 const fieldClasses =
-  "w-full rounded-md border border-line bg-white px-3 py-2 text-base text-ink shadow-rest placeholder:text-ink/35 transition-shadow duration-150 ease-soft focus:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink";
+  "w-full rounded-md border border-line bg-white px-3 py-2 text-base text-ink shadow-rest placeholder:text-ink/60 transition-shadow duration-150 ease-soft focus:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink";
 
 export function Input({
   className = "",

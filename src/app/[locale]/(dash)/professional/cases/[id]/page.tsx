@@ -69,7 +69,7 @@ export default async function CasePage({
         <span className="text-sm text-ink/60">{tLang(thread.language)}</span>
         <StatusPill status={thread.status} label={tStatus(STATUS_KEYS[thread.status])} />
         {flagged && <Badge tone="flag">{tQueue("flagged")}</Badge>}
-        <span className="tnum text-sm text-ink/50">
+        <span className="tnum text-sm text-ink/60">
           {tQueue("waiting")} {formatAgo(thread.createdAt)}
         </span>
       </div>

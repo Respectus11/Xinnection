@@ -52,11 +52,11 @@ export function ThreadLine({
               style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)" }}
             />
             <div className="threadline-body">
-              <p className="text-sm font-semibold text-ink/55">
+              <p className="text-sm font-semibold text-ink/65">
                 {turn.role === "SEEKER" ? labels.seeker : labels.professional}
               </p>
               <p className="mt-1.5 whitespace-pre-wrap text-ink/95">{turn.text}</p>
-              <p className="tnum mt-1.5 text-xs text-ink/40">{turn.at}</p>
+              <p className="tnum mt-1.5 text-xs text-ink/60">{turn.at}</p>
             </div>
           </li>
         ))}

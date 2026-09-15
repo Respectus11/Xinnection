@@ -89,7 +89,7 @@ export function AuthForm({ portal }: { portal: "professional" | "admin" }) {
             className="tnum"
             required
           />
-          <p className="mt-1.5 text-xs text-ink/50">{t("totpHint")}</p>
+          <p className="mt-1.5 text-xs text-ink/60">{t("totpHint")}</p>
         </div>
         {error && (
           <p role="alert" className="text-flag">

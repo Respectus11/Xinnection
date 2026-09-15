@@ -28,7 +28,7 @@ extend, one shared `--ease-soft`. `prefers-reduced-motion` kills everything glob
 - Display (`display` class): **Fraunces** variable (optical-size axis), 600, line-height
   1.15, letter-spacing −0.005em. For a future Ethiopic locale, `data-script="ethiopic"`
   on `<html>` flips headings to Noto Sans Ethiopic 700 — no Latin serif on Ethiopic.
-- No tracked-out caps anywhere. Kickers are sentence-case, `text-ink/55`.
+- No tracked-out caps anywhere. Kickers are sentence-case, `text-ink/65`.
 
 ## The craft layer
 

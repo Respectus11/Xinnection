@@ -111,11 +111,11 @@ export default async function AuditPage({
                   <tr key={entry.id}>
                     <td className="tnum whitespace-nowrap">{formatDateTimeUtc(entry.createdAt)}</td>
                     <td>
-                      {entry.actorType} <span className="text-ink/40">{entry.actorId.slice(-6)}</span>
+                      {entry.actorType} <span className="text-ink/60">{entry.actorId.slice(-6)}</span>
                     </td>
                     <td>{tActions(entry.action)}</td>
                     <td className="text-ink/60">
-                      {entry.targetType} <span className="text-ink/40">{entry.targetId.slice(-6)}</span>
+                      {entry.targetType} <span className="text-ink/60">{entry.targetId.slice(-6)}</span>
                     </td>
                     <td className="text-ink/60">{meta?.reason ?? ""}</td>
                   </tr>

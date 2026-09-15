@@ -40,7 +40,7 @@ export default async function SeekerLayout({ children }: { children: React.React
           <p className="mt-4 max-w-md text-sm leading-relaxed text-mist/60">
             {tFooter("crisisNote")}
           </p>
-          <p className="mt-2 text-xs text-mist/40">{tFooter("lookupNote")}</p>
+          <p className="mt-2 text-xs text-mist/55">{tFooter("lookupNote")}</p>
         </div>
       </footer>
     </div>

@@ -36,7 +36,7 @@ export function CrisisCard() {
           </a>
         </li>
       </ul>
-      <p className="mt-3 text-xs text-ink/50">{t("reviewNote")}</p>
+      <p className="mt-3 text-xs text-ink/60">{t("reviewNote")}</p>
     </aside>
   );
 }

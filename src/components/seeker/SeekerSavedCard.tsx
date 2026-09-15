@@ -80,7 +80,7 @@ export function SeekerSavedCard({ saved }: { saved: SavedResult }) {
             height={160}
             className="rounded-md border border-line bg-white p-2 shadow-rest"
           />
-          <figcaption className="mt-2 text-xs text-ink/55">{t("qrLabel")}</figcaption>
+          <figcaption className="mt-2 text-xs text-ink/65">{t("qrLabel")}</figcaption>
         </figure>
       )}
 

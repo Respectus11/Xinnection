@@ -84,11 +84,11 @@ export default async function ProfessionalQueuePage({
                       {tCats(categoryKey(thread.category.slug))}
                     </Badge>
                     <span className="text-sm text-ink/60">{tLang(thread.language)}</span>
-                    <span className="tnum text-sm text-ink/50">
+                    <span className="tnum text-sm text-ink/60">
                       {thread._count.messages} {t("messages")}
                     </span>
                   </div>
-                  <p className="tnum mt-1 text-sm text-ink/50">
+                  <p className="tnum mt-1 text-sm text-ink/60">
                     {t("waiting")} {formatAgo(thread.createdAt)}
                   </p>
                 </div>

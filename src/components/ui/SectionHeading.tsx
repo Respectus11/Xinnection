@@ -21,7 +21,7 @@ export function SectionHeading({
     size === "hero" ? "text-3xl sm:text-4xl" : "text-2xl";
   return (
     <header className={className}>
-      {kicker && <p className="text-sm font-medium text-ink/55">{kicker}</p>}
+      {kicker && <p className="text-sm font-medium text-ink/65">{kicker}</p>}
       <h1 id={id} className={`display mt-1 text-ink ${sizeClasses}`}>
         {title}
       </h1>

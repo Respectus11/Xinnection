@@ -35,13 +35,13 @@ export default async function OnboardingPage() {
                 <p className="text-sm text-ink/60">{professional.email}</p>
               </div>
               <dl className="mt-2.5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-sm">
-                <dt className="text-ink/50">{t("credentials")}</dt>
+                <dt className="text-ink/60">{t("credentials")}</dt>
                 <dd>{professional.credentials}</dd>
-                <dt className="text-ink/50">{t("license")}</dt>
+                <dt className="text-ink/60">{t("license")}</dt>
                 <dd className="tnum">{professional.licenseNumber}</dd>
-                <dt className="text-ink/50">{t("specialty")}</dt>
+                <dt className="text-ink/60">{t("specialty")}</dt>
                 <dd>{professional.specialty}</dd>
-                <dt className="text-ink/50">{t("languages")}</dt>
+                <dt className="text-ink/60">{t("languages")}</dt>
                 <dd>{professional.languages.join(", ")}</dd>
               </dl>
               <div className="mt-4">

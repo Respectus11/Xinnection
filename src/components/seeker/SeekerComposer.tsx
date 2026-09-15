@@ -114,7 +114,7 @@ export function SeekerComposer() {
         <div className="relative">
           <h1 className="display text-3xl text-ink sm:text-4xl">{t("heroPrompt")}</h1>
           <p className="mt-3 text-ink/70">{t("heroHelper")}</p>
-          <p className="mt-2 text-sm text-ink/55">{t("privacyLine")}</p>
+          <p className="mt-2 text-sm text-ink/65">{t("privacyLine")}</p>
         </div>
       </div>
 
