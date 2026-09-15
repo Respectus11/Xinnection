@@ -1,0 +1,2 @@
+# Intentionally empty — the standalone Docker build copies ./public, and the
+# favicon lives at src/app/icon.svg.
