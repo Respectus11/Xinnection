@@ -23,10 +23,14 @@ const CRISIS_KEYWORDS: Record<string, string[]> = {
   ti: ["ራስየይ ምቕታል", "ንዓየ ክገድፍ እደይ", "ነብሰይ ክኣክል"],
 };
 
-// English is always screened (it is the source list); the thread's declared
-// language list is screened in addition.
-export function screenForCrisis(content: string, language: string): boolean {
+// English and all supported languages are screened as a safety net, so seekers
+// writing in their native language are protected regardless of UI locale or
+// thread language setting.
+export function screenForCrisis(content: string, language?: string): boolean {
   const text = content.toLowerCase();
-  const lists = [CRISIS_KEYWORDS.en, CRISIS_KEYWORDS[language] ?? []];
+  // Check the specified language and all supported languages to guarantee safety
+  const lists = language && CRISIS_KEYWORDS[language]
+    ? [CRISIS_KEYWORDS[language], ...Object.values(CRISIS_KEYWORDS)]
+    : Object.values(CRISIS_KEYWORDS);
   return lists.some((list) => list.some((kw) => text.includes(kw.toLowerCase())));
 }

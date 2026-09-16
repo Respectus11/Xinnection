@@ -44,14 +44,24 @@ export default async function AdminOverviewPage() {
     <section className="mx-auto max-w-5xl">
       <SectionHeading title={tNav("overview")} />
 
-      <dl className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line shadow-rest lg:grid-cols-4">
+      <dl className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white/70 p-5">
-            <dt className="text-sm text-ink/60">{stat.label}</dt>
+          <div
+            key={stat.label}
+            className="card p-5"
+            style={{
+              background: "rgba(14, 21, 35, 0.76)",
+              border: stat.alert
+                ? "1px solid rgba(217, 107, 88, 0.4)"
+                : "1px solid rgba(255, 255, 255, 0.08)",
+            }}
+          >
+            <dt className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(148, 163, 184, 0.7)" }}>
+              {stat.label}
+            </dt>
             <dd
-              className={`display mt-1.5 text-3xl tnum ${
-                stat.alert ? "text-flag" : "text-ink"
-              }`}
+              className={`display mt-2 text-3xl font-bold tnum`}
+              style={{ color: stat.alert ? "#D96B58" : "#F1F5F9" }}
             >
               {stat.value}
             </dd>

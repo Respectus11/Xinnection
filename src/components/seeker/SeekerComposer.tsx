@@ -58,6 +58,7 @@ export function SeekerComposer() {
   const [consentDone, setConsentDone] = useState(true);
   const [content, setContent] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
+  const [language, setLanguage] = useState<string>("en");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [rateLimited, setRateLimited] = useState(false);
@@ -87,7 +88,7 @@ export function SeekerComposer() {
         body: JSON.stringify({
           content: content.trim(),
           categorySlug: selected,
-          language: locale,
+          language: language || locale,
         }),
       });
       if (res.status === 429) {
@@ -421,11 +422,56 @@ export function SeekerComposer() {
                 id="compose"
                 aria-label={t("heroPrompt")}
                 value={content}
-                onChange={(event) => setContent(event.target.value)}
+                onChange={(event) => {
+                  const val = event.target.value;
+                  setContent(val);
+                  if (/[\u1200-\u137F]/.test(val) && language === "en") {
+                    setLanguage("am");
+                  }
+                }}
                 maxLength={5000}
                 rows={6}
                 placeholder={t("placeholder")}
               />
+            </div>
+
+            {/* Language selection pills */}
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: "rgba(148,163,184,0.6)" }}>
+                Language:
+              </span>
+              {[
+                { code: "en", label: "English" },
+                { code: "am", label: "አማርኛ" },
+                { code: "om", label: "Afaan Oromoo" },
+                { code: "ti", label: "ትግርኛ" },
+              ].map((lang) => {
+                const isLangSel = language === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    aria-pressed={isLangSel}
+                    onClick={() => setLanguage(lang.code)}
+                    className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium transition-all"
+                    style={
+                      isLangSel
+                        ? {
+                            background: "rgba(34,153,130,0.22)",
+                            border: "1px solid rgba(78,216,189,0.5)",
+                            color: "#4ED8BD",
+                          }
+                        : {
+                            background: "rgba(255,255,255,0.03)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                            color: "rgba(148,163,184,0.7)",
+                          }
+                    }
+                  >
+                    {lang.label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Char count */}

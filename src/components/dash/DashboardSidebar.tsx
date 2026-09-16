@@ -28,6 +28,9 @@ export function DashboardSidebar({
   }
 
   function isActive(href: string) {
+    if (href === "/admin" || href === "/professional") {
+      return pathname === href;
+    }
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 

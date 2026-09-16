@@ -68,7 +68,7 @@ export default async function ProfessionalsPage({
           {professionals.map((professional) => (
             <li
               key={professional.id}
-              className="border-b border-line py-5 transition-colors duration-150 hover:bg-white/35"
+              className="border-b border-line py-5 transition-colors duration-150 rounded-lg px-2 hover:bg-white/[0.04]"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="min-w-0">

@@ -69,8 +69,8 @@ export default async function ProfessionalQueuePage({
             return (
               <li
                 key={thread.id}
-                className={`grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-3.5 pr-1 transition-colors duration-150 ${
-                  flagged ? "bg-white/55" : "hover:bg-white/35"
+                className={`grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-3.5 pr-1 transition-colors duration-150 rounded-lg px-2 ${
+                  flagged ? "bg-[rgba(217,107,88,0.08)]" : "hover:bg-white/[0.04]"
                 }`}
               >
                 <span

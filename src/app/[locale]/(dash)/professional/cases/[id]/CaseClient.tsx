@@ -100,7 +100,7 @@ export function CaseClient({
         <div
           role="group"
           aria-label={t("statusLabel")}
-          className="inline-flex flex-wrap gap-1 rounded-full border border-line bg-white p-1 shadow-rest"
+          className="inline-flex flex-wrap gap-1 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(14,22,36,0.72)] p-1 shadow-rest"
         >
           {STATUSES.map((s) => {
             const active = s === status;
@@ -112,7 +112,9 @@ export function CaseClient({
                 disabled={busy}
                 onClick={() => changeStatus(s)}
                 className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink disabled:cursor-not-allowed ${
-                  active ? "bg-dusk text-mist" : "text-ink/65 hover:text-ink"
+                  active
+                    ? "bg-[rgba(34,153,130,0.25)] text-[#4ED8BD] border border-[rgba(78,216,189,0.4)]"
+                    : "text-[rgba(241,245,249,0.7)] hover:text-[#F1F5F9]"
                 }`}
               >
                 {tStatus(STATUS_KEYS[s])}
@@ -156,7 +158,11 @@ export function CaseClient({
           <>
             <Button
               variant="secondary"
-              className="border-flag/40 bg-white text-flag hover:border-flag hover:bg-flag/5"
+              style={{
+                background: "rgba(217, 107, 88, 0.12)",
+                border: "1px solid rgba(217, 107, 88, 0.35)",
+                color: "#D96B58",
+              }}
               onClick={() => setConfirmFlag(true)}
               disabled={busy}
             >

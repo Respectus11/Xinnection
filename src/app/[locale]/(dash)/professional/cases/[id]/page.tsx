@@ -77,7 +77,7 @@ export default async function CasePage({
       {!mine && (
         <p
           role="alert"
-          className="mt-5 rounded-md border border-flag/30 bg-white/70 px-4 py-3 text-flag"
+          className="mt-5 rounded-xl border border-[rgba(217,107,88,0.35)] bg-[rgba(217,107,88,0.1)] px-4 py-3 text-sm text-[#D96B58]"
         >
           {t("notYours")}
         </p>

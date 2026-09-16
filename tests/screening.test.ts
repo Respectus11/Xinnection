@@ -18,7 +18,9 @@ describe("crisis keyword screening", () => {
     expect(screenForCrisis("ጭንቀት በጣም አለብኝ", "am")).toBe(false);
   });
 
-  it("stays quiet when the language list has no match", () => {
-    expect(screenForCrisis("plain words about a hard week", "ti")).toBe(false);
+  it("flags non-English crisis language even on an English-declared thread", () => {
+    expect(screenForCrisis("ራሴን ማጥፋት እፈልጋለሁ", "en")).toBe(true);
+    expect(screenForCrisis("of ajjeesuu yaadachaa jira", "en")).toBe(true);
+    expect(screenForCrisis("ራስየይ ምቕታል", "en")).toBe(true);
   });
 });

@@ -28,7 +28,7 @@ export default async function OnboardingPage() {
           {pending.map((professional) => (
             <li
               key={professional.id}
-              className="border-b border-line py-5 transition-colors duration-150 hover:bg-white/35"
+              className="border-b border-line py-5 transition-colors duration-150 rounded-lg px-2 hover:bg-white/[0.04]"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="font-semibold">{professional.fullName}</p>
