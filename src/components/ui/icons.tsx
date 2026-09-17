@@ -46,6 +46,41 @@ export function FlagIcon({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
+/**
+ * US Flag glyph used for English language selection.
+ */
+export function UsFlagIcon({ className = "h-3.5 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 20 14" fill="none" aria-hidden className={`${base} ${className} rounded-[2px] overflow-hidden shrink-0`}>
+      <rect width="20" height="14" fill="#B22234" />
+      <rect y="2.15" width="20" height="2.15" fill="#FFFFFF" />
+      <rect y="6.45" width="20" height="2.15" fill="#FFFFFF" />
+      <rect y="10.75" width="20" height="2.15" fill="#FFFFFF" />
+      <rect width="9" height="7.5" fill="#3C3B6E" />
+      <circle cx="2.5" cy="2.2" r="0.65" fill="#FFFFFF" />
+      <circle cx="6.5" cy="2.2" r="0.65" fill="#FFFFFF" />
+      <circle cx="4.5" cy="3.8" r="0.65" fill="#FFFFFF" />
+      <circle cx="2.5" cy="5.4" r="0.65" fill="#FFFFFF" />
+      <circle cx="6.5" cy="5.4" r="0.65" fill="#FFFFFF" />
+    </svg>
+  );
+}
+
+/**
+ * Ethiopian flag glyph used for Amharic, Afaan Oromoo, and Tigrinya regional languages.
+ */
+export function EtFlagIcon({ className = "h-3.5 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 20 14" fill="none" aria-hidden className={`${base} ${className} rounded-[2px] overflow-hidden shrink-0`}>
+      <rect width="20" height="4.67" fill="#078930" />
+      <rect y="4.67" width="20" height="4.67" fill="#FCDD09" />
+      <rect y="9.34" width="20" height="4.66" fill="#DA121A" />
+      <circle cx="10" cy="7" r="2.8" fill="#0F47AF" />
+      <polygon points="10,4.8 10.6,6.3 12.2,6.3 10.9,7.3 11.4,8.8 10,7.9 8.6,8.8 9.1,7.3 7.8,6.3 9.4,6.3" fill="#FCDD09" />
+    </svg>
+  );
+}
+
 /* ── Trust & Core Feature Icons (replacing emojis) ── */
 
 export function ShieldLockIcon({ className = "h-4 w-4" }: IconProps) {
@@ -100,7 +135,8 @@ export function GlobeNetworkIcon({ className = "h-4 w-4" }: IconProps) {
 export function AnxietyIcon({ className = "h-3.5 w-3.5" }: IconProps) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
-      <path d="M2 9C3.5 6.5 5 6.5 6.5 9C8 11.5 9.5 11.5 11 9C12.5 6.5 14 6.5 14 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 14V11.5C2.8 10.5 2.2 8.8 2.5 7C2.9 4.2 5.2 2.5 8 2.5C10.8 2.5 13.1 4.2 13.5 7C13.8 8.8 13.2 10.5 12 11.5V14" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5.5 7.5C6.2 6.8 6.8 6.8 7.5 7.5C8.2 8.2 8.8 8.2 9.5 7.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -116,8 +152,10 @@ export function GriefIcon({ className = "h-3.5 w-3.5" }: IconProps) {
 export function RelationshipsIcon({ className = "h-3.5 w-3.5" }: IconProps) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
-      <circle cx="6" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="10" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="5" cy="5.5" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M2 13C2 10.8 3.5 9.8 5 9.8C6.5 9.8 8 10.8 8 13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <circle cx="11" cy="5.5" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 13C8 10.8 9.5 9.8 11 9.8C12.5 9.8 14 10.8 14 13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -153,9 +191,8 @@ export function WorkIcon({ className = "h-3.5 w-3.5" }: IconProps) {
 export function AlertDiamondIcon({ className = "h-3.5 w-3.5" }: IconProps) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
-      <path d="M8 2.25L13.75 8L8 13.75L2.25 8L8 2.25Z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8 5.75V8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <circle cx="8" cy="10.75" r="0.75" fill="currentColor" />
+      <circle cx="8" cy="8" r="5.75" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 4.5V11.5M4.5 8H11.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -163,8 +200,36 @@ export function AlertDiamondIcon({ className = "h-3.5 w-3.5" }: IconProps) {
 export function HorizonIcon({ className = "h-3.5 w-3.5" }: IconProps) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
-      <circle cx="8" cy="8" r="5.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M8 5V8L10 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <circle cx="8" cy="8" r="5.75" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="6" cy="6.5" r="0.75" fill="currentColor" />
+      <circle cx="10" cy="6.5" r="0.75" fill="currentColor" />
+      <path d="M6 10C6.8 10.7 9.2 10.7 10 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/**
+ * Single user profile avatar outline icon.
+ */
+export function UserIcon({ className = "h-3.5 w-3.5" }: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
+      <circle cx="8" cy="5" r="2.75" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M3.5 13.5C3.5 11 5.5 10 8 10C10.5 10 12.5 11 12.5 13.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/**
+ * Community/group outline icon representing supporters and care teams.
+ */
+export function UsersGroupIcon({ className = "h-3.5 w-3.5" }: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden className={`${base} ${className}`}>
+      <circle cx="6" cy="5.25" r="2.25" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M2 13C2 10.8 3.8 9.75 6 9.75C8.2 9.75 10 10.8 10 13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M10.5 3.5C11.5 4 12 5.1 12 6.25C12 7.4 11.5 8.5 10.5 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M12 10.5C13.2 11.2 14 12.2 14 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }

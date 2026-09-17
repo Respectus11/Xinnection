@@ -1,31 +1,19 @@
-// The single grounded illustrative motif: the Ethiopian highlands at dusk —
-// soft layered hill silhouettes with a small meskel daisy (a symbol of hope
-// and renewal) resting on the ridge. Pure inline SVG, tinted with
-// currentColor, used sparingly: never more than once or twice per screen,
-// never competing with content. Decorative — always aria-hidden.
-function Daisy({ cx, cy, r = 7 }: { cx: number; cy: number; r?: number }) {
-  const petals = Array.from({ length: 6 }, (_, i) => {
-    const angle = (Math.PI / 3) * i - Math.PI / 2;
-    return {
-      x2: cx + r * Math.cos(angle),
-      y2: cy + r * Math.sin(angle),
-    };
-  });
-  return (
-    <g stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" fill="none">
-      {petals.map((petal, i) => (
-        <line key={i} x1={cx} y1={cy} x2={petal.x2} y2={petal.y2} />
-      ))}
-      <circle cx={cx} cy={cy} r="1.7" fill="currentColor" stroke="none" />
-    </g>
-  );
-}
+import Image from "next/image";
 
+/**
+ * HighlandsMark brand iconography component.
+ *
+ * Variants:
+ * - "mark": The official Xinnection logo mark (intertwined brain & heart empathy glyph).
+ * - "horizon": A serene, low-contrast topographical landscape silhouette used as atmospheric background texture.
+ */
 export function HighlandsMark({
   variant = "mark",
   className = "",
 }: {
+  /** Display variant: official logo mark or scenic horizon backdrop */
   variant?: "mark" | "horizon";
+  /** Optional additional CSS classes */
   className?: string;
 }) {
   if (variant === "horizon") {
@@ -52,24 +40,26 @@ export function HighlandsMark({
           fill="currentColor"
           opacity="0.13"
         />
-        <g className="text-gold">
-          <Daisy cx={296} cy={148} r={6.5} />
-          <Daisy cx={318} cy={142} r={5} />
-        </g>
       </svg>
     );
   }
 
-  // Compact mark — headers, footers, empty states.
+  // Official Xinnection logo: brain hugging a heart
   return (
-    <svg viewBox="0 0 48 34" aria-hidden className={className}>
-      <g fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M2 26 Q 12 15 23 21 T 46 23" />
-        <path d="M2 31 Q 18 24 33 28.5 T 46 29.5" opacity="0.5" />
-      </g>
-      <g className="text-gold">
-        <Daisy cx={35} cy={11} r={6} />
-      </g>
-    </svg>
+    <span
+      className={`relative inline-flex items-center justify-center shrink-0 overflow-hidden rounded-full ${className}`}
+      style={{
+        boxShadow: "0 0 16px rgba(78,216,189,0.15)",
+      }}
+    >
+      <Image
+        src="/logo.png"
+        alt="Xinnection Logo"
+        width={64}
+        height={64}
+        priority
+        className="h-full w-full object-contain"
+      />
+    </span>
   );
 }
