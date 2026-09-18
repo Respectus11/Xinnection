@@ -66,7 +66,7 @@ export function ThreadLine({
               <p className="mt-1.5 whitespace-pre-wrap text-base leading-relaxed" style={{ color: "#F1F5F9" }}>
                 {turn.text}
               </p>
-              <p className="tnum mt-1.5 text-xs" style={{ color: "rgba(148,163,184,0.6)" }}>
+              <p className="tnum mt-1.5 text-xs font-mono" style={{ color: "rgba(203,213,225,0.85)" }}>
                 {turn.at}
               </p>
             </div>

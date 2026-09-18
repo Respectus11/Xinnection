@@ -97,10 +97,10 @@ export function Dialog({
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="-m-1 rounded-lg p-1 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-[#F1F5F9]"
-            style={{ color: "rgba(148,163,184,0.7)" }}
+            className="btn-press -mr-2 -mt-2 flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#4ED8BD] focus-visible:outline-offset-2 hover:bg-[rgba(255,255,255,0.08)] hover:text-[#F1F5F9]"
+            style={{ color: "rgba(226,232,240,0.85)" }}
           >
-            <CloseIcon />
+            <CloseIcon className="h-5 w-5" />
           </button>
         </div>
         {children}

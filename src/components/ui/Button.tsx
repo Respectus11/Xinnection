@@ -18,7 +18,7 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
   },
   ghost: {
     background: "transparent",
-    color: "rgba(226, 232, 240, 0.75)",
+    color: "#F1F5F9",
   },
 };
 
@@ -34,7 +34,7 @@ export function Button({
       {...props}
       type={type}
       style={{ ...variantStyles[variant], ...style }}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-base font-semibold tracking-tight transition-all duration-150 ease-soft active:duration-[80ms] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`btn-press inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-base font-semibold tracking-tight transition-all duration-150 ease-soft cursor-pointer active:duration-[80ms] focus-visible:outline-2 focus-visible:outline-[#4ED8BD] focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
     />
   );
 }

@@ -13,7 +13,7 @@ const fieldStyle: React.CSSProperties = {
 };
 
 const fieldClasses =
-  "w-full rounded-xl px-4 py-3.5 text-base transition-all duration-200 ease-soft placeholder:text-[rgba(148,163,184,0.45)] focus:outline-none focus:ring-2 focus:ring-[rgba(78,216,189,0.4)] focus:border-[rgba(78,216,189,0.55)]";
+  "w-full rounded-xl px-4 py-3 text-base min-h-[44px] transition-all duration-200 ease-soft placeholder:text-[rgba(148,163,184,0.7)] focus:outline-none focus:ring-2 focus:ring-[rgba(78,216,189,0.5)] focus:border-[rgba(78,216,189,0.7)]";
 
 export function Input({
   className = "",
@@ -52,7 +52,7 @@ export function Select({
     <select
       {...props}
       style={{ ...fieldStyle, ...style }}
-      className={`${fieldClasses} py-2 text-sm ${className}`}
+      className={`${fieldClasses} cursor-pointer py-2.5 text-sm ${className}`}
     />
   );
 }
@@ -62,7 +62,7 @@ export function Label({ children, htmlFor }: { children: ReactNode; htmlFor?: st
     <label
       htmlFor={htmlFor}
       className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em]"
-      style={{ color: "rgba(216,240,236,0.5)" }}
+      style={{ color: "rgba(226, 232, 240, 0.88)" }}
     >
       {children}
     </label>

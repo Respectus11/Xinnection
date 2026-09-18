@@ -21,31 +21,31 @@ export function CrisisCard() {
       <p className="mt-3 text-xs font-semibold uppercase tracking-[0.06em]" style={{ color: "rgba(226,232,240,0.8)" }}>
         {t("hospital")}
       </p>
-      <ul className="mt-2 space-y-1.5 text-sm">
+      <ul className="mt-3 space-y-2 text-sm">
         <li>
           <a
-            className="font-medium underline underline-offset-4 transition-colors duration-150"
-            style={{ color: "#D96B58", textDecorationColor: "rgba(217,107,88,0.4)" }}
+            className="inline-flex items-center min-h-[44px] font-medium underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D96B58]"
+            style={{ color: "#F87171", textDecorationColor: "rgba(248,113,113,0.5)" }}
             href="https://www.befrienders.org"
             target="_blank"
             rel="noreferrer"
           >
-            {t("befrienders")}
+            {t("befrienders")} &rarr;
           </a>
         </li>
         <li>
           <a
-            className="font-medium underline underline-offset-4 transition-colors duration-150"
-            style={{ color: "#D96B58", textDecorationColor: "rgba(217,107,88,0.4)" }}
+            className="inline-flex items-center min-h-[44px] font-medium underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D96B58]"
+            style={{ color: "#F87171", textDecorationColor: "rgba(248,113,113,0.5)" }}
             href="https://www.who.int/health-topics/mental-health"
             target="_blank"
             rel="noreferrer"
           >
-            {t("who")}
+            {t("who")} &rarr;
           </a>
         </li>
       </ul>
-      <p className="mt-3 text-xs" style={{ color: "rgba(148,163,184,0.5)" }}>
+      <p className="mt-3 text-xs leading-relaxed" style={{ color: "rgba(203,213,225,0.8)" }}>
         {t("reviewNote")}
       </p>
     </aside>
