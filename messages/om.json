@@ -8,7 +8,9 @@
     "errorGeneric": "Wanti dogoggora ta'eera. Maaloo irra deebi'ii yaalaa.",
     "rateLimited": "Har'a ergaan muraasa ergaa atte, ogeeyyiin waan qooddatte deebii ni kennu. Maaloo xiqqoo eegaa.",
     "notFoundTitle": "Fuulli hin argamne",
-    "notFoundBody": "Fuula barbaaddu hin jiru."
+    "notFoundBody": "Fuula barbaaddu hin jiru.",
+    "close": "Cufi",
+    "checkReplies": "Deebii jirutuu ilaali"
   },
   "landing": {
     "heroPrompt": "Maaltu sammuun kee irra jira?",
@@ -16,7 +18,12 @@
     "chooseCategory": "Wanti kun waan tokko ti?",
     "send": "Ergi",
     "sending": "Ergaa jira…",
-    "submitError": "Ergaanni kee hin eramne. Maaloo irra deebi'ii yaalaa."
+    "submitError": "Ergaanni kee hin eramne. Maaloo irra deebi'ii yaalaa.",
+    "privacyLine": "Iccitii fi eeyyama malee kan qophaa'e, maqaan hin jiru, imeelii hin jiru, eenyummaa keessan kan mul'isu hin jiru.",
+    "placeholder": "Afaan fi jecha fedhanitti bilisa ta'aa barreessaa.",
+    "eyebrow": "Bilisaan Qoodadhaa.",
+    "heroSubtitle": "Mata duree filadhaa barreessaa. Deeggarsi ogeeyyii qophiidha.",
+    "replyLanguage": "Afaan Deebii Filadhaa:"
   },
   "consent": {
     "title": "Osoo hin jalaliin dura",
@@ -107,7 +114,7 @@
     "totpHint": "Koodii 6 lakkii appii ragaa kee irraa",
     "signIn": "Seeni",
     "signingIn": "Seenaa jira…",
-    "invalid": "Seensi hin milkoofne. Imeelii, jecha icciitii fi koodii kee mirkaneessi.",
+    "invalid": "Seensi hin milkoofne. Imeelii fi jecha icciitii kee mirkaneessi.",
     "suspended": "Herregaan kun dhaabameera. Bulchinsa wajjin qunnamii."
   },
   "nav": {
@@ -133,9 +140,10 @@
     "flagged": "Balaa olaanaa",
     "messages": "ergaama",
     "caseloadCount": "{count, plural, =0 {Famoo sochii qabu hin jiru} one {# famoo sochii qabu} other {# famoota sochii qaban}}",
-    "alreadyClaimed": "Kan biraa duraan qabateera."
+    "alreadyClaimed": "Kan biraa duraan qabateera.",
+    "subtitle": "Haasaan mallattoon balaa irratti mul'ate yeroo hunda dursi kennameefii mul'ata."
   },
-    "case": {
+  "case": {
     "backToQueue": "Gara hordoffiitti deebi'i",
     "statusLabel": "Haala",
     "replyLabel": "Deebii barreessi",
@@ -188,7 +196,8 @@
     "unassigned": "Kan hin kennameef",
     "category": "Ramaddaa",
     "threadCreated": "Ergame",
-    "flagRaised": "Mallatteeffame"
+    "flagRaised": "Mallatteeffame",
+    "prosEmpty": "Ogeessi barbaadame hin argamne."
   },
   "auditActions": {
     "thread": {
@@ -204,11 +213,23 @@
     },
     "flag": {
       "resolve": "Mallattoon balaa olaanaa ilaalameera"
+    },
+    "maintenance": {
+      "purge": "Haasaawwan yeroon isaanii darbe haqamaniiru"
     }
   },
   "source": {
     "seekerSelection": "Filannoo fayyadamaa",
     "keywordScreen": "Sakatta'aa jechootaa",
     "professional": "Ogeessaa"
+  },
+  "footer": {
+    "crisisNote": "Yoo balaa keessa jirtu ta'e, hatattamaan tajaajila balaa tasaa naannoo keessanii qunnamaa. Tajaajilli kun sarara balaa tasaa miti.",
+    "lookupNote": "Koodii keessan iddoo amansiisaa ta'etti olkaa'aa; gara haasaa keessaniitti deebi'uuf karaan tokkicha."
+  },
+  "errors": {
+    "title": "Wanti tokko dogoggoreera",
+    "body": "Fuulli kun rakkina hin eegamne mudateera. Maaloo irra deebi'aa yaalaa.",
+    "retry": "Irra deebi'ii yaali"
   }
 }

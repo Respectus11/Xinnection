@@ -8,7 +8,9 @@
     "errorGeneric": "ጸገም ተካይዱ ኣሎ። በጃኻ ደጊምካ ፈትን።",
     "rateLimited": "ሎሚ ሓያሎት መልእኽቲ ሰዲኻ ኣሎኻ፣ ሞያዊ ብዛዕባ ዝነገርካዮ ክመልስ እዩ። በጃኻ ጥቑቕ ተጸበት።",
     "notFoundTitle": "ኣገጻ ኣይተረኽበን",
-    "notFoundBody": "እቲ ኣገጻ ዘይነብር እዩ።"
+    "notFoundBody": "እቲ ኣገጻ ዘይነብር እዩ።",
+    "close": "ዕጸው",
+    "checkReplies": "መልሲ ምህላዉ ረኣይ"
   },
   "landing": {
     "heroPrompt": "እንታይ ኣብ ሕማቕካ ኣሎ?",
@@ -16,7 +18,12 @@
     "chooseCategory": "ብዛዕባ እንታይ እዩ?",
     "send": "ሰዲድ",
     "sending": "ክስደድ ኣሎ…",
-    "submitError": "መልእኽትካ ኣይሰደደን። በጃኻ ደጊምካ ፈትን።"
+    "submitError": "መልእኽትካ ኣይሰደደን። በጃኻ ደጊምካ ፈትን።",
+    "privacyLine": "ብዲዛይን መንነትካ ዘይፍለጥ፣ ስም የለን፣ ኢመይል የለን፣ ዝገልጸካ ነገር የለን።",
+    "placeholder": "ብዝደለኻዮ ቃላት ብናጻ ጽሓፍ።",
+    "eyebrow": "ብናጻ ኣካፍሉ።",
+    "heroSubtitle": "ኣርእስቲ ምረጽ እሞ ጽሓፍ። ሞያዊ ደገፍ ድሉው ኣሎ።",
+    "replyLanguage": "ናይ መልሲ ቋንቋ ምረጽ:"
   },
   "consent": {
     "title": "ቅድሚ ምጅማርካ",
@@ -107,7 +114,7 @@
     "totpHint": "ካብ ናይ ማረጋግጺ ኣፕ 6 ቁጽሪ ኮድ",
     "signIn": "ኣተው",
     "signingIn": "ኣብ ምእታው ኣሎ…",
-    "invalid": "ምእታው ኣይተሳኽነን። ኢመይልካ፣ መሕለፊ ቃልካን ኮድካን ኣረጋግጽ።",
+    "invalid": "ምእታው ኣይተሳኽነን። ኢመይልካን መሕለፊ ቃልካን ኣረጋግጽ።",
     "suspended": "እዚ ኣካውንት ተከልኪሉ ኣሎ። ምስ ምሕደራ ተራኸቡ።"
   },
   "nav": {
@@ -133,9 +140,10 @@
     "flagged": "ህቡብ ኣድንኻ",
     "messages": "መልእኽታት",
     "caseloadCount": "{count, plural, =0 {ንቁ ጉዳያት የብና} one {# ንቁ ጉዳይ} other {# ንቁ ጉዳያት}}",
-    "alreadyClaimed": "ካልእ ሞያዊ ቐዲሙ ውዒሉዎ።"
+    "alreadyClaimed": "ካልእ ሞያዊ ቐዲሙ ውዒሉዎ።",
+    "subtitle": "ናይ ሓደጋ ምልክት ዘለዎም ዕላላት ኩሉ ግዜ ቀዳምነት ይወሃቦም።"
   },
-    "case": {
+  "case": {
     "backToQueue": "ናብ ዕላላት ተመለስ",
     "statusLabel": "ኩነታት",
     "replyLabel": "መልሲ ጽሓፍ",
@@ -188,7 +196,8 @@
     "unassigned": "ዘይተመደበ",
     "category": "ምድብ",
     "threadCreated": "ዝተሰደደሉ",
-    "flagRaised": "ዝተለይበሉ"
+    "flagRaised": "ዝተለይበሉ",
+    "prosEmpty": "ምስዚ ድሌት ዝሰማማዕ ሞያተኛ ኣይተረኽበን።"
   },
   "auditActions": {
     "thread": {
@@ -204,11 +213,23 @@
     },
     "flag": {
       "resolve": "ህቡብ ኣድንኻ ምልክት ተከታተለ"
+    },
+    "maintenance": {
+      "purge": "ግዚኦም ዝሓለፎም ዕላላት ተደምሲሶም"
     }
   },
   "source": {
     "seekerSelection": "ብምርጫ ተጠቃሚ",
     "keywordScreen": "ብፍተሻ ቃላት",
     "professional": "ብሞያዊ"
+  },
+  "footer": {
+    "crisisNote": "ኣብ ህጹጽ ሓደጋ እንተ ኣለኻ፡ ብቕጽበት ናይ ከባቢኻ ናይ ህጹጽ ረድኤት ኣገልግሎት ተወከስ። እዚ ኣገልግሎት ናይ ህጹጽ መስመር ኣይኮነን።",
+    "lookupNote": "ኮድካ ኣብ ውሑስ ቦታ ኣቐምጦ፤ ናብ ዕላልካ ክትምለሰሉ እትኽእል እንኮ መንገዲ እዩ።"
+  },
+  "errors": {
+    "title": "ገለ ጸገም ተፈጢሩ",
+    "body": "እዚ ገጽ ዘይተጸበዮ ጸገም ኣጋጢምዎ። በጃኻ ደጊምካ ፈትን።",
+    "retry": "ደጊምካ ፈትን"
   }
 }

@@ -8,7 +8,9 @@
     "errorGeneric": "ችግር አጋጥሟል። እባክዎ እንደገና ይሞክሩ።",
     "rateLimited": "ዛሬ ጥቂት መልእክቶችን ልከዋል፣ ባለሙያ ስለሚጋሩት ምንም አይርሱት። እባክዎ ጥቂት ይጠብቁ።",
     "notFoundTitle": "ገጹ አልተገኘም",
-    "notFoundBody": "የሚፈልጉት ገጽ የለም።"
+    "notFoundBody": "የሚፈልጉት ገጽ የለም።",
+    "close": "ዝጋ",
+    "checkReplies": "መልስ መኖሩን ይመልከቱ"
   },
   "landing": {
     "heroPrompt": "ምን በአእምሮዎ ላይ አለ?",
@@ -16,7 +18,12 @@
     "chooseCategory": "ስለ ምን ነው?",
     "send": "ላክ",
     "sending": "በመላክ ላይ…",
-    "submitError": "መልእክትዎ አልተላከም። እባክዎ እንደገና ይሞክሩ።"
+    "submitError": "መልእክትዎ አልተላከም። እባክዎ እንደገና ይሞክሩ።",
+    "privacyLine": "በንድፍ ማንነት የማይገለጥ፣ ስም የለም፣ ኢሜይል የለም፣ እርስዎን የሚገልጽ ምንም ነገር የለም።",
+    "placeholder": "በማንኛውም ቃል በነጻነት ይጻፉ።",
+    "eyebrow": "በነጻነት ያጋሩ።",
+    "heroSubtitle": "ርዕስ ይምረጡ እና ይጻፉ። የባለሙያ ድጋፍ ዝግጁ ነው።",
+    "replyLanguage": "የመልስ ቋንቋ ይምረጡ:"
   },
   "consent": {
     "title": "ከመጀመርዎ በፊት",
@@ -107,7 +114,7 @@
     "totpHint": "ከማረጋገጫ መተግበሪያዎ የሚገኘው 6 አሃዝ ኮድ",
     "signIn": "ግባ",
     "signingIn": "በመግባት ላይ…",
-    "invalid": "መግባት አልተሳካም። ኢሜይልዎን፣ የይለፍ ቃልዎን እና ኮዱን ያረጋግጡ።",
+    "invalid": "መግባት አልተሳካም። ኢሜይልዎን እና የይለፍ ቃልዎን ያረጋግጡ።",
     "suspended": "ይህ መለያ ታግዷል። ከአስተዳደሩ ጋር ይግባቡ።"
   },
   "nav": {
@@ -133,9 +140,10 @@
     "flagged": "ከፍተኛ ስጋት",
     "messages": "መልእክቶች",
     "caseloadCount": "{count, plural, =0 {ንቁ ጉዳዮች የሉም} one {# ንቁ ጉዳይ} other {# ንቁ ጉዳዮች}}",
-    "alreadyClaimed": "ሌላ ባለሙያ ቀድሞ ይዟል።"
+    "alreadyClaimed": "ሌላ ባለሙያ ቀድሞ ይዟል።",
+    "subtitle": "የአደጋ ምልክት የተደረገባቸው ውይይቶች ሁልጊዜ ቀድመው ይታያሉ።"
   },
-    "case": {
+  "case": {
     "backToQueue": "ወደ ሰልፍ ተመለስ",
     "statusLabel": "ሁኔታ",
     "replyLabel": "መልስ ጻፍ",
@@ -188,7 +196,8 @@
     "unassigned": "ያልተመደበ",
     "category": "ምድብ",
     "threadCreated": "የተላከበት",
-    "flagRaised": "የተለየበት"
+    "flagRaised": "የተለየበት",
+    "prosEmpty": "ከዚህ ፍለጋ ጋር የሚዛመድ ባለሙያ የለም።"
   },
   "auditActions": {
     "thread": {
@@ -204,11 +213,23 @@
     },
     "flag": {
       "resolve": "የከፍተኛ ስጋት ምልክት ተከታትሏል"
+    },
+    "maintenance": {
+      "purge": "ጊዜያቸው ያለፈባቸው ውይይቶች ተሰርዘዋል"
     }
   },
   "source": {
     "seekerSelection": "በተጠቃሚ ምርጫ",
     "keywordScreen": "በቃላት ፍተሻ",
     "professional": "በባለሙያ"
+  },
+  "footer": {
+    "crisisNote": "በአስቸኳይ አደጋ ውስጥ ከሆኑ እባክዎ ወዲያውኑ በአካባቢዎ የሚገኘውን የድንገተኛ አደጋ አገልግሎት ያግኙ። ይህ አገልግሎት የድንገተኛ አደጋ መስመር አይደለም።",
+    "lookupNote": "ኮድዎን በጥንቃቄ ያስቀምጡ፤ ወደ ውይይትዎ የሚመለሱበት ብቸኛው መንገድ ነው።"
+  },
+  "errors": {
+    "title": "ችግር አጋጥሟል",
+    "body": "ይህ ገጽ ያልተጠበቀ ችግር አጋጥሞታል። እባክዎ እንደገና ይሞክሩ።",
+    "retry": "እንደገና ይሞክሩ"
   }
 }

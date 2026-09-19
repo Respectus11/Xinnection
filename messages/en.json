@@ -22,14 +22,17 @@
     "retry": "Try again"
   },
   "landing": {
-    "heroPrompt": "What's on your mind?",
+    "eyebrow": "Share Freely.",
+    "heroPrompt": "What's on Your Mind?",
+    "heroSubtitle": "Select a topic (or more) and write. Professional support is ready.",
     "heroHelper": "Write in any language. You don't need to give your name.",
-    "chooseCategory": "What is this about?",
+    "chooseCategory": "WHAT IS THIS ABOUT?",
     "send": "Send",
     "sending": "Sending…",
     "submitError": "Your message could not be sent. Please try again.",
     "privacyLine": "Anonymous by design, no name, no email, nothing that identifies you.",
-    "placeholder": "Write freely, in whatever words you have."
+    "placeholder": "Type your thoughts here, as openly as you like...",
+    "replyLanguage": "Choose Reply Language:"
   },
   "consent": {
     "title": "Before you begin",
@@ -88,10 +91,10 @@
     "anxiety": "Anxiety",
     "grief": "Grief",
     "relationships": "Relationships",
-    "academicStress": "Academic stress",
+    "academicStress": "Academic Stress",
     "family": "Family",
     "work": "Work",
-    "crisisSelfHarm": "Crisis / Self harm",
+    "crisisSelfHarm": "Crisis/Self-Harm",
     "other": "Other"
   },
   "languages": {
@@ -120,7 +123,7 @@
     "totpHint": "The 6 digit code from your authenticator app",
     "signIn": "Sign in",
     "signingIn": "Signing in…",
-    "invalid": "Sign in failed. Check your email, password, and code.",
+    "invalid": "Sign in failed. Check your email and password.",
     "suspended": "This account is suspended. Contact an administrator."
   },
   "nav": {
