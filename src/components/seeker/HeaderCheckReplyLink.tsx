@@ -24,18 +24,18 @@ export function HeaderCheckReplyLink({ label }: { label: string }) {
   return (
     <Link
       href={targetHref}
-      className="group flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-medium no-underline transition-all duration-200"
+      className="btn-press flex items-center gap-2 rounded-full px-4 py-2 min-h-[38px] text-xs font-medium no-underline transition-all duration-200 cursor-pointer shadow-sm focus-visible:outline-2 focus-visible:outline-[#4ED8BD]"
       style={{
-        background: hasActive ? "rgba(34,153,130,0.18)" : "rgba(255,255,255,0.04)",
-        border: hasActive ? "1px solid rgba(78,216,189,0.4)" : "1px solid rgba(255,255,255,0.1)",
-        color: "#F1F5F9",
+        background: "rgba(24, 35, 41, 0.92)",
+        border: "1px solid rgba(255, 255, 255, 0.12)",
+        color: "#FFFFFF",
       }}
     >
       <span
-        className="inline-block h-1.5 w-1.5 rounded-full animate-glow-pulse"
-        style={{ background: "#4ED8BD" }}
+        className="inline-block h-2 w-2 rounded-full"
+        style={{ background: "#E53E3E" }}
       />
-      {hasActive ? "Continue conversation" : label}
+      <span>{hasActive ? "Continue conversation" : label}</span>
     </Link>
   );
 }

@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { Label, Textarea } from "@/components/ui/fields";
+import { CopyIcon, CheckIcon } from "@/components/ui/icons";
 
 // Seeker-side thread controls: adding a turn (proven by the anonymous code)
 // and the no-friction "delete my data" action with a plain-language confirm
@@ -23,6 +24,7 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     try {
@@ -38,6 +40,16 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
     const id = window.setInterval(() => router.refresh(), 20000);
     return () => window.clearInterval(id);
   }, [router]);
+
+  async function copyCode() {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+    }
+  }
 
   async function sendReply() {
     if (!reply.trim() || sending) return;
@@ -97,7 +109,46 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
   }
 
   return (
-    <div className="mt-12 border-t border-[rgba(255,255,255,0.08)] pt-8">
+    <div className="mt-8 border-t border-[rgba(255,255,255,0.08)] pt-8">
+      {/* Code recovery banner */}
+      <div
+        className="mb-8 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4"
+        style={{
+          background: "rgba(34, 153, 130, 0.12)",
+          border: "1px solid rgba(78, 216, 189, 0.35)",
+          backdropFilter: "blur(12px)",
+        }}
+      >
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-[#4ED8BD] shadow-[0_0_8px_#4ED8BD]" />
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#4ED8BD]">
+              Your Anonymous Access Code
+            </p>
+          </div>
+          <p className="mt-1 font-mono text-base sm:text-lg font-bold tracking-wider" style={{ color: "#F1F5F9" }}>
+            {code}
+          </p>
+          <p className="mt-1 text-xs text-slate-300">
+            Save this code to check back anytime on any device. No account or email needed.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={copyCode}
+          aria-label={copied ? "Code copied" : "Copy anonymous code"}
+          className="btn-press inline-flex items-center gap-2 rounded-xl px-4 py-2.5 min-h-[44px] text-xs sm:text-sm font-semibold cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-[#4ED8BD]"
+          style={{
+            background: copied ? "rgba(34,153,130,0.3)" : "rgba(255,255,255,0.08)",
+            color: copied ? "#4ED8BD" : "#F1F5F9",
+            border: copied ? "1px solid rgba(78,216,189,0.5)" : "1px solid rgba(255,255,255,0.15)",
+          }}
+        >
+          {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+          <span>{copied ? "Copied" : "Copy Code"}</span>
+        </button>
+      </div>
+
       <Label htmlFor="reply">{t("replyLabel")}</Label>
       <Textarea
         id="reply"
@@ -105,15 +156,16 @@ export function SeekerThreadClient({ threadId, code }: { threadId: string; code:
         onChange={(event) => setReply(event.target.value)}
         maxLength={5000}
         rows={4}
+        placeholder="Write your reply here..."
       />
       {notice && (
-        <p role="alert" className="mt-2 text-sm" style={{ color: "#D96B58" }}>
+        <p role="alert" className="mt-2 text-sm font-medium" style={{ color: "#F87171" }}>
           {notice}
         </p>
       )}
       <div className="mt-4 flex flex-wrap items-center gap-4">
         <Button variant="primary" onClick={sendReply} disabled={sending || !reply.trim()}>
-          {t("send")}
+          {sending ? "Sending..." : t("send")}
         </Button>
         <Button variant="ghost" onClick={() => setConfirmDelete(true)}>
           {t("delete")}

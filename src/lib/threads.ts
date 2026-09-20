@@ -23,7 +23,7 @@ export function isContentLanguage(value: unknown): value is ContentLanguage {
   return typeof value === "string" && (LOCALES as readonly string[]).includes(value);
 }
 
-export const MAX_MESSAGE_LENGTH = 5000;
+export const MAX_MESSAGE_LENGTH = 10000;
 
 export type CreateThreadResult = {
   code: string;

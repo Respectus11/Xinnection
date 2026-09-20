@@ -37,25 +37,39 @@ export function ThreadLookupForm({ notFound = false }: { notFound?: boolean }) {
         {t("title")}
       </h1>
       {notFound && (
-        <p role="alert" className="mt-3 text-sm" style={{ color: "#D96B58" }}>
+        <p role="alert" className="mt-3 text-sm font-medium" style={{ color: "#F87171" }}>
           {t("notFound")}
         </p>
       )}
 
       {savedCode && !notFound && (
         <div
-          className="mt-4 rounded-xl p-3 text-xs"
+          className="mt-4 rounded-xl p-3.5 text-xs flex items-center justify-between gap-3"
           style={{
-            background: "rgba(34, 153, 130, 0.12)",
-            border: "1px solid rgba(78, 216, 189, 0.3)",
+            background: "rgba(34, 153, 130, 0.14)",
+            border: "1px solid rgba(78, 216, 189, 0.35)",
           }}
         >
-          <p className="font-semibold uppercase tracking-wider text-[11px]" style={{ color: "#4ED8BD" }}>
-            Detected active code on this device
-          </p>
-          <p className="mt-1 font-mono text-sm" style={{ color: "#F1F5F9" }}>
-            {savedCode}
-          </p>
+          <div>
+            <p className="font-semibold uppercase tracking-wider text-[11px]" style={{ color: "#4ED8BD" }}>
+              Detected active code on this device
+            </p>
+            <p className="mt-1 font-mono text-sm font-semibold" style={{ color: "#F1F5F9" }}>
+              {savedCode}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setCode(savedCode)}
+            className="btn-press px-3 py-2 min-h-[38px] rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+            style={{
+              background: "rgba(78,216,189,0.2)",
+              color: "#4ED8BD",
+              border: "1px solid rgba(78,216,189,0.4)",
+            }}
+          >
+            Use Code
+          </button>
         </div>
       )}
 
