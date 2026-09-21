@@ -89,7 +89,7 @@ const run = async () => {
   // 3. Landing page renders the working hero composer
   const landing = await fetch(`${BASE}/en`);
   const landingHtml = await landing.text();
-  check("landing renders hero prompt", landing.status === 200 && landingHtml.includes("What's on your mind?"));
+  check("landing renders hero prompt", landing.status === 200 && (landingHtml.includes("What's on Your Mind?") || landingHtml.includes("What's on your mind?")));
 
   // 4. Anonymous submit (ordinary distress)
   const submit = await fetch(`${BASE}/api/threads`, {

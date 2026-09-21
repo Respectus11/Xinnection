@@ -35,6 +35,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Self-contained server bundle for container deploys (see Dockerfile).
   output: "standalone",
+  devIndicators: false,
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
