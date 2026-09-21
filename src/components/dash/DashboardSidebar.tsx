@@ -39,14 +39,14 @@ export function DashboardSidebar({
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 bg-dusk text-mist md:hidden">
         <div className="flex items-center justify-between px-4 pt-3">
-          <Link href={home} className="flex items-center gap-2 no-underline">
-            <HighlandsMark variant="mark" className="h-4 w-auto text-gold/80" />
+          <Link href={home} className="flex items-center gap-2.5 no-underline">
+            <HighlandsMark variant="mark" className="h-6 w-6" />
             <span className="display text-sm">{tCommon("appName")}</span>
           </Link>
           <button
             type="button"
             onClick={signOut}
-            className="text-xs text-mist/70 transition-colors duration-150 hover:text-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mist"
+            className="btn-press cursor-pointer px-3 py-2 min-h-[44px] text-xs font-semibold text-slate-200 transition-colors duration-150 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4ED8BD]"
           >
             {t("signOut")}
           </button>
@@ -59,8 +59,8 @@ export function DashboardSidebar({
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm no-underline transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mist ${
-                  active ? "bg-white/10 text-mist" : "text-mist/65"
+                className={`whitespace-nowrap rounded-full px-4 py-2.5 min-h-[44px] flex items-center text-sm font-medium no-underline transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4ED8BD] ${
+                  active ? "bg-white/10 text-white font-semibold" : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
                 }`}
               >
                 {item.label}
@@ -75,11 +75,11 @@ export function DashboardSidebar({
         aria-label="Dashboard"
         className="atmosphere-dusk hidden h-screen shrink-0 flex-col bg-dusk text-mist md:sticky md:top-0 md:flex md:w-64"
       >
-        <div className="flex items-center gap-2.5 px-5 pt-6">
-          <HighlandsMark variant="mark" className="h-5 w-auto text-gold/80" />
-          <p className="display text-base">{tCommon("appName")}</p>
+        <div className="flex items-center gap-3 px-5 pt-6">
+          <HighlandsMark variant="mark" className="h-8 w-8" />
+          <p className="display text-base font-bold text-white">{tCommon("appName")}</p>
         </div>
-        <ul className="mt-7 flex-1 px-3">
+        <ul className="mt-7 flex-1 px-3 space-y-1">
           {items.map((item) => {
             const active = isActive(item.href);
             return (
@@ -87,10 +87,10 @@ export function DashboardSidebar({
                 <Link
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`block border-l-2 py-2 pl-3.5 pr-3 text-sm no-underline transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mist ${
+                  className={`flex items-center min-h-[44px] rounded-xl px-3.5 py-2 text-sm no-underline transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4ED8BD] ${
                     active
-                      ? "border-gold bg-white/[0.06] text-mist"
-                      : "border-transparent text-mist/65 hover:bg-white/[0.04] hover:text-mist"
+                      ? "bg-[#229982]/20 text-[#4ED8BD] border border-[#4ED8BD]/35 font-semibold shadow-[0_0_12px_rgba(34,153,130,0.15)]"
+                      : "border border-transparent text-slate-300 font-medium hover:bg-white/[0.04] hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -100,15 +100,15 @@ export function DashboardSidebar({
           })}
         </ul>
         {typeof caseload === "number" && (
-          <div className="mx-5 mb-4 rounded-md border border-mist/15 bg-white/[0.04] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)]">
-            <p className="text-xs text-mist/55">{t("caseload")}</p>
-            <p className="tnum mt-0.5 text-2xl font-semibold">{caseload}</p>
+          <div className="mx-5 mb-4 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)]">
+            <p className="text-xs font-medium text-slate-400">{t("caseload")}</p>
+            <p className="tnum mt-0.5 text-2xl font-bold text-white">{caseload}</p>
           </div>
         )}
         <button
           type="button"
           onClick={signOut}
-          className="mx-5 mb-6 rounded-md border border-mist/25 px-3 py-2 text-sm text-mist/80 transition-colors duration-150 hover:border-mist/50 hover:text-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mist"
+          className="btn-press cursor-pointer mx-5 mb-6 rounded-xl border border-white/15 px-3 py-2.5 min-h-[44px] text-sm font-semibold text-slate-200 transition-colors duration-150 hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4ED8BD]"
         >
           {t("signOut")}
         </button>

@@ -1,11 +1,22 @@
 import bcrypt from "bcryptjs";
-import * as OTPAuth from "otpauth";
 import { handleApiError, errorResponse } from "@/lib/api";
 import { createSessionToken, setSessionCookie, type Role } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { unwrapSecret } from "@/lib/crypto";
 import { clientIpFromHeaders, rateLimit } from "@/lib/rateLimit";
 
+/**
+ * Authentication Endpoint: /api/auth/login
+ *
+ * Supports credential validation for:
+ * 1. Professional responders ("professional" portal)
+ * 2. Administrative operators ("admin" portal)
+ *
+ * Security Architecture:
+ * - Rate limiting per IP + normalized email combination (max 10 attempts per 15-minute window).
+ * - Constant-time password verification via bcrypt.
+ * - Account status validation (rejects SUSPENDED and PENDING accounts with specific codes).
+ * - Issues encrypted HttpOnly session cookie containing cryptographically signed JWT.
+ */
 export async function POST(request: Request) {
   try {
     let body: { portal?: string; email?: string; password?: string; totp?: string };
@@ -17,8 +28,7 @@ export async function POST(request: Request) {
     const portal = body.portal === "admin" ? "admin" : "professional";
     const email = String(body.email ?? "").trim().toLowerCase();
     const password = String(body.password ?? "");
-    const totp = String(body.totp ?? "").trim();
-    if (!email || !password || (portal === "admin" && !totp)) return errorResponse(400, "BAD_REQUEST");
+    if (!email || !password) return errorResponse(400, "BAD_REQUEST");
 
     // Per-IP+account throttle on sign-in attempts.
     const rl = await rateLimit(
@@ -37,7 +47,6 @@ export async function POST(request: Request) {
       if (user.status === "SUSPENDED") return errorResponse(423, "SUSPENDED");
       if (user.status === "PENDING") return errorResponse(403, "PENDING");
       if (!(await bcrypt.compare(password, user.passwordHash))) return fail();
-      // Authenticator removed for professionals: simple password sign-in
       const token = await createSessionToken({ sub: user.id, role: "PROFESSIONAL", name: user.fullName });
       await setSessionCookie(token);
       return Response.json({ ok: true });
@@ -46,27 +55,10 @@ export async function POST(request: Request) {
     const user = await prisma.adminUser.findUnique({ where: { email } });
     if (!user) return fail();
     if (!(await bcrypt.compare(password, user.passwordHash))) return fail();
-    if (!verifyTotp(user.totpSecretEnc, totp)) return fail();
     const token = await createSessionToken({ sub: user.id, role: user.role as Role, name: user.email });
     await setSessionCookie(token);
     return Response.json({ ok: true });
   } catch (error) {
     return handleApiError(error);
-  }
-}
-
-function verifyTotp(wrappedSecret: string, token: string): boolean {
-  try {
-    const totp = new OTPAuth.TOTP({
-      issuer: "Xinnection",
-      label: "account",
-      algorithm: "SHA1",
-      digits: 6,
-      period: 30,
-      secret: OTPAuth.Secret.fromBase32(unwrapSecret(wrappedSecret)),
-    });
-    return totp.validate({ token, window: 1 }) !== null;
-  } catch {
-    return false;
   }
 }

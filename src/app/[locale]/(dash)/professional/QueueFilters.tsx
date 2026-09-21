@@ -40,8 +40,8 @@ export function QueueFilters({
       }}
     >
       {categories.length > 0 && (
-        <label className="flex items-center gap-2.5 text-sm">
-          <span style={{ color: "rgba(241, 245, 249, 0.7)" }}>{t("filterCategory")}</span>
+        <label className="flex items-center gap-2.5 text-sm font-medium">
+          <span style={{ color: "rgba(226, 232, 240, 0.9)" }}>{t("filterCategory")}:</span>
           <Select
             value={selectedCategory}
             onChange={(event) => update({ category: event.target.value })}
@@ -56,8 +56,8 @@ export function QueueFilters({
           </Select>
         </label>
       )}
-      <label className="flex items-center gap-2.5 text-sm">
-        <span style={{ color: "rgba(241, 245, 249, 0.7)" }}>{t("filterLanguage")}</span>
+      <label className="flex items-center gap-2.5 text-sm font-medium">
+        <span style={{ color: "rgba(226, 232, 240, 0.9)" }}>{t("filterLanguage")}:</span>
         <Select
           value={selectedLanguage}
           onChange={(event) => update({ language: event.target.value })}

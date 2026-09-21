@@ -56,12 +56,12 @@ export default async function AdminOverviewPage() {
                 : "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
-            <dt className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(148, 163, 184, 0.7)" }}>
+            <dt className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(226, 232, 240, 0.88)" }}>
               {stat.label}
             </dt>
             <dd
               className={`display mt-2 text-3xl font-bold tnum`}
-              style={{ color: stat.alert ? "#D96B58" : "#F1F5F9" }}
+              style={{ color: stat.alert ? "#F87171" : "#F1F5F9" }}
             >
               {stat.value}
             </dd>
@@ -71,13 +71,13 @@ export default async function AdminOverviewPage() {
 
       {aging.length > 0 && (
         <div role="alert" className="crisis-card mt-8 p-5">
-          <p className="display text-lg text-flag">{t("agingTitle")}</p>
-          <p className="mt-1.5 text-sm text-ink/75">{t("agingBody")}</p>
-          <ul className="mt-3 space-y-1.5">
+          <p className="display text-lg font-bold text-[#F87171]">{t("agingTitle")}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-slate-200">{t("agingBody")}</p>
+          <ul className="mt-3 space-y-2">
             {aging.map((thread) => (
               <li key={thread.id} className="text-sm">
-                <span className="font-medium">{tCats(categoryKey(thread.category.slug))}</span>
-                <span className="tnum text-ink/60"> — {formatAgo(thread.createdAt)}</span>
+                <span className="font-semibold text-[#F1F5F9]">{tCats(categoryKey(thread.category.slug))}</span>
+                <span className="tnum text-slate-300 font-medium"> — {formatAgo(thread.createdAt)}</span>
               </li>
             ))}
           </ul>

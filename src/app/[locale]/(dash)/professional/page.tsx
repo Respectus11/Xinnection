@@ -83,12 +83,12 @@ export default async function ProfessionalQueuePage({
                     <Badge tone={flagged ? "flag" : "neutral"}>
                       {tCats(categoryKey(thread.category.slug))}
                     </Badge>
-                    <span className="text-sm text-ink/60">{tLang(thread.language)}</span>
-                    <span className="tnum text-sm text-ink/60">
+                    <span className="text-sm font-medium text-slate-300">{tLang(thread.language)}</span>
+                    <span className="tnum text-sm text-slate-300">
                       {thread._count.messages} {t("messages")}
                     </span>
                   </div>
-                  <p className="tnum mt-1 text-sm text-ink/60">
+                  <p className="tnum mt-1 text-sm text-slate-300">
                     {t("waiting")} {formatAgo(thread.createdAt)}
                   </p>
                 </div>

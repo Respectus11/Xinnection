@@ -58,18 +58,18 @@ export default async function CasePage({
     <section className="mx-auto max-w-3xl">
       <Link
         href="/professional"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 underline decoration-ink/20 underline-offset-4 transition-colors duration-150 hover:text-ink hover:decoration-ink/50"
+        className="btn-press inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-[#4ED8BD]"
       >
-        <BackIcon className="h-3.5 w-3.5" />
+        <BackIcon className="h-4 w-4" />
         {t("backToQueue")}
       </Link>
 
-      <div className="mt-5 flex flex-wrap items-center gap-2">
+      <div className="mt-4 flex flex-wrap items-center gap-2.5">
         <Badge tone="neutral">{tCats(categoryKey(thread.category.slug))}</Badge>
-        <span className="text-sm text-ink/60">{tLang(thread.language)}</span>
+        <span className="text-sm font-medium text-slate-300">{tLang(thread.language)}</span>
         <StatusPill status={thread.status} label={tStatus(STATUS_KEYS[thread.status])} />
         {flagged && <Badge tone="flag">{tQueue("flagged")}</Badge>}
-        <span className="tnum text-sm text-ink/60">
+        <span className="tnum text-sm text-slate-300">
           {tQueue("waiting")} {formatAgo(thread.createdAt)}
         </span>
       </div>
@@ -77,7 +77,7 @@ export default async function CasePage({
       {!mine && (
         <p
           role="alert"
-          className="mt-5 rounded-xl border border-[rgba(217,107,88,0.35)] bg-[rgba(217,107,88,0.1)] px-4 py-3 text-sm text-[#D96B58]"
+          className="mt-5 rounded-xl border border-[rgba(217,107,88,0.35)] bg-[rgba(217,107,88,0.12)] px-4 py-3 text-sm font-medium text-[#F87171]"
         >
           {t("notYours")}
         </p>
