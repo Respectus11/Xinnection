@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Anonymous Token &amp; QR View - Xinnection</title>
+<!-- Google Fonts: Outfit & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#ffb3b0",
+            "on-surface-variant": "#e0bfbd",
+            "on-primary-container": "#6d0010",
+            "inverse-primary": "#ae2f34",
+            "tertiary-fixed-dim": "#52dea2",
+            "secondary-container": "#0566d9",
+            "on-surface": "#f5dddb",
+            "on-primary": "#68000f",
+            "on-primary-fixed-variant": "#8c1520",
+            "mint": "#059669",
+            "canvas-deep": "#09090B",
+            "tertiary-fixed": "#72fbbc",
+            "tertiary-container": "#00b179",
+            "rose": "#DB2777",
+            "primary-fixed": "#ffdad8",
+            "on-tertiary-fixed": "#002113",
+            "tertiary": "#52dea2",
+            "secondary-fixed": "#d8e2ff",
+            "on-background": "#f5dddb",
+            "muted-silver": "#A1A1AA",
+            "inverse-on-surface": "#3b2d2c",
+            "surface": "#1c1010",
+            "secondary": "#adc6ff",
+            "primary-container": "#ff6b6b",
+            "surface-container-high": "#352726",
+            "surface-container-lowest": "#160b0b",
+            "lavender": "#4F46E5",
+            "primary-fixed-dim": "#ffb3b0",
+            "surface-tint": "#ffb3b0",
+            "elevated-onyx": "#18181B",
+            "surface-dim": "#1c1010",
+            "outline": "#a78a88",
+            "on-tertiary": "#003824",
+            "peach": "#EA580C",
+            "error-container": "#93000a",
+            "on-primary-fixed": "#410006",
+            "error": "#ffb4ab",
+            "on-secondary": "#002e6a",
+            "surface-container-highest": "#403130",
+            "starlight-white": "#FAFAFA",
+            "surface-container-low": "#251818",
+            "surface-bright": "#453635",
+            "on-error": "#690005",
+            "on-secondary-container": "#e6ecff",
+            "background": "#1c1010",
+            "on-secondary-fixed-variant": "#004395",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-variant": "#403130",
+            "surface-container": "#291c1c",
+            "outline-variant": "#584140",
+            "on-tertiary-container": "#003b26",
+            "inverse-surface": "#f5dddb",
+            "on-secondary-fixed": "#001a42",
+            "on-error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "margin": "1.25rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "mono-data": ["JetBrains Mono"],
+            "body-lg": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "label": ["Outfit"],
+            "headline-lg": ["Outfit"],
+            "headline-xl": ["Outfit"],
+            "body-md": ["Outfit"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Subtle custom QR pattern dots */
+    .qr-grid {
+      background-image: 
+        radial-gradient(#09090B 38%, transparent 39%),
+        radial-gradient(#09090B 38%, transparent 39%);
+      background-size: 8px 8px;
+      background-position: 0 0, 4px 4px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-canvas-deep text-starlight-white font-body-md antialiased min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container pb-28">
+<!-- Mobile Minimal Top Navigation Bar -->
+<header class="sticky top-0 z-40 bg-canvas-deep/95 backdrop-blur-md px-margin py-space-sm flex items-center justify-between shadow-sm">
+<!-- Back Action Button -->
+<button aria-label="Go back" class="w-10 h-10 rounded-full bg-elevated-onyx flex items-center justify-center text-muted-silver hover:text-starlight-white active:scale-95 transition-all duration-150" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Center Screen Title -->
+<h1 class="font-headline-sm text-headline-sm text-starlight-white font-semibold tracking-tight">
+      Anonymous Access
+    </h1>
+<!-- Encrypted Status Pill -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-elevated-onyx text-muted-silver text-label font-label border border-white/5">
+<span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+<span class="text-[11px] tracking-wide text-starlight-white/90">Zero Logs</span>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="w-full max-w-md mx-auto px-margin pt-space-md flex flex-col gap-y-space-lg flex-1">
+<!-- Section 1: Prominent Success & Token Generation Header -->
+<section class="flex flex-col items-center text-center">
+<!-- Status Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint/15 text-tertiary font-label text-label mb-space-sm border border-mint/20 shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="verified_user">verified_user</span>
+<span class="font-medium tracking-wide">Token Issued &amp; Active</span>
+</div>
+<!-- Headline -->
+<h2 class="font-headline-lg text-headline-lg text-starlight-white font-bold tracking-tight mb-space-xs">
+        Secure Access Key Generated.
+      </h2>
+<!-- Subtitle -->
+<p class="font-body-md text-body-md text-muted-silver max-w-xs leading-relaxed">
+        Your private key to return to this peer thread anytime, completely anonymously.
+      </p>
+</section>
+<!-- Section 2: Core Recovery Code & QR Elevated Card -->
+<section class="bg-elevated-onyx rounded-DEFAULT p-space-md shadow-lg border border-white/5 relative overflow-hidden">
+<!-- Ambient decorative glow -->
+<div class="absolute -top-16 -right-16 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Card Internal Header -->
+<div class="flex items-center justify-between mb-space-sm pb-space-xs border-b border-white/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="key">key</span>
+<span class="font-label text-label text-muted-silver uppercase tracking-wider font-semibold">Anonymous Recovery Code</span>
+</div>
+<button aria-label="Copy recovery code" class="p-1 rounded-full text-muted-silver hover:text-starlight-white active:scale-90 transition-all duration-150" id="quickCopyBtn" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<!-- Alphanumeric Token Presentation Box -->
+<div class="bg-canvas-deep/80 rounded-DEFAULT p-3.5 flex flex-col sm:flex-row items-center justify-between gap-2.5 mb-space-md border border-white/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-muted-silver text-sm" data-icon="lock_clock">lock_clock</span>
+<span class="font-mono-data text-headline-sm font-bold text-starlight-white tracking-widest selection:bg-primary-container" id="tokenString">
+            XN-442-991
+          </span>
+</div>
+<!-- Tap to Copy Pill Button -->
+<button class="w-full sm:w-auto px-3 py-1 rounded-full bg-elevated-onyx hover:bg-white/10 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/10 shadow-sm" id="pillCopyBtn" type="button">
+<span class="material-symbols-outlined text-xs" data-icon="content_copy">content_copy</span>
+<span id="pillCopyText">Tap to Copy</span>
+</button>
+</div>
+<!-- High-Contrast Crisp QR Code Container -->
+<div class="flex flex-col items-center justify-center">
+<div class="relative bg-starlight-white p-4 rounded-DEFAULT shadow-md flex items-center justify-center w-52 h-52 transition-transform duration-200 hover:scale-[1.01]">
+<!-- Realistic SVG QR Matrix Mockup with Center Lock / Emblem Icon -->
+<svg aria-label="QR Code Representation" class="w-full h-full text-canvas-deep" fill="currentColor" viewbox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+<!-- Position Detection Patterns (Top-Left) -->
+<rect height="40" rx="6" width="40" x="10" y="10"></rect>
+<rect fill="#FAFAFA" height="28" rx="3" width="28" x="16" y="16"></rect>
+<rect height="16" rx="2" width="16" x="22" y="22"></rect>
+<!-- Position Detection Patterns (Top-Right) -->
+<rect height="40" rx="6" width="40" x="110" y="10"></rect>
+<rect fill="#FAFAFA" height="28" rx="3" width="28" x="116" y="16"></rect>
+<rect height="16" rx="2" width="16" x="122" y="22"></rect>
+<!-- Position Detection Patterns (Bottom-Left) -->
+<rect height="40" rx="6" width="40" x="10" y="110"></rect>
+<rect fill="#FAFAFA" height="28" rx="3" width="28" x="16" y="116"></rect>
+<rect height="16" rx="2" width="16" x="22" y="122"></rect>
+<!-- Synthetic QR data modules / pixel blocks -->
+<rect height="8" rx="1.5" width="8" x="60" y="12"></rect>
+<rect height="8" rx="1.5" width="14" x="76" y="12"></rect>
+<rect height="8" rx="1.5" width="6" x="96" y="12"></rect>
+<rect height="6" rx="1" width="12" x="56" y="26"></rect>
+<rect height="8" rx="1" width="8" x="74" y="26"></rect>
+<rect height="6" rx="1" width="14" x="88" y="26"></rect>
+<rect height="12" rx="1" width="6" x="58" y="38"></rect>
+<rect height="6" rx="1" width="16" x="70" y="42"></rect>
+<rect height="10" rx="1" width="10" x="92" y="38"></rect>
+<!-- Left & Right Vertical flows -->
+<rect height="10" rx="1" width="8" x="12" y="58"></rect>
+<rect height="6" rx="1" width="12" x="26" y="58"></rect>
+<rect height="14" rx="1" width="6" x="42" y="58"></rect>
+<rect height="10" rx="1" width="10" x="112" y="58"></rect>
+<rect height="6" rx="1" width="18" x="128" y="58"></rect>
+<rect height="8" rx="1" width="14" x="12" y="74"></rect>
+<rect height="16" rx="1" width="6" x="32" y="72"></rect>
+<rect height="14" rx="1" width="8" x="118" y="74"></rect>
+<rect height="8" rx="1" width="14" x="134" y="74"></rect>
+<rect height="8" rx="1" width="8" x="14" y="94"></rect>
+<rect height="6" rx="1" width="18" x="28" y="92"></rect>
+<rect height="6" rx="1" width="12" x="112" y="92"></rect>
+<rect height="12" rx="1" width="6" x="130" y="92"></rect>
+<!-- Bottom Data Matrix -->
+<rect height="8" rx="1" width="12" x="58" y="112"></rect>
+<rect height="6" rx="1" width="14" x="76" y="112"></rect>
+<rect height="8" rx="1" width="8" x="96" y="112"></rect>
+<rect height="14" rx="1" width="8" x="114" y="112"></rect>
+<rect height="8" rx="1" width="16" x="130" y="114"></rect>
+<rect height="14" rx="1" width="8" x="58" y="126"></rect>
+<rect height="8" rx="1" width="18" x="72" y="124"></rect>
+<rect height="6" rx="1" width="12" x="96" y="126"></rect>
+<rect height="8" rx="1" width="14" x="114" y="132"></rect>
+<rect height="14" rx="1" width="12" x="134" y="128"></rect>
+<rect height="6" rx="1" width="18" x="58" y="144"></rect>
+<rect height="8" rx="1" width="10" x="82" y="142"></rect>
+<rect height="8" rx="1" width="8" x="98" y="142"></rect>
+<rect height="6" rx="1" width="34" x="112" y="146"></rect>
+<!-- Distinct Xinnection Emblem Core cutout -->
+<rect fill="#FAFAFA" height="36" rx="10" width="36" x="62" y="62"></rect>
+<rect fill="#18181B" height="28" rx="8" width="28" x="66" y="66"></rect>
+</svg>
+<!-- Centered Brand Shield Key Icon inside QR -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-primary-container text-xl" data-icon="lock">lock</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-muted-silver mt-2">Scan from another device to sync thread</p>
+</div>
+<!-- Quick Utility Action Buttons Row -->
+<div class="grid grid-cols-2 gap-space-sm mt-space-md">
+<!-- Copy Button -->
+<button class="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5" id="copyFullActionBtn" type="button">
+<span class="material-symbols-outlined text-base text-primary-container" data-icon="content_copy">content_copy</span>
+<span id="copyFullActionText">Copy Code</span>
+</button>
+<!-- Save Screenshot / Image Button -->
+<button class="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5" id="saveScreenshotBtn" type="button">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="download">download</span>
+<span>Save Image</span>
+</button>
+</div>
+</section>
+<!-- Section 3: Empathetic Instructions & Security Notice Card -->
+<section class="bg-elevated-onyx rounded-DEFAULT p-space-md border-l-4 border-peach border-t border-r border-b border-white/5 space-y-space-sm shadow-sm">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-peach text-xl shrink-0 mt-0.5" data-icon="warning">warning</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-starlight-white text-sm font-semibold">Important Privacy Safeguard</h3>
+<p class="font-body-md text-body-md text-muted-silver text-xs leading-relaxed mt-1">
+            Take a screenshot of this page or write this code down. This is the <strong class="text-starlight-white font-medium">ONLY way</strong> to access your thread or read counselor replies. For your absolute anonymity, there is no password reset.
+          </p>
+</div>
+</div>
+<!-- Bulleted Safety Pillars -->
+<div class="pt-space-xs border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-2">
+<div class="flex items-center gap-1.5 text-muted-silver text-[11px] font-label">
+<span class="material-symbols-outlined text-mint text-sm" data-icon="check_circle">check_circle</span>
+<span>Zero tracking cookies</span>
+</div>
+<div class="flex items-center gap-1.5 text-muted-silver text-[11px] font-label">
+<span class="material-symbols-outlined text-mint text-sm" data-icon="check_circle">check_circle</span>
+<span>Ephemeral storage</span>
+</div>
+<div class="flex items-center gap-1.5 text-muted-silver text-[11px] font-label">
+<span class="material-symbols-outlined text-mint text-sm" data-icon="check_circle">check_circle</span>
+<span>100% anonymous</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Navigation / Primary CTA Container -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-elevated-onyx/95 backdrop-blur-md px-margin py-3.5 shadow-lg flex flex-col items-center">
+<div class="w-full max-w-md flex flex-col items-center gap-1.5">
+<!-- Main Continue CTA in Vibrant Coral -->
+<button class="w-full h-12 rounded-full bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-on-primary-container font-headline-sm text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all duration-150" type="button">
+<span>I have saved my code, continue to thread</span>
+<span class="material-symbols-outlined text-base font-bold" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<!-- Reassuring subtext -->
+<p class="font-body-sm text-body-sm text-muted-silver text-[11px] tracking-wide text-center">
+        By continuing, you confirm your access key is safely stored.
+      </p>
+</div>
+</footer>
+<!-- Light Client-Side Micro-Interactions -->
+<script>
+    const token = "XN-442-991";
+
+    function copyToken(buttonEl, labelEl, originalLabel) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(token).then(() => {
+          triggerSuccessFeedback(labelEl, originalLabel);
+        }).catch(() => {
+          fallbackCopy(labelEl, originalLabel);
+        });
+      } else {
+        fallbackCopy(labelEl, originalLabel);
+      }
+    }
+
+    function fallbackCopy(labelEl, originalLabel) {
+      const tempInput = document.createElement("input");
+      tempInput.value = token;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      triggerSuccessFeedback(labelEl, originalLabel);
+    }
+
+    function triggerSuccessFeedback(labelEl, originalLabel) {
+      if (!labelEl) return;
+      labelEl.innerText = "Copied!";
+      setTimeout(() => {
+        labelEl.innerText = originalLabel;
+      }, 2000);
+    }
+
+    const pillBtn = document.getElementById("pillCopyBtn");
+    const pillText = document.getElementById("pillCopyText");
+    const copyFullBtn = document.getElementById("copyFullActionBtn");
+    const copyFullText = document.getElementById("copyFullActionText");
+    const quickCopy = document.getElementById("quickCopyBtn");
+
+    if (pillBtn && pillText) {
+      pillBtn.addEventListener("click", () => copyToken(pillBtn, pillText, "Tap to Copy"));
+    }
+    if (copyFullBtn && copyFullText) {
+      copyFullBtn.addEventListener("click", () => copyToken(copyFullBtn, copyFullText, "Copy Code"));
+    }
+    if (quickCopy && copyFullText) {
+      quickCopy.addEventListener("click", () => copyToken(quickCopy, copyFullText, "Copy Code"));
+    }
+
+    const saveScreenshotBtn = document.getElementById("saveScreenshotBtn");
+    if (saveScreenshotBtn) {
+      saveScreenshotBtn.addEventListener("click", () => {
+        const originalText = saveScreenshotBtn.querySelector("span:not(.material-symbols-outlined)");
+        if (originalText) {
+          originalText.innerText = "Downloading...";
+          setTimeout(() => {
+            originalText.innerText = "Image Saved";
+            setTimeout(() => {
+              originalText.innerText = "Save Image";
+            }, 2000);
+          }, 800);
+        }
+      });
+    }
+  </script>
+</body></html>

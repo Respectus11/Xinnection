@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xinnection Triage Cockpit - Case Detail View</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Outfit & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-primary": "#ae2f34",
+            "surface-variant": "#403130",
+            "on-tertiary-fixed": "#002113",
+            "outline-variant": "#584140",
+            "on-primary-container": "#6d0010",
+            "surface-container-highest": "#403130",
+            "surface": "#1c1010",
+            "on-surface-variant": "#e0bfbd",
+            "primary": "#ffb3b0",
+            "inverse-surface": "#f5dddb",
+            "surface-container-lowest": "#160b0b",
+            "background": "#1c1010",
+            "tertiary-fixed-dim": "#52dea2",
+            "secondary-fixed": "#d8e2ff",
+            "error-container": "#93000a",
+            "outline": "#a78a88",
+            "on-primary-fixed-variant": "#8c1520",
+            "on-secondary": "#002e6a",
+            "on-surface": "#f5dddb",
+            "on-primary-fixed": "#410006",
+            "surface-bright": "#453635",
+            "secondary-fixed-dim": "#adc6ff",
+            "primary-fixed-dim": "#ffb3b0",
+            "inverse-on-surface": "#3b2d2c",
+            "on-secondary-container": "#e6ecff",
+            "tertiary-fixed": "#72fbbc",
+            "on-background": "#f5dddb",
+            "surface-container-low": "#251818",
+            "elevated-onyx": "#18181B",
+            "on-tertiary": "#003824",
+            "on-primary": "#68000f",
+            "mint": "#059669",
+            "tertiary-container": "#00b179",
+            "on-secondary-fixed-variant": "#004395",
+            "surface-dim": "#1c1010",
+            "rose": "#DB2777",
+            "on-error": "#690005",
+            "on-tertiary-container": "#003b26",
+            "error": "#ffb4ab",
+            "surface-tint": "#ffb3b0",
+            "secondary-container": "#0566d9",
+            "muted-silver": "#A1A1AA",
+            "canvas-deep": "#09090B",
+            "secondary": "#adc6ff",
+            "primary-container": "#ff6b6b",
+            "primary-fixed": "#ffdad8",
+            "lavender": "#4F46E5",
+            "tertiary": "#52dea2",
+            "surface-container-high": "#352726",
+            "peach": "#EA580C",
+            "on-error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-secondary-fixed": "#001a42",
+            "starlight-white": "#FAFAFA",
+            "surface-container": "#291c1c"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin": "1.25rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "body-sm": ["Outfit"],
+            "body-md": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "label": ["Outfit"],
+            "headline-xl": ["Outfit"],
+            "headline-lg": ["Outfit"],
+            "body-lg": ["Outfit"],
+            "mono-data": ["JetBrains Mono"],
+            "headline-sm": ["Outfit"]
+          },
+          "fontSize": {
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Custom subtle scrollbars for high density cockpit */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #251818;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #403130;
+    }
+  </style>
+</head>
+<body class="bg-canvas-deep text-starlight-white font-body-md text-body-md antialiased h-screen overflow-hidden flex flex-col select-none">
+<!-- TOP APP BAR (from Shared Components JSON Blueprint) -->
+<header class="w-full h-14 pl-64 pr-space-lg flex items-center justify-between z-30 sticky top-0 bg-elevated-onyx border-b border-outline-variant/30 shadow-sm shrink-0">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="text-headline-sm font-headline-sm font-semibold text-starlight-white">Xinnection Triage Cockpit</span>
+</div>
+<div class="relative w-64 ml-4">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-silver text-sm">search</span>
+<input class="w-full bg-canvas-deep border border-outline-variant/40 rounded-full pl-8 pr-3 py-1 text-body-sm font-body-sm text-starlight-white placeholder:text-muted-silver focus:outline-none focus:border-secondary-container" placeholder="Search case, token, NLP flag..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- Trailing Action Icons from JSON -->
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150 relative">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary-container"></span>
+</button>
+<button class="p-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150">
+<span class="material-symbols-outlined text-lg">wifi_tethering</span>
+</button>
+<button class="p-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150">
+<span class="material-symbols-outlined text-lg">help_outline</span>
+</button>
+</div>
+<div class="h-5 w-px bg-outline-variant/40 mx-1"></div>
+<!-- JSON Primary & Secondary Cockpit Actions -->
+<button class="px-3 py-1 rounded-full border border-outline-variant/50 text-starlight-white hover:bg-surface-container-high transition-colors font-label text-label active:scale-95 duration-150">
+        Resolve Session
+      </button>
+<button class="px-3 py-1 rounded-full bg-primary-container text-starlight-white hover:opacity-90 transition-opacity font-label text-label active:scale-95 duration-150 flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-sm">emergency_share</span>
+<span>Escalate Case</span>
+</button>
+<!-- Active Clinician Profile -->
+<div class="flex items-center gap-2 pl-2">
+<img class="w-7 h-7 rounded-full object-cover border border-primary-container/40" data-alt="Close-up professional portrait of a compassionate clinical specialist in a dark uniform against an ambient navy and slate studio backdrop, modern corporate medical triage tone with soft warm cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASYeg4ePEu-NDXZmsaloUjHkAP13VHPF1KfQhDIU981naqTinKLVoBQU6O5D7i91nszCoZuJIil1ghxUroe7n5Ds7Y4I3LFS_Kb2_WN6hOu2mIEjWy6p2Z10iXbscZNxynBG2lyEPyI-lqO1o9buvebe10_lNCEhFIJiSdioHybPvyhvNMVUDuYkipiJ69VB_INEMZ0gDKGROMiPiWQSGx0T9Ic5pomJVTc3x-O6XMosgrCdFc37Uro0gnM2Fl54F6ctiSM0PwiOw"/>
+</div>
+</div>
+</header>
+<!-- WORKSPACE WRAPPER (Three-Pane Cockpit) -->
+<div class="flex flex-1 h-[calc(100vh-3.5rem)] overflow-hidden">
+<!-- PANE 1: SideNavBar (Fixed Left Sidebar as mandated by JSON and Shell Layout) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 flex flex-col p-space-md bg-elevated-onyx border-r border-outline-variant/30 justify-between shrink-0 shadow-none">
+<!-- Sidebar Header & Clinician Identity -->
+<div>
+<div class="flex items-center gap-2.5 pb-4 border-b border-outline-variant/20">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">enhanced_encryption</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm font-bold text-starlight-white tracking-wide">Xinnection</div>
+<div class="text-label font-label text-muted-silver">Cockpit Station 04</div>
+</div>
+</div>
+<!-- Responder Profile Badge -->
+<div class="my-4 p-2.5 bg-canvas-deep/80 rounded-DEFAULT border border-outline-variant/20">
+<div class="flex items-center gap-2.5">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover border border-tertiary" data-alt="Professional clinical peer specialist portrait badge with warm confident expression, dark indigo backdrop with subtle neon accent light representing high-tech psychiatric triage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdrbDVA6YZBgvkVLdT9oTXax0kFNCvAUyqERAFZnOfy8m0aii_RQ_MSr-kP9f7UcWAM07b2jzBWm4pRF7oDvPDWD8xjFrxKoqQ8Z3OsB-jRdm-MW3PUkvGA1kTqMns9nJi0Z5wx0riH_aOpzjC6YlXhiW6aPpOG0vORIivjg70QDlhIxwTIX-7uFN296i1gPe5NtN9UwAo30yaxQEei1vNMdXevIcWRqYmrq8QxS9lPzx6ejtMMLxiFCYMNZ8oVoCGquvObo8QNrk"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-mint rounded-full ring-2 ring-elevated-onyx"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-label font-label font-semibold text-starlight-white truncate">Dr. Aris Thorne, LCSW</div>
+<div class="text-body-sm font-body-sm text-muted-silver flex items-center gap-1">
+<span>On-Shift</span>
+<span class="w-1 h-1 rounded-full bg-muted-silver"></span>
+<span class="text-tertiary font-mono-data text-[11px]">Tier 2 Lead</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs from Shared Components JSON + Active Cases -->
+<nav class="space-y-1">
+<!-- Live Queue Tab (Tab index 1 in JSON) -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150 font-normal" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">inbox</span>
+<span class="text-label font-label">Queue</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-highest text-primary font-mono-data text-[11px] font-semibold">42</span>
+</a>
+<!-- Active Cases (Current Detail Context -> Marked Active per style_active_navigation) -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-DEFAULT bg-surface-container-highest text-primary-container font-semibold border-l-4 border-primary-container" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">crisis_alert</span>
+<span class="text-label font-label">Active Cases</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary-container/20 text-primary-container font-mono-data text-[11px] font-bold">3</span>
+</a>
+<!-- History Tab (JSON) -->
+<a class="flex items-center gap-3 px-space-md py-space-sm rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150 font-normal" href="#">
+<span class="material-symbols-outlined text-lg">history</span>
+<span class="text-label font-label">History</span>
+</a>
+<!-- Shift Protocols (JSON) -->
+<a class="flex items-center gap-3 px-space-md py-space-sm rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150 font-normal" href="#">
+<span class="material-symbols-outlined text-lg">medical_services</span>
+<span class="text-label font-label">Shift Protocols</span>
+</a>
+<!-- Settings (JSON) -->
+<a class="flex items-center gap-3 px-space-md py-space-sm rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors duration-150 font-normal" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="text-label font-label">Settings</span>
+</a>
+</nav>
+<!-- Secondary Section -->
+<div class="mt-6 pt-4 border-t border-outline-variant/20 space-y-1">
+<div class="px-space-md text-[10px] font-mono-data tracking-wider uppercase text-muted-silver/60">Shift Preferences</div>
+<!-- Audio Chime Alerts Toggle -->
+<div class="flex items-center justify-between px-space-md py-2">
+<span class="text-label font-label text-muted-silver flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">volume_up</span>
+              Audio Chimes
+            </span>
+<button class="w-8 h-4 bg-mint/40 rounded-full relative p-0.5 cursor-pointer flex items-center justify-end" type="button">
+<span class="w-3 h-3 bg-tertiary-fixed rounded-full shadow-sm"></span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sidebar Footer (JSON CTA and Subtabs) -->
+<div class="space-y-3 pt-3 border-t border-outline-variant/20">
+<!-- Emergency Handoff CTA from JSON -->
+<button class="w-full py-2.5 px-3 rounded-full bg-error-container/40 border border-error/50 hover:bg-error-container/60 text-error font-label text-label flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-base">warning</span>
+<span>Emergency Handoff</span>
+</button>
+<!-- Knowledge Base & Support (from footer_tab_labels in JSON) -->
+<div class="flex items-center justify-between px-2 text-muted-silver">
+<a class="flex items-center gap-1.5 text-body-sm font-body-sm hover:text-starlight-white" href="#">
+<span class="material-symbols-outlined text-base">menu_book</span>
+<span>Knowledge Base</span>
+</a>
+<a class="flex items-center gap-1.5 text-body-sm font-body-sm hover:text-starlight-white" href="#">
+<span class="material-symbols-outlined text-base">headset_mic</span>
+<span>Support</span>
+</a>
+</div>
+<!-- Go Off-Duty Switch -->
+<button class="w-full py-1.5 rounded-DEFAULT text-body-sm font-body-sm text-muted-silver hover:bg-surface-container-high hover:text-starlight-white flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-sm">power_settings_new</span>
+<span>Go Off-Duty</span>
+</button>
+</div>
+</aside>
+<!-- MAIN TWO-PANE COCKPIT CONTENT AREA (Shifted by 16rem / w-64 for Fixed Sidebar) -->
+<main class="flex-1 flex ml-64 h-full overflow-hidden">
+<!-- PANE 2: Central Conversation & Transcript Workspace -->
+<section class="flex-1 flex flex-col h-full bg-canvas-deep border-r border-outline-variant/30 min-w-0">
+<!-- Transcript Header Bar -->
+<div class="h-14 px-5 bg-elevated-onyx/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-canvas-deep/70 px-2.5 py-1 rounded-DEFAULT border border-outline-variant/30">
+<span class="text-label font-label text-muted-silver">Thread ID:</span>
+<span class="font-mono-data text-mono-data text-starlight-white font-semibold">XN-442-991</span>
+</div>
+<!-- Status Indicator Pill -->
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-mint/20 border border-mint/40 text-tertiary-fixed text-label font-label">
+<span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+<span>Active • Tier 2 Peer Responder Assigned</span>
+</div>
+<!-- Elapsed Duration Timer -->
+<div class="flex items-center gap-1 font-mono-data text-mono-data text-muted-silver">
+<span class="material-symbols-outlined text-sm">timer</span>
+<span>Elapsed: 14m 28s</span>
+</div>
+</div>
+<!-- Tags & Incident Actions -->
+<div class="flex items-center gap-2">
+<!-- Vibrant Pill Category Tags -->
+<span class="px-2.5 py-0.5 rounded-full bg-mint/20 text-tertiary-fixed font-label text-label border border-mint/40">
+              Panic &amp; Anxiety
+            </span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label text-label border border-secondary-container/40">
+              Zero-Logs Encrypted
+            </span>
+<div class="h-4 w-px bg-outline-variant/30 mx-1"></div>
+<button class="p-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors" title="Flag Incident">
+<span class="material-symbols-outlined text-lg">flag</span>
+</button>
+<button class="p-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container-high hover:text-starlight-white transition-colors" title="Print Transcript">
+<span class="material-symbols-outlined text-lg">print</span>
+</button>
+</div>
+</div>
+<!-- Ephemeral Live Chat Stream -->
+<div class="flex-1 overflow-y-auto p-5 space-y-4">
+<!-- System Security Banner -->
+<div class="mx-auto max-w-2xl py-2 px-4 rounded-DEFAULT bg-surface-container-low/60 border border-outline-variant/30 text-center">
+<div class="flex items-center justify-center gap-2 text-muted-silver text-label font-label">
+<span class="material-symbols-outlined text-mint text-sm">lock</span>
+<span>Anonymous Session Established • Memory ephemeral buffer active with instant shredding on close • AES-256</span>
+</div>
+</div>
+<!-- Seeker Message 1 (Left-aligned) -->
+<div class="flex flex-col items-start max-w-xl">
+<div class="flex items-center gap-2 mb-1 px-1">
+<span class="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
+<span class="font-mono-data text-[11px] text-muted-silver">10:42 PM</span>
+</div>
+<div class="bg-elevated-onyx border border-outline-variant/30 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
+              I’ve been feeling an overwhelming amount of panic about my work and family responsibilities lately. It feels like I can't catch a full breath and I don't really have anyone I can admit this to without feeling like a burden.
+            </div>
+</div>
+<!-- NLP Sentiment Telemetry Callout in Feed -->
+<div class="flex items-center gap-2 my-2 py-1.5 px-3 rounded-DEFAULT bg-surface-container-high/30 border border-outline-variant/20 max-w-lg text-label font-label">
+<span class="material-symbols-outlined text-peach text-sm">psychology</span>
+<span class="text-muted-silver">NLP Sentiment:</span>
+<span class="text-peach font-medium">High Distress / Non-Lethal Somatic Panic</span>
+<span class="text-muted-silver">•</span>
+<span class="text-mint font-medium">Zero Harm Indicators</span>
+</div>
+<!-- Clinician / Responder Message (Right-aligned, Soft Lavender/Azure Container) -->
+<div class="flex flex-col items-end max-w-xl ml-auto">
+<div class="flex items-center gap-2 mb-1 px-1">
+<span class="font-mono-data text-[11px] text-muted-silver">10:44 PM</span>
+<span class="text-label font-label text-secondary font-semibold">Julian (LCSW Peer Lead)</span>
+</div>
+<div class="bg-lavender/20 border border-lavender/40 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
+              Hi, I'm Julian. I hear how heavy and suffocating that weight feels right now. First, take a slow breath with me—you don't have to carry all of it in this exact moment, and you are never a burden here. We have plenty of time. When you feel ready, tell me what feels most pressing right now.
+            </div>
+<div class="flex items-center gap-1 mt-1 text-[11px] text-muted-silver font-mono-data">
+<span class="material-symbols-outlined text-xs text-tertiary">done_all</span>
+<span>Delivered &amp; Read</span>
+</div>
+</div>
+<!-- Seeker Follow-Up Message (Left-aligned) -->
+<div class="flex flex-col items-start max-w-xl">
+<div class="flex items-center gap-2 mb-1 px-1">
+<span class="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
+<span class="font-mono-data text-[11px] text-muted-silver">10:47 PM</span>
+</div>
+<div class="bg-elevated-onyx border border-outline-variant/30 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
+              Thank you Julian. Just hearing that helps a little bit. It's mostly the feeling that if I drop even one ball at my job or let my family down, everything will collapse.
+            </div>
+</div>
+<!-- Real-Time Typing Indicator -->
+<div class="flex items-center gap-2 px-2 py-1 text-label font-label text-muted-silver">
+<div class="flex gap-1 items-center">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce"></span>
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce [animation-delay:0.2s]"></span>
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce [animation-delay:0.4s]"></span>
+</div>
+<span class="italic text-body-sm font-body-sm">Seeker is typing...</span>
+</div>
+</div>
+<!-- Dual-Tab Bottom Composer & Micro-Interactions Toolbar -->
+<div class="bg-elevated-onyx border-t border-outline-variant/30 p-3 shrink-0">
+<!-- Mode Tabs -->
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-outline-variant/20">
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-full text-label font-label bg-surface-container-highest text-primary-container font-semibold border border-primary-container/40">
+                Direct Anonymous Reply
+              </button>
+<button class="px-3 py-1 rounded-full text-label font-label text-muted-silver hover:text-starlight-white hover:bg-surface-container-high transition-colors">
+                Internal Clinical Note (Confidential)
+              </button>
+</div>
+<div class="flex items-center gap-1.5 text-muted-silver text-label font-label">
+<span class="material-symbols-outlined text-sm text-tertiary">check_circle</span>
+<span class="text-body-sm font-body-sm">Safe Buffer Active</span>
+</div>
+</div>
+<!-- Clinical Macro Quick-Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-2 mb-1 scrollbar-none">
+<span class="text-label font-label text-muted-silver whitespace-nowrap mr-1">Insert Protocol:</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-body-sm font-body-sm text-starlight-white hover:bg-surface-container-high border border-outline-variant/30 whitespace-nowrap transition-colors">
+              Grounding Prompt
+            </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-body-sm font-body-sm text-starlight-white hover:bg-surface-container-high border border-outline-variant/30 whitespace-nowrap transition-colors">
+              Safety Validation
+            </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-body-sm font-body-sm text-starlight-white hover:bg-surface-container-high border border-outline-variant/30 whitespace-nowrap transition-colors">
+              Breathing Cadence
+            </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-body-sm font-body-sm text-starlight-white hover:bg-surface-container-high border border-outline-variant/30 whitespace-nowrap transition-colors">
+              CBT Reframing
+            </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-body-sm font-body-sm text-secondary hover:bg-surface-container-high border border-secondary/40 whitespace-nowrap transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">attach_file</span>
+              Attach Safe Resource
+            </button>
+</div>
+<!-- Input Composer Form -->
+<div class="relative bg-canvas-deep rounded-DEFAULT border border-outline-variant/40 focus-within:border-secondary-container transition-colors">
+<textarea class="w-full bg-transparent p-3 text-body-md font-body-md text-starlight-white placeholder:text-muted-silver focus:outline-none resize-none" placeholder="Type an empathic, validating response or use protocols above..." rows="3">You're carrying a massive burden trying to be flawless for both your family and work. What would happen if we gave yourself permission to set just one small thing down for the next 15 minutes?</textarea>
+<div class="flex items-center justify-between px-3 py-2 border-t border-outline-variant/20 bg-canvas-deep/40 rounded-b-DEFAULT">
+<div class="flex items-center gap-2 text-muted-silver text-body-sm font-body-sm">
+<span class="font-mono-data text-xs">178 / 500 chars</span>
+<span>•</span>
+<span class="text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">sentiment_satisfied</span> Non-judgmental tone detected
+                </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 rounded-full text-muted-silver hover:text-starlight-white hover:bg-surface-container">
+<span class="material-symbols-outlined text-base">mic</span>
+</button>
+<button class="px-4 py-1.5 rounded-full bg-primary-container text-starlight-white hover:opacity-90 font-label text-label flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+<span>Send</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PANE 3: Right Actionable Intelligence & Inspector Pane -->
+<aside class="w-80 bg-elevated-onyx flex flex-col h-full overflow-y-auto border-l border-outline-variant/30 shrink-0 p-4 space-y-4">
+<!-- Inspector Header -->
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">analytics</span>
+<span class="text-headline-sm font-headline-sm font-semibold text-starlight-white">Telemetry &amp; Triage</span>
+</div>
+<span class="font-mono-data text-[11px] text-tertiary bg-mint/10 border border-mint/30 px-2 py-0.5 rounded-full">REALTIME</span>
+</div>
+<!-- 1. Thread Overview Card -->
+<div class="bg-canvas-deep rounded-DEFAULT p-3.5 border border-outline-variant/20 space-y-2.5">
+<div class="text-label font-label text-muted-silver uppercase tracking-wider font-semibold">Session Profile</div>
+<div class="grid grid-cols-2 gap-2 text-body-sm font-body-sm">
+<div>
+<div class="text-muted-silver">Seeker Token</div>
+<div class="font-mono-data text-starlight-white font-medium">XN-442-991</div>
+</div>
+<div>
+<div class="text-muted-silver">Client IP</div>
+<div class="font-mono-data text-mint font-medium">Tor-Shielded</div>
+</div>
+<div>
+<div class="text-muted-silver">Queue Wait Time</div>
+<div class="font-mono-data text-starlight-white">01m 14s</div>
+</div>
+<div>
+<div class="text-muted-silver">Response Latency</div>
+<div class="font-mono-data text-starlight-white">02m 04s</div>
+</div>
+</div>
+</div>
+<!-- 2. Real-Time Risk & NLP Telemetry Card -->
+<div class="bg-canvas-deep rounded-DEFAULT p-3.5 border border-outline-variant/20 space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-label font-label text-muted-silver uppercase tracking-wider font-semibold">NLP Risk Engine</span>
+<span class="px-2 py-0.5 rounded-full bg-mint/20 text-tertiary-fixed font-mono-data text-[11px] font-semibold">Tier 4</span>
+</div>
+<!-- Risk Level Indicator Pill -->
+<div class="p-2.5 rounded-DEFAULT bg-surface-container-low border border-mint/30 flex items-center gap-2.5">
+<span class="material-symbols-outlined text-mint text-xl">verified</span>
+<div>
+<div class="text-label font-label font-semibold text-starlight-white">Mild / Moderate Panic</div>
+<div class="text-body-sm font-body-sm text-tertiary-fixed">Non-Crisis • Somatic Load</div>
+</div>
+</div>
+<!-- Engine Sub-Metrics -->
+<div class="space-y-1.5 text-body-sm font-body-sm">
+<div class="flex justify-between items-center text-muted-silver">
+<span>Active Red Flags</span>
+<span class="font-mono-data text-mint font-semibold">0 Flags Detected</span>
+</div>
+<div class="flex justify-between items-center text-muted-silver">
+<span>Suicidal Ideation Probability</span>
+<span class="font-mono-data text-starlight-white">0.0%</span>
+</div>
+<div class="flex justify-between items-center text-muted-silver">
+<span>Self-Harm Indicators</span>
+<span class="font-mono-data text-starlight-white">0.0%</span>
+</div>
+<div class="flex justify-between items-center text-muted-silver">
+<span>Psychosis / Disorientation</span>
+<span class="font-mono-data text-starlight-white">0.0%</span>
+</div>
+</div>
+<!-- Cognitive Distortion Tags -->
+<div class="pt-2 border-t border-outline-variant/20">
+<div class="text-[11px] font-mono-data text-muted-silver mb-1.5">DETECTED COGNITIVE DISTORTIONS</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-peach/20 text-peach border border-peach/30 text-label font-label">
+                Catastrophizing
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-muted-silver border border-outline-variant/30 text-label font-label">
+                Overgeneralization
+              </span>
+</div>
+</div>
+</div>
+<!-- 3. One-Click Clinical Snippets & Guided Protocols -->
+<div class="bg-canvas-deep rounded-DEFAULT p-3.5 border border-outline-variant/20 space-y-2.5">
+<div class="text-label font-label text-muted-silver uppercase tracking-wider font-semibold">Clinical Protocols</div>
+<div class="space-y-1.5">
+<button class="w-full text-left p-2 rounded-DEFAULT bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 flex items-center justify-between transition-colors group">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">air</span>
+<span class="text-body-sm font-body-sm text-starlight-white group-hover:text-primary">4-7-8 Breathing Guidance</span>
+</div>
+<span class="material-symbols-outlined text-xs text-muted-silver">arrow_forward</span>
+</button>
+<button class="w-full text-left p-2 rounded-DEFAULT bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 flex items-center justify-between transition-colors group">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-mint text-sm">anchor</span>
+<span class="text-body-sm font-body-sm text-starlight-white group-hover:text-primary">De-escalation &amp; Anchor</span>
+</div>
+<span class="material-symbols-outlined text-xs text-muted-silver">arrow_forward</span>
+</button>
+<button class="w-full text-left p-2 rounded-DEFAULT bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 flex items-center justify-between transition-colors group">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm">menu_book</span>
+<span class="text-body-sm font-body-sm text-starlight-white group-hover:text-primary">Resource: Work Stress Guide</span>
+</div>
+<span class="material-symbols-outlined text-xs text-muted-silver">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- 4. Primary Escalation & Triage Controls -->
+<div class="space-y-2 pt-2 mt-auto">
+<div class="text-[11px] font-mono-data text-muted-silver mb-1">TRIAGE DISPOSITION ACTIONS</div>
+<!-- Escalate to Tier 1 Crisis (Rose Button) -->
+<button class="w-full py-2.5 px-3 rounded-full bg-rose hover:bg-rose/90 text-starlight-white font-label text-label flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-base">emergency</span>
+<span>Escalate to Tier 1 Crisis</span>
+</button>
+<!-- Initiate Peer Handoff (Azure Blue Button) -->
+<button class="w-full py-2.5 px-3 rounded-full bg-secondary-container hover:bg-secondary-container/90 text-starlight-white font-label text-label flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-base">sync_alt</span>
+<span>Initiate Peer Handoff</span>
+</button>
+<!-- Mark Resolved & Shred Ephemeral Cache (Vibrant Coral Button) -->
+<button class="w-full py-2.5 px-3 rounded-full bg-primary-container hover:opacity-90 text-starlight-white font-label text-label flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">lock_reset</span>
+<span>Mark Resolved &amp; Shred Cache</span>
+</button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

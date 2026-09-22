@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Anonymous Thread - Xinnection</title>
+<!-- Fonts: Outfit & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "mint": "#059669",
+            "on-tertiary": "#003824",
+            "error-container": "#93000a",
+            "surface-container-highest": "#403130",
+            "muted-silver": "#A1A1AA",
+            "surface-bright": "#453635",
+            "background": "#1c1010",
+            "secondary": "#adc6ff",
+            "primary-container": "#ff6b6b",
+            "on-secondary": "#002e6a",
+            "canvas-deep": "#09090B",
+            "on-error": "#690005",
+            "on-primary-container": "#6d0010",
+            "on-tertiary-container": "#003b26",
+            "secondary-fixed": "#d8e2ff",
+            "primary-fixed": "#ffdad8",
+            "tertiary-fixed-dim": "#52dea2",
+            "surface-container-lowest": "#160b0b",
+            "on-tertiary-fixed": "#002113",
+            "on-background": "#f5dddb",
+            "lavender": "#4F46E5",
+            "surface-dim": "#1c1010",
+            "inverse-on-surface": "#3b2d2c",
+            "inverse-primary": "#ae2f34",
+            "error": "#ffb4ab",
+            "surface-container-high": "#352726",
+            "on-secondary-fixed-variant": "#004395",
+            "rose": "#DB2777",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-surface-variant": "#e0bfbd",
+            "surface-variant": "#403130",
+            "on-primary": "#68000f",
+            "on-error-container": "#ffdad6",
+            "primary-fixed-dim": "#ffb3b0",
+            "secondary-container": "#0566d9",
+            "surface-container": "#291c1c",
+            "tertiary": "#52dea2",
+            "on-primary-fixed-variant": "#8c1520",
+            "surface-tint": "#ffb3b0",
+            "tertiary-container": "#00b179",
+            "outline": "#a78a88",
+            "on-secondary-container": "#e6ecff",
+            "on-secondary-fixed": "#001a42",
+            "tertiary-fixed": "#72fbbc",
+            "surface": "#1c1010",
+            "starlight-white": "#FAFAFA",
+            "elevated-onyx": "#18181B",
+            "primary": "#ffb3b0",
+            "outline-variant": "#584140",
+            "inverse-surface": "#f5dddb",
+            "surface-container-low": "#251818",
+            "on-surface": "#f5dddb",
+            "peach": "#EA580C",
+            "on-primary-fixed": "#410006"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "margin": "1.25rem"
+          },
+          "fontFamily": {
+            "mono-data": ["JetBrains Mono"],
+            "body-md": ["Outfit"],
+            "headline-lg": ["Outfit"],
+            "label": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "body-lg": ["Outfit"],
+            "headline-xl": ["Outfit"],
+            "headline-md": ["Outfit"]
+          },
+          "fontSize": {
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Subtle breathing pulse animation */
+    @keyframes pulse-gentle {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    .animate-breath-1 { animation: pulse-gentle 1.8s infinite ease-in-out; }
+    .animate-breath-2 { animation: pulse-gentle 1.8s infinite ease-in-out 0.3s; }
+    .animate-breath-3 { animation: pulse-gentle 1.8s infinite ease-in-out 0.6s; }
+
+    /* Custom scrollbar hide for mobile feel */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-canvas-deep text-starlight-white font-body-md text-body-md antialiased min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP STICKY APP BAR (Focused Chat Journey - Nav shell suppressed to prioritize privacy canvas) -->
+<header class="sticky top-0 z-40 w-full bg-canvas-deep/95 backdrop-blur-md px-margin py-space-sm flex items-center justify-between shadow-sm">
+<!-- Back / Navigation Exit -->
+<a aria-label="Exit thread safely" class="w-10 h-10 rounded-full bg-elevated-onyx flex items-center justify-center text-muted-silver hover:text-starlight-white active:scale-95 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<!-- Thread ID & Ephemeral Badge -->
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-mint shadow-[0_0_8px_rgba(5,150,105,0.8)]"></span>
+<span class="font-mono-data text-mono-data font-medium text-starlight-white tracking-tight">Thread XN-442-991</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-mint">lock</span>
+<span class="font-label text-[11px] text-muted-silver tracking-wide">Zero Logs Encrypted</span>
+</div>
+</div>
+<!-- Prominent "Delete My Data" Destructive Action -->
+<button class="bg-rose/15 hover:bg-rose/25 text-rose border border-rose/30 font-label text-label px-3 py-1.5 rounded-full inline-flex items-center gap-1 active:scale-95 transition-all duration-150 shadow-sm" id="purgeDataBtn" title="Permanently delete all session trace" type="button">
+<span class="material-symbols-outlined text-[15px]">delete</span>
+<span class="font-medium">Delete My Data</span>
+</button>
+</header>
+<!-- MAIN CHAT STREAM -->
+<main class="flex-1 w-full max-w-2xl mx-auto px-margin pt-space-md pb-36 overflow-y-auto no-scrollbar flex flex-col gap-space-lg">
+<!-- System Security Handshake Banner -->
+<div class="mx-auto w-full max-w-sm bg-elevated-onyx/80 border border-white/5 rounded-DEFAULT p-space-md shadow-sm text-center flex flex-col items-center gap-1.5">
+<div class="w-8 h-8 rounded-full bg-canvas-deep flex items-center justify-center text-mint">
+<span class="material-symbols-outlined text-base">shield</span>
+</div>
+<p class="font-label text-label text-starlight-white font-medium">Anonymous Session Established</p>
+<p class="font-body-sm text-body-sm text-muted-silver leading-relaxed">
+        No IP address, identity, or browser cookies recorded. Memory ephemeral buffer active with instant shredding on close.
+      </p>
+</div>
+<!-- User Seeker Question / Reflection (Right Aligned) -->
+<div class="flex flex-col items-end gap-1.5 max-w-[88%] self-end">
+<!-- Category Pill -->
+<div class="inline-flex items-center gap-1 bg-mint/20 border border-mint/30 text-mint font-label text-[11px] font-semibold px-2.5 py-0.5 rounded-full mb-1">
+<span class="material-symbols-outlined text-[13px]">spa</span>
+<span>Panic &amp; Anxiety</span>
+</div>
+<!-- Bubble Container -->
+<div class="bg-elevated-onyx border border-white/10 rounded-2xl rounded-tr-sm p-space-md shadow-md text-starlight-white">
+<p class="font-body-md text-body-md leading-relaxed font-normal">
+          I’ve been feeling an overwhelming amount of panic about my work and family responsibilities lately. It feels like I can't catch a full breath and I don't really have anyone I can admit this to without feeling like a burden.
+        </p>
+</div>
+<!-- Bubble Metadata -->
+<div class="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pr-1">
+<span class="font-mono-data text-[11px]">10:42 PM</span>
+<span>•</span>
+<span class="inline-flex items-center gap-0.5 text-mint font-medium">
+<span class="material-symbols-outlined text-[13px]">done_all</span>
+          Delivered • Encrypted
+        </span>
+</div>
+</div>
+<!-- Peer Connected System Pill -->
+<div class="flex items-center justify-center my-1">
+<div class="inline-flex items-center gap-2 bg-elevated-onyx/90 border border-white/10 px-3.5 py-1.5 rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-lavender animate-ping"></span>
+<span class="font-label text-label text-muted-silver">
+<span class="text-starlight-white font-medium">Julian M.</span> connected • Verified Level 2 Peer Responder
+        </span>
+</div>
+</div>
+<!-- Professional Peer Reply (Left Aligned) -->
+<div class="flex flex-col items-start gap-1.5 max-w-[90%] self-start">
+<!-- Verified Responder Card Header -->
+<div class="flex items-center gap-2 px-1">
+<div class="w-7 h-7 rounded-full bg-lavender/30 border border-lavender/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]">support_agent</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label text-label font-semibold text-starlight-white">Julian M.</span>
+<span class="inline-flex items-center gap-0.5 bg-lavender/20 text-secondary border border-lavender/40 px-2 py-0.2 rounded-full text-[10px] font-medium">
+<span class="material-symbols-outlined text-[11px]">verified</span>
+            Crisis &amp; Peer Specialist • L2
+          </span>
+</div>
+</div>
+<!-- Message Content -->
+<div class="bg-elevated-onyx/90 border border-lavender/25 rounded-2xl rounded-tl-sm p-space-md shadow-md text-starlight-white relative overflow-hidden">
+<!-- Subtle ambient highlight accent -->
+<div class="absolute -top-10 -right-10 w-24 h-24 bg-lavender/10 rounded-full blur-xl pointer-events-none"></div>
+<p class="font-body-md text-body-md leading-relaxed">
+          Hi, I'm Julian. I hear how heavy and suffocating that weight feels right now. First, take a slow breath with me—you don't have to carry all of it in this exact moment, and you are never a burden here. We have plenty of time.
+        </p>
+<p class="font-body-md text-body-md leading-relaxed mt-2.5">
+          When you feel ready, tell me what feels most pressing right now.
+        </p>
+</div>
+<!-- Responder Timestamp -->
+<div class="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pl-1">
+<span class="font-mono-data text-[11px]">10:44 PM</span>
+<span>•</span>
+<span class="text-secondary font-medium">Verified Responder</span>
+</div>
+</div>
+<!-- Live Empathy Status / Typing Indicator -->
+<div class="flex items-center gap-2.5 px-2 py-1.5 max-w-fit">
+<div class="flex items-center gap-1 bg-elevated-onyx px-2.5 py-1.5 rounded-full border border-white/5 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-breath-1"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-breath-2"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-breath-3"></span>
+</div>
+<span class="font-label text-body-sm text-muted-silver italic">Julian is reflecting on your message...</span>
+</div>
+</main>
+<!-- STICKY BOTTOM COMPOSER BAR & DOCKED CONTROLS -->
+<footer class="fixed bottom-0 left-0 w-full z-40 bg-gradient-to-t from-canvas-deep via-canvas-deep to-canvas-deep/80 backdrop-blur-lg pt-2 pb-safe">
+<div class="max-w-2xl mx-auto px-margin pb-space-sm flex flex-col gap-2">
+<!-- Interactive Composer Box -->
+<div class="bg-elevated-onyx border border-white/15 rounded-2xl p-2 shadow-xl flex items-end gap-2 focus-within:border-secondary transition-colors duration-150">
+<!-- Auxiliary Action Button: Voice note -->
+<button aria-label="Voice memo option" class="w-10 h-10 rounded-full flex items-center justify-center text-muted-silver hover:text-starlight-white active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<!-- Auxiliary Action Button: Breathing Prompt Modal Trigger -->
+<button aria-label="Guided breathing exercise" class="w-10 h-10 rounded-full flex items-center justify-center text-tertiary hover:text-tertiary-fixed active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">spa</span>
+</button>
+<!-- Dynamic Input Textarea -->
+<div class="flex-1 py-1.5">
+<textarea class="w-full bg-transparent border-0 p-0 text-starlight-white placeholder:text-muted-silver font-body-md text-body-md resize-none focus:ring-0 focus:outline-none max-h-24 overflow-y-auto leading-relaxed" placeholder="Type without filter... (Anonymous)" rows="1"></textarea>
+</div>
+<!-- Primary Send Button in Vibrant Coral -->
+<button aria-label="Send message anonymously" class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container font-semibold flex items-center justify-center shadow-lg hover:brightness-110 active:scale-95 transition-transform duration-150 flex-shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
+</button>
+</div>
+<!-- Confidentiality Reassurance -->
+<div class="flex items-center justify-center gap-2 text-center pb-1">
+<span class="material-symbols-outlined text-[13px] text-muted-silver">lock</span>
+<p class="font-mono-data text-[11px] text-muted-silver tracking-tight">
+          Zero-knowledge encryption • Instant purge on exit
+        </p>
+</div>
+</div>
+</footer>
+<!-- Instant Data Purge Confirmation Toast Simulation -->
+<div class="fixed inset-0 z-50 bg-canvas-deep/80 backdrop-blur-sm flex items-center justify-center p-space-md hidden opacity-0 transition-opacity duration-200" id="purgeModal">
+<div class="bg-elevated-onyx border border-rose/30 rounded-DEFAULT p-space-lg max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-rose/15 border border-rose/30 flex items-center justify-center text-rose mb-space-sm">
+<span class="material-symbols-outlined text-2xl">delete_forever</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-starlight-white mb-1">Purge All Session Data?</h3>
+<p class="font-body-md text-body-md text-muted-silver mb-space-lg leading-relaxed">
+        This will immediately drop cryptographic keys, terminate the peer connection, and zero-fill this conversation memory permanently.
+      </p>
+<div class="flex items-center gap-space-sm w-full">
+<button class="flex-1 py-2.5 rounded-full border border-white/10 text-muted-silver hover:text-starlight-white font-label text-label font-medium active:scale-95 transition-all" id="cancelPurge" type="button">
+          Cancel
+        </button>
+<button class="flex-1 py-2.5 rounded-full bg-rose text-white font-label text-label font-semibold shadow-md active:scale-95 transition-all" id="confirmPurge" type="button">
+          Purge Now
+        </button>
+</div>
+</div>
+</div>
+<script>
+    // Lightweight interactivity for Purge Modal
+    const purgeBtn = document.getElementById('purgeDataBtn');
+    const purgeModal = document.getElementById('purgeModal');
+    const cancelPurge = document.getElementById('cancelPurge');
+    const confirmPurge = document.getElementById('confirmPurge');
+
+    function openModal() {
+      purgeModal.classList.remove('hidden');
+      setTimeout(() => {
+        purgeModal.classList.remove('opacity-0');
+      }, 10);
+    }
+
+    function closeModal() {
+      purgeModal.classList.add('opacity-0');
+      setTimeout(() => {
+        purgeModal.classList.add('hidden');
+      }, 200);
+    }
+
+    if (purgeBtn) purgeBtn.addEventListener('click', openModal);
+    if (cancelPurge) cancelPurge.addEventListener('click', closeModal);
+    if (confirmPurge) confirmPurge.addEventListener('click', () => {
+      document.body.innerHTML = `
+        <div class="min-h-screen bg-canvas-deep flex flex-col items-center justify-center p-space-lg text-center">
+          <div class="w-16 h-16 rounded-full bg-mint/20 border border-mint/40 text-mint flex items-center justify-center mb-space-md">
+            <span class="material-symbols-outlined text-3xl">verified_user</span>
+          </div>
+          <h1 class="font-headline-md text-headline-md font-bold text-starlight-white mb-2">Memory Purged Safely</h1>
+          <p class="font-body-md text-body-md text-muted-silver max-w-xs mb-space-lg">All temporary keys shredded. No traces remain on this device or peer relays.</p>
+          <a href="#" class="px-space-lg py-2.5 bg-elevated-onyx border border-white/15 rounded-full text-starlight-white font-label text-label font-medium hover:bg-white/10 active:scale-95 transition-all">Return to Sanctuary</a>
+        </div>
+      `;
+    });
+  </script>
+</body></html>

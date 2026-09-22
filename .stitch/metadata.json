@@ -1,0 +1,16 @@
+{
+  "name": "projects/7991746999673486343",
+  "projectId": "7991746999673486343",
+  "title": "Xinnection Redesign",
+  "visibility": "PRIVATE",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "designSystemId": "54470ba4014448e29b86e4105779661d",
+  "screens": {
+    "087bf67571dd4236bafaf34496af3f6a": "Seeker Landing Page (Clinical V1)",
+    "83ae92eb91de435081d9154b3483a66a": "Seeker Landing Page (Vibrant)",
+    "f3e87b207e2f438f987fb7e22cfea201": "Professional Triage Dashboard",
+    "e9adfb032a5941f7bfd2f9d6555c4e90": "Seeker Landing Page (Vibrant Dark Mode)",
+    "a52b48934b204a7993f73c513bbed608": "Seeker Landing Page (Final Dark Mode No Card)"
+  }
+}

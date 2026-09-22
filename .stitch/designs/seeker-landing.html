@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xinnection - Peer Mental Health Support</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Outfit & JetBrains Mono Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary": "#003824",
+            "primary-fixed": "#ffdad8",
+            "secondary": "#adc6ff",
+            "tertiary-fixed": "#72fbbc",
+            "on-primary-fixed": "#410006",
+            "error-container": "#93000a",
+            "on-tertiary-fixed": "#002113",
+            "secondary-fixed": "#d8e2ff",
+            "on-secondary-container": "#e6ecff",
+            "on-surface-variant": "#e0bfbd",
+            "peach": "#EA580C",
+            "primary-container": "#ff6b6b",
+            "secondary-container": "#0566d9",
+            "on-secondary-fixed": "#001a42",
+            "surface-container-high": "#352726",
+            "background": "#1c1010",
+            "outline": "#a78a88",
+            "primary": "#ffb3b0",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#002e6a",
+            "on-primary-container": "#6d0010",
+            "on-error": "#690005",
+            "on-tertiary-container": "#003b26",
+            "tertiary-fixed-dim": "#52dea2",
+            "tertiary": "#52dea2",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-surface": "#f5dddb",
+            "surface-dim": "#1c1010",
+            "surface-tint": "#ffb3b0",
+            "surface-container-highest": "#403130",
+            "rose": "#DB2777",
+            "surface-container": "#291c1c",
+            "canvas-deep": "#09090B",
+            "starlight-white": "#FAFAFA",
+            "on-surface": "#f5dddb",
+            "on-primary-fixed-variant": "#8c1520",
+            "primary-fixed-dim": "#ffb3b0",
+            "elevated-onyx": "#18181B",
+            "outline-variant": "#584140",
+            "muted-silver": "#A1A1AA",
+            "surface-bright": "#453635",
+            "surface-container-low": "#251818",
+            "inverse-primary": "#ae2f34",
+            "surface-container-lowest": "#160b0b",
+            "mint": "#059669",
+            "inverse-on-surface": "#3b2d2c",
+            "on-background": "#f5dddb",
+            "surface-variant": "#403130",
+            "tertiary-container": "#00b179",
+            "on-secondary-fixed-variant": "#004395",
+            "surface": "#1c1010",
+            "on-primary": "#68000f",
+            "lavender": "#4F46E5",
+            "secondary-fixed-dim": "#adc6ff",
+            "error": "#ffb4ab"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "margin": "1.25rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "mono-data": ["JetBrains Mono"],
+            "headline-xl": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "body-md": ["Outfit"],
+            "label": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "body-lg": ["Outfit"],
+            "headline-lg": ["Outfit"]
+          },
+          "fontSize": {
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #403130;
+      border-radius: 4px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-canvas-deep text-on-surface font-body-md min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container relative pb-52">
+<!-- Ambient Glow Behind Deep Canvas -->
+<div aria-hidden="true" class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-96 bg-primary-container/5 blur-3xl pointer-events-none rounded-full"></div>
+<!-- SHARED COMPONENT: TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-space-md py-space-sm w-full bg-surface-container/95 dark:bg-surface-container/95 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-2">
+<span class="p-1.5 rounded-full bg-elevated-onyx text-primary flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-on-surface tracking-tight">Xinnection</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs px-2.5 py-1 rounded-full bg-surface-container-high text-muted-silver font-medium border border-outline-variant/30 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">spa</span>
+<span>Peer Sanctuary</span>
+</span>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="w-full max-w-md mx-auto pt-16 px-margin flex flex-col gap-6">
+<!-- Reassurance Banner & Grounding Micro-copy -->
+<div class="pt-2 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-2 overflow-x-auto pb-1">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-elevated-onyx border border-outline-variant/40 shadow-sm text-starlight-white text-xs font-label">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="tracking-wide">24/7 Live</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-elevated-onyx border border-outline-variant/40 shadow-sm text-muted-silver text-xs font-label">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[15px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="tracking-wide">100% Anonymous &amp; Encrypted</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm italic text-muted-silver/90 text-center tracking-wide">
+        Take your time. Pause. Exhale.
+      </p>
+</div>
+<!-- Hero Section -->
+<section class="flex flex-col gap-2.5 text-left pt-1">
+<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">WE GET YOU.<br/><span class="text-[#FF6B6B]">WE GOT YOU.</span></h1>
+<p class="font-body-md text-body-md text-muted-silver leading-relaxed max-w-sm">
+        Unhurried, gentle listening without judgment. Connect with verified peer companions guarded by strict end-to-end privacy.
+      </p>
+</section>
+<!-- Interactive Reflection Composer -->
+<section class="relative">
+<div class="bg-elevated-onyx rounded-2xl p-space-md border border-outline-variant/50 shadow-xl transition-all duration-200 focus-within:border-primary-container/80 focus-within:ring-1 focus-within:ring-primary-container/40">
+<!-- Status Badge Header inside Composer -->
+<div class="flex items-center justify-between pb-3 mb-2 border-b border-outline-variant/30">
+<div class="flex items-center gap-1.5">
+<span class="h-2 w-2 rounded-full bg-tertiary"></span>
+<span class="font-label text-label text-starlight-white font-medium">Safe &amp; unmoderated until shared</span>
+</div>
+<div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high/80 text-muted-silver font-mono-data text-[11px]">
+<span class="material-symbols-outlined text-[13px]">lock</span>
+<span>Local draft</span>
+</div>
+</div>
+<!-- Generous Textarea -->
+<div class="relative py-1">
+<textarea class="w-full bg-transparent border-0 resize-none text-starlight-white placeholder:text-muted-silver/60 font-body-lg text-body-lg leading-relaxed focus:outline-none focus:ring-0 p-0 custom-scrollbar" id="reflection-input" maxlength="800" placeholder="What is on your mind today? Write without filter..." rows="5"></textarea>
+</div>
+<!-- Composer Bottom Controls -->
+<div class="pt-3 mt-1 flex items-center justify-between border-t border-outline-variant/30">
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-starlight-white transition-colors duration-150 active:scale-95 text-xs font-label" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">mic</span>
+<span>Speak</span>
+</button>
+<button class="p-1.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-muted-silver hover:text-starlight-white transition-colors duration-150 active:scale-95" title="Add gentle prompt" type="button">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-mono-data text-mono-data text-muted-silver/80" id="char-counter">0 / 800</span>
+</div>
+</div>
+<!-- Helper Assurance -->
+<div class="mt-3 pt-2 flex items-center justify-center gap-1.5 text-muted-silver/70 font-body-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-tertiary">verified_user</span>
+<span>Your identity remains completely hidden</span>
+</div>
+</div>
+</section>
+<!-- Colorful Category Pills ('Theme Context') -->
+<section class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-0.5">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-starlight-white tracking-tight">Theme Context</h2>
+<span class="font-body-sm text-body-sm text-muted-silver">Select if applicable</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="theme-pill-group">
+<!-- Anxiety (Mint) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-tertiary/10 border border-tertiary/25 hover:border-tertiary/60 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-tertiary shadow-[0_0_8px_rgba(82,222,162,0.8)]"></span>
+<span class="font-body-md text-body-md font-medium text-tertiary-fixed">Anxiety</span>
+</button>
+<!-- Relationships (Lavender) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-lavender/15 border border-lavender/30 hover:border-lavender/70 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-secondary-fixed shadow-[0_0_8px_rgba(79,70,229,0.8)]"></span>
+<span class="font-body-md text-body-md font-medium text-secondary-fixed">Relationships</span>
+</button>
+<!-- Grief (Peach/Amber) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-peach/15 border border-peach/30 hover:border-peach/70 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-peach shadow-[0_0_8px_rgba(234,88,12,0.8)]"></span>
+<span class="font-body-md text-body-md font-medium text-primary-fixed">Grief</span>
+</button>
+<!-- Burnout (Rose) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-rose/15 border border-rose/30 hover:border-rose/70 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-rose shadow-[0_0_8px_rgba(219,39,119,0.8)]"></span>
+<span class="font-body-md text-body-md font-medium text-primary-fixed-dim">Burnout</span>
+</button>
+<!-- Loneliness (Cyan/Azure) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-secondary-container/20 border border-secondary-container/40 hover:border-secondary-container/80 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(5,102,217,0.8)]"></span>
+<span class="font-body-md text-body-md font-medium text-on-secondary-container">Loneliness</span>
+</button>
+<!-- Transitions (Warm Plum / Mauve) -->
+<button class="group relative flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-high border border-outline-variant/60 hover:border-primary/50 transition-all duration-150 text-left active:scale-95" type="button">
+<span class="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(255,179,176,0.6)]"></span>
+<span class="font-body-md text-body-md font-medium text-on-surface-variant">Transitions</span>
+</button>
+</div>
+</section>
+<!-- Additional Ambient Grounding Card -->
+<section class="mt-1 p-4 rounded-xl bg-elevated-onyx/70 border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[22px] mt-0.5">favorite</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-sm text-sm font-semibold text-starlight-white">Always here, without timer</span>
+<p class="font-body-sm text-body-sm text-muted-silver">Every response is voluntary, attentive, and handled by peers who walk the road with you.</p>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Action Area & Navigation Wrapper -->
+<div class="fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center">
+<!-- Primary CTA Floating Tray (with blur over canvas) -->
+<div class="w-full max-w-md px-margin pb-2 pt-3 bg-gradient-to-t from-canvas-deep via-canvas-deep/95 to-transparent backdrop-blur-sm flex flex-col items-center gap-1.5">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-primary-container/20 hover:brightness-105 active:scale-95 transition-all duration-150" type="button">
+<span>Submit Anonymously</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+<span class="font-body-sm text-[11px] text-muted-silver/80 tracking-wide text-center">
+        Encrypted &amp; untracked • Ephemeral storage
+      </span>
+</div>
+<!-- SHARED COMPONENT: BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-sm bg-surface-container/95 dark:bg-surface-container/95 backdrop-blur-md shadow-lg">
+<!-- Reflect (Active Tab - direct intent of the composer/landing) -->
+<a class="flex flex-col items-center justify-center text-primary-container dark:text-primary-container font-semibold transition-colors duration-200 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+<span class="font-label text-label mt-0.5">Reflect</span>
+</a>
+<!-- Community -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors duration-200 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[22px]">groups</span>
+<span class="font-label text-label mt-0.5">Community</span>
+</a>
+<!-- Resources -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors duration-200 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[22px]">menu_book</span>
+<span class="font-label text-label mt-0.5">Resources</span>
+</a>
+<!-- Support -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors duration-200 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[22px]">volunteer_activism</span>
+<span class="font-label text-label mt-0.5">Support</span>
+</a>
+</nav>
+</div>
+<script>
+    // Character Counter Micro-interaction
+    const textarea = document.getElementById('reflection-input');
+    const counter = document.getElementById('char-counter');
+
+    if (textarea && counter) {
+      textarea.addEventListener('input', (e) => {
+        const len = e.target.value.length;
+        counter.textContent = `${len} / 800`;
+        if (len > 700) {
+          counter.classList.add('text-primary-container');
+          counter.classList.remove('text-muted-silver/80');
+        } else {
+          counter.classList.remove('text-primary-container');
+          counter.classList.add('text-muted-silver/80');
+        }
+      });
+    }
+
+    // Toggle Category Pills Selection
+    const pillButtons = document.querySelectorAll('#theme-pill-group button');
+    pillButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('ring-2');
+        btn.classList.toggle('ring-primary-container');
+        btn.classList.toggle('scale-[1.02]');
+      });
+    });
+  </script>
+</body></html>

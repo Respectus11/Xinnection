@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xinnection Triage — Mental Health Clinical Workspace</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Script -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#b7c8e1",
+            "surface-container-lowest": "#ffffff",
+            "peach-text": "#9A3412",
+            "on-primary-fixed-variant": "#8c1520",
+            "secondary-fixed": "#d8e2ff",
+            "surface-container-low": "#f7f3ef",
+            "vibrant-coral": "#FF6B6B",
+            "primary": "#ae2f34",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#d3e4fe",
+            "surface-tint": "#ae2f34",
+            "on-secondary-fixed-variant": "#004395",
+            "error-container": "#ffdad6",
+            "warm-slate": "#64748B",
+            "primary-fixed": "#ffdad8",
+            "on-primary": "#ffffff",
+            "secondary-container": "#2170e4",
+            "inverse-on-surface": "#f4f0ec",
+            "rose-text": "#9D174D",
+            "secondary": "#0058be",
+            "tertiary-container": "#8c9cb5",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#001a42",
+            "surface-container-high": "#ebe7e4",
+            "background": "#fdf9f5",
+            "lavender-bg": "#E0E7FF",
+            "on-error": "#ffffff",
+            "peach-bg": "#FFEDD5",
+            "error": "#ba1a1a",
+            "surface-bright": "#fdf9f5",
+            "on-tertiary-fixed-variant": "#38485d",
+            "deep-midnight": "#0F172A",
+            "secondary-fixed-dim": "#adc6ff",
+            "rose-bg": "#FCE7F3",
+            "tertiary": "#505f76",
+            "pure-surface": "#FFFFFF",
+            "on-surface": "#1c1c19",
+            "surface-dim": "#ddd9d6",
+            "surface-variant": "#e5e2de",
+            "on-background": "#1c1c19",
+            "on-primary-fixed": "#410006",
+            "on-surface-variant": "#584140",
+            "on-error-container": "#93000a",
+            "primary-fixed-dim": "#ffb3b0",
+            "on-secondary-container": "#fefcff",
+            "on-tertiary-fixed": "#0b1c30",
+            "inverse-primary": "#ffb3b0",
+            "primary-container": "#ff6b6b",
+            "on-tertiary-container": "#243448",
+            "outline-variant": "#e0bfbd",
+            "outline": "#8c706f",
+            "canvas-sunrise": "#FFFBF7",
+            "azure-blue": "#3B82F6",
+            "on-primary-container": "#6d0010",
+            "surface-container-highest": "#e5e2de",
+            "mint-text": "#065F46",
+            "surface-container": "#f1ede9",
+            "surface": "#fdf9f5",
+            "lavender-text": "#3730A3",
+            "mint-bg": "#D1FAE5",
+            "inverse-surface": "#31302e"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Outfit"],
+            "body-lg": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "headline-lg": ["Outfit"],
+            "body-md": ["Outfit"],
+            "mono-data": ["JetBrains Mono"],
+            "label-md": ["Outfit"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "700" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "mono-data": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #fdf9f5;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e5e2de;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">
+<!-- ================= LEFT NAVIGATION SIDEBAR ================= -->
+<!-- Executed via Shared Components JSON SideNavBar specifications -->
+<aside class="h-screen w-64 flex flex-col justify-between p-space-md shrink-0 bg-pure-surface dark:bg-inverse-surface shadow-sm dark:shadow-none select-none z-20">
+<!-- Top Area: Brand & Responder Profile -->
+<div class="flex flex-col gap-space-md">
+<!-- Brand Logo / Product Anchor -->
+<div class="flex items-center gap-space-sm px-space-xs pt-space-xs">
+<div class="w-8 h-8 rounded-full bg-vibrant-coral flex items-center justify-center text-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined" data-icon="crisis_alert" style="font-variation-settings: 'FILL' 1;">crisis_alert</span>
+</div>
+<div>
+<span class="text-headline-sm font-headline-sm font-bold text-deep-midnight dark:text-inverse-on-surface tracking-tight">Xinnection</span>
+<span class="text-mono-data font-mono-data text-warm-slate block text-[10px] leading-3 uppercase tracking-wider">Clinical Workspace</span>
+</div>
+</div>
+<!-- Responder Status Card -->
+<div class="bg-surface-container-low dark:bg-surface-container-highest p-space-sm rounded-DEFAULT flex items-center gap-space-sm">
+<div class="relative shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm ring-2 ring-white" data-alt="A professional headshot of a clinical supervisor Dr. Aris Thorne in a warm modern therapy office setting. Natural daylight fills the airy clinical space, surrounded by subtle indoor plants and warm wooden shelving. Dr. Thorne has a welcoming, calm demeanor, styled with contemporary clean professional medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCJybpGiJYlWXbv86jOAhzYcmkWqmu45FMoB6mVmAyisB-Qk86l-G9-vvZ-zYTvpV-k3rmFFLEWPcseZAoNLSgpYnOTlBDD7_L1gq3UAujLqbmtXoJiqCNkaUlEWBI-3ztUqbit03-naJeH68NNEZvULly6RhLkvPFu1ZDJqxgIGeBVi4Nx6P4uc7j6HchyAKL9rViDM5s_veqBHqxPjJrS9o6GNk0waWrOHv1EHXVXy4y9_vlLQyMoFrO9dWbLh5Kj-Nu1W371qk"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-mint-text rounded-full ring-2 ring-white" title="Active on duty"></span>
+</div>
+<div class="flex-1 min-w-0">
+<h2 class="text-label-md font-label-md text-deep-midnight dark:text-inverse-on-surface truncate">Dr. Aris Thorne, LCSW</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-vibrant-coral animate-ping"></span>
+<span class="text-mono-data font-mono-data text-warm-slate truncate">On-Shift • Crisis Tier 2</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs (from Shared Components JSON: tab_labels & active styling) -->
+<nav class="flex flex-col gap-1 mt-space-xs">
+<!-- Live Triage Queue (ACTIVE TAB) -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container-low dark:bg-surface-container-highest text-primary dark:text-inverse-primary font-medium cursor-pointer active:scale-[0.99] transition-transform duration-150" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined" data-icon="inbox" style="font-variation-settings: 'FILL' 1;">inbox</span>
+<span class="text-label-md font-label-md">Live Triage Queue</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-primary text-white font-medium">42</span>
+</a>
+<!-- Escalations -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-warm-slate dark:text-tertiary-fixed-dim hover:text-deep-midnight dark:hover:text-surface-container-lowest transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-high cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-vibrant-coral" data-icon="warning">warning</span>
+<span class="text-label-md font-label-md">Escalations</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-rose-bg text-rose-text font-semibold">5</span>
+</a>
+<!-- My Active Chats -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-warm-slate dark:text-tertiary-fixed-dim hover:text-deep-midnight dark:hover:text-surface-container-lowest transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-high cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="text-label-md font-label-md">My Active Chats</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">3</span>
+</a>
+<!-- Handoff Log -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-warm-slate dark:text-tertiary-fixed-dim hover:text-deep-midnight dark:hover:text-surface-container-lowest transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-high cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span class="text-label-md font-label-md">Handoff Log</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">8</span>
+</a>
+<!-- Supervision & Insights -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-warm-slate dark:text-tertiary-fixed-dim hover:text-deep-midnight dark:hover:text-surface-container-lowest transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-high cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-md font-label-md">Supervision &amp; Insights</span>
+</div>
+</a>
+</nav>
+</div>
+<!-- Bottom Area: Shift Protocols & Duty Control -->
+<div class="flex flex-col gap-2 pt-space-md border-t border-surface-container-high/60">
+<!-- Audio alert pulse status -->
+<div class="flex items-center justify-between px-space-sm py-1.5 rounded-md bg-surface-container-low/70">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-warm-slate text-sm" data-icon="volume_up">volume_up</span>
+<span class="text-mono-data font-mono-data text-warm-slate text-[11px]">Audio Tone Alerts</span>
+</div>
+<span class="text-mono-data font-mono-data text-mint-text bg-mint-bg px-2 py-0.5 rounded text-[11px] font-medium">Chime On</span>
+</div>
+<!-- Footer navigation tabs from JSON -->
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-warm-slate hover:text-deep-midnight hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-label-md font-label-md">Shift Protocols</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-warm-slate hover:text-deep-midnight hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+<!-- CTA 'Go Off-Duty' from JSON -->
+<button class="mt-space-xs w-full py-2.5 px-space-md rounded-full bg-surface-container-high hover:bg-rose-bg text-warm-slate hover:text-rose-text text-label-md font-label-md font-semibold transition-all duration-150 flex items-center justify-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="power_settings_new">power_settings_new</span>
+<span>Go Off-Duty</span>
+</button>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT CANVA ================= -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden min-w-0 bg-canvas-sunrise">
+<!-- Top Utility Bar (TopNavBar integration from JSON) -->
+<header class="flex justify-between items-center w-full px-space-lg h-16 shrink-0 bg-pure-surface shadow-sm z-10">
+<!-- Search and view badge -->
+<div class="flex items-center gap-space-md flex-1 max-w-xl">
+<div class="relative w-80">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-warm-slate">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</span>
+<input class="w-full pl-9 pr-4 py-2 rounded-full bg-surface-container-low border-0 text-body-sm font-body-sm text-deep-midnight placeholder-warm-slate focus:ring-2 focus:ring-azure-blue transition-all outline-none" placeholder="Search Thread ID, keywords, seeker..." type="text"/>
+</div>
+<!-- Quick Emergency Broadcast Warning Status / Action -->
+<button class="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-rose-bg text-rose-text border border-rose-bg hover:bg-rose-text hover:text-pure-surface text-label-md font-label-md font-semibold transition-all active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="campaign" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span>Emergency Broadcast</span>
+</button>
+</div>
+<!-- Right Utility Actions -->
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center gap-2 px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high text-deep-midnight text-label-md font-label-md font-medium transition-colors cursor-pointer active:scale-95">
+<span class="material-symbols-outlined text-base" data-icon="drive_file_move">drive_file_move</span>
+<span>Batch Assign</span>
+</button>
+<div class="h-6 w-px bg-surface-container-high mx-1"></div>
+<button class="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-vibrant-coral ring-2 ring-pure-surface"></span>
+</button>
+<button class="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Filter Presets">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+<button class="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Clinical Protocol Help">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Body Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-space-lg py-space-md flex flex-col gap-space-md custom-scrollbar">
+<!-- ================= LIVE METRICS SUMMARY RIBBON ================= -->
+<section class="grid grid-cols-4 gap-space-md">
+<!-- Metric 1: Total Active Queue -->
+<div class="bg-pure-surface p-space-md rounded-DEFAULT shadow-sm flex items-center justify-between border-l-4 border-azure-blue">
+<div>
+<span class="text-body-sm font-body-sm text-warm-slate block">Total Active Queue</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-headline-md font-headline-md text-deep-midnight font-bold">42</span>
+<span class="text-mono-data font-mono-data text-warm-slate">threads</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-fixed/50 flex items-center justify-center text-azure-blue">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+</div>
+</div>
+<!-- Metric 2: Critical High-Risk -->
+<div class="bg-pure-surface p-space-md rounded-DEFAULT shadow-sm flex items-center justify-between border-l-4 border-vibrant-coral">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-body-sm font-body-sm text-deep-midnight font-medium">Critical &amp; Escalated</span>
+<span class="inline-block w-2 h-2 rounded-full bg-vibrant-coral animate-ping"></span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-headline-md font-headline-md text-primary font-bold">5</span>
+<span class="text-mono-data font-mono-data text-primary font-medium">Action Required</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-rose-bg flex items-center justify-center text-rose-text">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</div>
+<!-- Metric 3: Median Response Time -->
+<div class="bg-pure-surface p-space-md rounded-DEFAULT shadow-sm flex items-center justify-between border-l-4 border-peach-text">
+<div>
+<span class="text-body-sm font-body-sm text-warm-slate block">Median First Response</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-headline-md font-headline-md text-deep-midnight font-bold">3m 42s</span>
+<span class="text-mono-data font-mono-data text-mint-text font-medium">-18s vs benchmark</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-peach-bg flex items-center justify-center text-peach-text">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+</div>
+</div>
+<!-- Metric 4: Responders Available -->
+<div class="bg-pure-surface p-space-md rounded-DEFAULT shadow-sm flex items-center justify-between border-l-4 border-mint-text">
+<div>
+<span class="text-body-sm font-body-sm text-warm-slate block">Active Responders</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-headline-md font-headline-md text-deep-midnight font-bold">14</span>
+<span class="text-mono-data font-mono-data text-warm-slate">on shift (3 Tier-2 LCSW)</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-mint-bg flex items-center justify-center text-mint-text">
+<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+</div>
+</div>
+</section>
+<!-- ================= MAIN TABLE CONTAINER ================= -->
+<section class="bg-pure-surface rounded-DEFAULT shadow-sm flex flex-col flex-1 border border-surface-container-high/40 overflow-hidden">
+<!-- Filter Header Ribbon -->
+<div class="px-space-md py-space-sm border-b border-surface-container-high/60 flex flex-wrap items-center justify-between gap-space-sm bg-pure-surface">
+<!-- Queue Status Pill Filter Tabs -->
+<div class="flex items-center gap-1 overflow-x-auto pb-0.5">
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md font-semibold bg-deep-midnight text-surface-container-lowest shadow-sm flex items-center gap-1.5 whitespace-nowrap">
+<span>All Incoming</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest/20 text-mono-data font-mono-data text-xs">42</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-vibrant-coral"></span>
+<span>Critical &amp; Severe</span>
+<span class="text-mono-data font-mono-data text-xs text-warm-slate">5</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Unassigned</span>
+<span class="text-mono-data font-mono-data text-xs text-warm-slate">18</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Awaiting Peer Handoff</span>
+<span class="text-mono-data font-mono-data text-xs text-warm-slate">7</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Resolved Today</span>
+<span class="text-mono-data font-mono-data text-xs text-warm-slate">64</span>
+</button>
+</div>
+<!-- Secondary Filters Dropdowns -->
+<div class="flex items-center gap-space-sm text-body-sm font-body-sm">
+<div class="flex items-center gap-1 text-warm-slate">
+<span class="text-mono-data font-mono-data">Filter:</span>
+<select class="bg-surface-container-low border-0 rounded-full py-1 pl-3 pr-7 text-body-sm font-body-sm text-deep-midnight font-medium focus:ring-1 focus:ring-azure-blue cursor-pointer">
+<option>All Tiers</option>
+<option>Tier 1 (Crisis/Suicide)</option>
+<option>Tier 2 (Elevated)</option>
+<option>Tier 3 (Moderate)</option>
+<option>Tier 4 (Supportive)</option>
+</select>
+</div>
+<div class="flex items-center gap-1 text-warm-slate">
+<span class="text-mono-data font-mono-data">Topic:</span>
+<select class="bg-surface-container-low border-0 rounded-full py-1 pl-3 pr-7 text-body-sm font-body-sm text-deep-midnight font-medium focus:ring-1 focus:ring-azure-blue cursor-pointer">
+<option>All Topics</option>
+<option>Grief &amp; Loss</option>
+<option>Panic &amp; Anxiety</option>
+<option>Depression</option>
+<option>Trauma</option>
+</select>
+</div>
+<div class="flex items-center gap-1 text-warm-slate">
+<span class="text-mono-data font-mono-data">Sort:</span>
+<select class="bg-surface-container-low border-0 rounded-full py-1 pl-3 pr-7 text-body-sm font-body-sm text-deep-midnight font-medium focus:ring-1 focus:ring-azure-blue cursor-pointer">
+<option>Longest Wait First</option>
+<option>Risk: Highest First</option>
+<option>Newest Incoming</option>
+</select>
+</div>
+</div>
+</div>
+<!-- High-Density Triage Table -->
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50 text-warm-slate text-mono-data font-mono-data uppercase tracking-wider border-b border-surface-container-high/60">
+<th class="py-3 px-space-md font-semibold">Thread ID &amp; Status</th>
+<th class="py-3 px-space-md font-semibold">Risk Tier</th>
+<th class="py-3 px-space-md font-semibold">Themes</th>
+<th class="py-3 px-space-md font-semibold w-1/3">Snippet Preview</th>
+<th class="py-3 px-space-md font-semibold">Wait Time</th>
+<th class="py-3 px-space-md font-semibold">Assigned Responder</th>
+<th class="py-3 px-space-md font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40 text-body-sm font-body-sm">
+<!-- ROW 1 (CRITICAL) -->
+<tr class="hover:bg-rose-bg/20 transition-colors bg-rose-bg/10">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-vibrant-coral animate-ping"></span>
+<span class="font-mono-data text-mono-data font-bold text-deep-midnight">#NX-8821</span>
+</div>
+<span class="text-mono-data font-mono-data text-rose-text font-medium block mt-0.5 ml-4">Unassigned</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-bg text-rose-text border border-rose-bg">
+<span class="material-symbols-outlined text-sm" data-icon="error" style="font-variation-settings: 'FILL' 1;">error</span>
+                    Tier 1 Crisis / Suicidal Ideation
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-lavender-bg text-lavender-text">Grief &amp; Loss</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-bg text-rose-text">Trauma</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-deep-midnight font-medium line-clamp-2 leading-relaxed">
+                    "I don't think I can make it through the weekend alone anymore, please..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data font-bold text-rose-text bg-rose-bg px-2 py-0.5 rounded">01m 14s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-mono-data font-mono-data text-warm-slate italic">Unassigned</span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-3.5 py-1.5 rounded-full bg-vibrant-coral hover:bg-primary text-pure-surface text-label-md font-label-md font-semibold shadow-sm transition-all active:scale-95">
+                      Claim &amp; Intervene
+                    </button>
+<button class="p-1 rounded-full text-warm-slate hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 2 (HIGH) -->
+<tr class="hover:bg-peach-bg/20 transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-peach-text"></span>
+<span class="font-mono-data text-mono-data font-bold text-deep-midnight">#NX-8819</span>
+</div>
+<span class="text-mono-data font-mono-data text-warm-slate block mt-0.5 ml-4">Triage in Progress</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-peach-bg text-peach-text border border-peach-bg">
+                    Tier 2 Elevated
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-mint-bg text-mint-text">Panic &amp; Anxiety</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-deep-midnight line-clamp-2 leading-relaxed">
+                    "Having chest tightness and hyperventilating after confrontation at work..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data font-medium text-deep-midnight">04m 20s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-secondary-fixed text-azure-blue flex items-center justify-center font-bold text-[10px]">JM</span>
+<span class="text-body-sm font-body-sm text-deep-midnight">J. Miller (Peer Level 3)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container-high text-deep-midnight text-label-md font-label-md font-medium transition-colors">
+                      Monitor
+                    </button>
+<button class="px-3 py-1 rounded-full bg-azure-blue/10 hover:bg-azure-blue/20 text-azure-blue text-label-md font-label-md font-medium transition-colors">
+                      Co-pilot
+                    </button>
+</div>
+</td>
+</tr>
+<!-- ROW 3 (HIGH / SELF-HARM) -->
+<tr class="hover:bg-rose-bg/15 transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-vibrant-coral"></span>
+<span class="font-mono-data text-mono-data font-bold text-deep-midnight">#NX-8815</span>
+</div>
+<span class="text-mono-data font-mono-data text-rose-text block mt-0.5 ml-4">Escalation Pending</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-bg text-rose-text border border-rose-bg">
+                    Tier 1 Self-Harm
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-bg text-rose-text">Burnout</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-peach-bg text-peach-text">Depression</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-deep-midnight line-clamp-2 leading-relaxed">
+                    "Relapsed after 6 months clean, feeling ashamed and disconnected..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data font-semibold text-vibrant-coral">05m 48s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-peach-bg text-peach-text flex items-center justify-center font-bold text-[10px]">RV</span>
+<span class="text-body-sm font-body-sm text-deep-midnight">R. Vance, MSW</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="px-3.5 py-1 rounded-full border border-vibrant-coral text-primary hover:bg-vibrant-coral hover:text-white text-label-md font-label-md font-medium transition-colors">
+                    Join Session
+                  </button>
+</td>
+</tr>
+<!-- ROW 4 (MODERATE) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-warm-slate"></span>
+<span class="font-mono-data text-mono-data font-medium text-deep-midnight">#NX-8809</span>
+</div>
+<span class="text-mono-data font-mono-data text-warm-slate block mt-0.5 ml-4">Assigned</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-warm-slate">
+                    Tier 3 Moderate
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-peach-bg text-peach-text">Relationships</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-deep-midnight line-clamp-2 leading-relaxed">
+                    "Navigating sudden separation and custody fears, need objective ear..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data text-warm-slate">08m 12s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-lavender-bg text-lavender-text flex items-center justify-center font-bold text-[10px]">EZ</span>
+<span class="text-body-sm font-body-sm text-deep-midnight">E. Zhao (Peer Level 2)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="px-3 py-1 rounded-full text-warm-slate hover:text-deep-midnight hover:bg-surface-container-high text-label-md font-label-md font-medium transition-colors">
+                    View Notes
+                  </button>
+</td>
+</tr>
+<!-- ROW 5 (STANDARD / SUPPORTIVE) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-azure-blue"></span>
+<span class="font-mono-data text-mono-data font-medium text-deep-midnight">#NX-8802</span>
+</div>
+<span class="text-mono-data font-mono-data text-warm-slate block mt-0.5 ml-4">Assigned</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-secondary-fixed text-azure-blue">
+                    Tier 4 Supportive
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-mint-bg text-mint-text">Life Transitions</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-deep-midnight line-clamp-2 leading-relaxed">
+                    "Relocating cross-country next week and overwhelmed with imposter syndrome..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data text-warm-slate">11m 30s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-mint-bg text-mint-text flex items-center justify-center font-bold text-[10px]">KP</span>
+<span class="text-body-sm font-body-sm text-deep-midnight">K. Patel (Peer Level 1)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="px-3 py-1 rounded-full text-warm-slate hover:text-deep-midnight hover:bg-surface-container-high text-label-md font-label-md font-medium transition-colors">
+                    View Notes
+                  </button>
+</td>
+</tr>
+<!-- ROW 6 (WRAP-UP) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-mint-text"></span>
+<span class="font-mono-data text-mono-data font-medium text-deep-midnight">#NX-8798</span>
+</div>
+<span class="text-mono-data font-mono-data text-warm-slate block mt-0.5 ml-4">In Wrap-Up</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-warm-slate">
+                    Tier 4 Low
+                  </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-lavender-bg text-lavender-text">Loneliness</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<p class="text-warm-slate line-clamp-2 leading-relaxed">
+                    "Just need someone to talk to while getting through the evening routine..."
+                  </p>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-mono-data text-mono-data text-warm-slate">14m 02s</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-surface-container text-warm-slate flex items-center justify-center font-bold text-[10px]">SA</span>
+<span class="text-body-sm font-body-sm text-deep-midnight">S. Al-Mansoor (Peer Level 2)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<a class="text-azure-blue hover:underline text-label-md font-label-md font-medium" href="#">
+                    Review Transcript
+                  </a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination Ribbon -->
+<div class="px-space-md py-3 bg-pure-surface border-t border-surface-container-high/60 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="text-mono-data font-mono-data text-warm-slate">Showing 1-6 of 42 active triage threads</span>
+<span class="h-3 w-px bg-surface-container-high"></span>
+<!-- Live Auto Refresh indicator -->
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-mint-text animate-pulse"></span>
+<span class="text-mono-data font-mono-data text-mint-text text-[11px] font-medium">Live Sync Active • updates every 5s</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded-md bg-surface-container-low text-warm-slate hover:bg-surface-container-high transition-colors text-mono-data font-mono-data" disabled="">
+<span class="material-symbols-outlined text-sm align-middle" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded-md bg-deep-midnight text-surface-container-lowest text-mono-data font-mono-data font-bold">1</button>
+<button class="px-3 py-1 rounded-md hover:bg-surface-container-low text-deep-midnight text-mono-data font-mono-data">2</button>
+<button class="px-3 py-1 rounded-md hover:bg-surface-container-low text-deep-midnight text-mono-data font-mono-data">3</button>
+<span class="text-warm-slate font-mono-data text-xs px-1">...</span>
+<button class="px-3 py-1 rounded-md hover:bg-surface-container-low text-deep-midnight text-mono-data font-mono-data">7</button>
+<button class="px-2.5 py-1 rounded-md bg-surface-container-low text-deep-midnight hover:bg-surface-container-high transition-colors text-mono-data font-mono-data">
+<span class="material-symbols-outlined text-sm align-middle" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

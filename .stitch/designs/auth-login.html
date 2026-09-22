@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Gateway Auth - Xinnection</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#453635",
+            "surface-container-lowest": "#160b0b",
+            "error": "#ffb4ab",
+            "surface-dim": "#1c1010",
+            "outline-variant": "#584140",
+            "on-secondary": "#002e6a",
+            "canvas-deep": "#09090B",
+            "on-secondary-fixed": "#001a42",
+            "tertiary": "#52dea2",
+            "surface-container-highest": "#403130",
+            "on-tertiary": "#003824",
+            "primary": "#ffb3b0",
+            "on-secondary-fixed-variant": "#004395",
+            "on-background": "#f5dddb",
+            "mint": "#059669",
+            "surface-container-high": "#352726",
+            "peach": "#EA580C",
+            "elevated-onyx": "#18181B",
+            "secondary-fixed": "#d8e2ff",
+            "lavender": "#4F46E5",
+            "on-primary-container": "#6d0010",
+            "muted-silver": "#A1A1AA",
+            "surface-container": "#291c1c",
+            "inverse-surface": "#f5dddb",
+            "on-tertiary-fixed-variant": "#005236",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-secondary-container": "#e6ecff",
+            "outline": "#a78a88",
+            "primary-fixed": "#ffdad8",
+            "error-container": "#93000a",
+            "on-surface": "#f5dddb",
+            "surface-tint": "#ffb3b0",
+            "on-surface-variant": "#e0bfbd",
+            "primary-container": "#ff6b6b",
+            "on-error": "#690005",
+            "on-tertiary-container": "#003b26",
+            "primary-fixed-dim": "#ffb3b0",
+            "secondary-container": "#0566d9",
+            "on-primary-fixed-variant": "#8c1520",
+            "secondary": "#adc6ff",
+            "on-tertiary-fixed": "#002113",
+            "on-primary-fixed": "#410006",
+            "surface": "#1c1010",
+            "surface-container-low": "#251818",
+            "starlight-white": "#FAFAFA",
+            "surface-variant": "#403130",
+            "tertiary-fixed": "#72fbbc",
+            "tertiary-fixed-dim": "#52dea2",
+            "tertiary-container": "#00b179",
+            "on-error-container": "#ffdad6",
+            "on-primary": "#68000f",
+            "inverse-on-surface": "#3b2d2c",
+            "rose": "#DB2777",
+            "inverse-primary": "#ae2f34",
+            "background": "#1c1010",
+            "azure-blue": "#3B82F6"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin": "1.25rem",
+            "gutter": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "label": ["Outfit"],
+            "headline-xl": ["Outfit"],
+            "mono-data": ["JetBrains Mono"],
+            "headline-lg": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "body-lg": ["Outfit"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Glow Auras */
+    .glow-aura-coral {
+      background: radial-gradient(circle at 40% 30%, rgba(255, 107, 107, 0.28) 0%, rgba(79, 70, 229, 0.16) 45%, rgba(9, 9, 11, 0) 75%);
+    }
+    .glow-aura-lavender {
+      background: radial-gradient(circle at 70% 80%, rgba(79, 70, 229, 0.22) 0%, rgba(219, 39, 119, 0.12) 50%, rgba(9, 9, 11, 0) 80%);
+    }
+  </style>
+</head>
+<body class="bg-canvas-deep text-starlight-white font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden antialiased">
+<!-- Top Navigation Anchor (Shared Component JSON) -->
+<header class="w-full px-6 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 border-b border-surface-container-high/30 bg-canvas-deep/80 dark:bg-canvas-deep/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container border border-primary-container/40 group-hover:scale-105 transition-transform duration-150">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="text-headline-md font-headline-md font-bold tracking-tight text-starlight-white dark:text-starlight-white">Xinnection</span>
+</a>
+<!-- Nav Links -->
+<nav class="hidden md:flex items-center gap-6 text-label font-label">
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150 active:scale-95" href="#">Sanctuary Mode</a>
+<a class="text-primary-container dark:text-primary-container font-semibold active:scale-95 flex items-center gap-1.5" href="#">
+<span>Clinical Gateway</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+</a>
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150 active:scale-95" href="#">Support</a>
+</nav>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-3">
+<a class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-elevated-onyx/80 border border-surface-container-high/60 text-body-sm font-body-sm text-starlight-white hover:border-muted-silver transition-colors" href="#">
+<span class="w-2 h-2 rounded-full bg-mint"></span>
+<span>Crisis Line 988</span>
+</a>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container-high/80 hover:bg-error/20 text-error border border-error/30 text-label font-label transition-colors active:scale-95 duration-150" title="Emergency wipe session" type="button">
+<span class="material-symbols-outlined text-sm">shield</span>
+<span>Emergency Exit</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-muted-silver hover:text-starlight-white transition-colors" title="System Help" type="button">
+<span class="material-symbols-outlined text-lg">help</span>
+</button>
+</div>
+</header>
+<!-- Main Content Layout (Desktop Offset Asymmetric Split) -->
+<main class="flex-1 w-full pt-16 flex flex-col lg:flex-row min-h-[calc(100vh-70px)]">
+<!-- Left Pane: Branding & Atmosphere (~42% desktop) -->
+<section class="relative w-full lg:w-[42%] flex flex-col justify-between p-8 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-surface-container-high/30 overflow-hidden bg-canvas-deep">
+<!-- Glow Gradients -->
+<div class="absolute inset-0 pointer-events-none glow-aura-coral opacity-80"></div>
+<div class="absolute inset-0 pointer-events-none glow-aura-lavender opacity-60"></div>
+<!-- Subtle Grid Pattern Overlay -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40"></div>
+<!-- Top Branding Pill -->
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-elevated-onyx/90 border border-surface-container-high/50 text-label font-label text-primary-container shadow-sm mb-8 backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="tracking-wide">Clinical Gateway Triage</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-starlight-white tracking-tight leading-tight max-w-md">
+          Where clinical excellence meets human connection.
+        </h1>
+<p class="mt-4 text-body-lg font-body-lg text-muted-silver leading-relaxed max-w-sm">
+          Audited real-time crisis escalation protocols, resilient low-latency routing, and zero-knowledge telemetry built for frontline mental health responders.
+        </p>
+<!-- Feature Pills Chips -->
+<div class="mt-8 flex flex-wrap gap-2.5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-mint/15 text-mint border border-mint/30 text-label font-label">
+<span class="material-symbols-outlined text-xs">lock</span>
+            HIPAA &amp; SOC-2 Verified
+          </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lavender/20 text-secondary border border-lavender/40 text-label font-label">
+<span class="material-symbols-outlined text-xs">vpn_key</span>
+            Zero-Knowledge Enclave
+          </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-peach/15 text-peach border border-peach/30 text-label font-label">
+<span class="material-symbols-outlined text-xs">speed</span>
+            Real-time Telemetry
+          </span>
+</div>
+</div>
+<!-- Left Bottom Status Card -->
+<div class="relative z-10 mt-12 lg:mt-0 pt-8 border-t border-surface-container-high/30">
+<div class="bg-elevated-onyx/80 backdrop-blur-md p-4 rounded-xl border border-surface-container-high/40 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="relative flex items-center justify-center">
+<span class="w-3 h-3 rounded-full bg-mint"></span>
+<span class="absolute w-3 h-3 rounded-full bg-mint animate-ping opacity-75"></span>
+</div>
+<div>
+<p class="text-label font-label text-starlight-white font-medium">Network Status: Normal</p>
+<p class="text-body-sm font-body-sm text-muted-silver">Encrypted Shards Sync Active</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-mono-data text-mono-data text-mint font-semibold bg-mint/10 px-2.5 py-1 rounded-md border border-mint/20">
+              42 Responders Active
+            </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Pane: Clinical Gateway Auth Form (~58% desktop) -->
+<section class="w-full lg:w-[58%] flex items-center justify-center p-6 sm:p-10 lg:p-14 bg-elevated-onyx/40">
+<div class="w-full max-w-xl bg-elevated-onyx rounded-2xl border border-surface-container-high/50 p-6 sm:p-10 shadow-2xl relative">
+<!-- Header Section -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label font-label uppercase tracking-widest text-primary font-semibold">Triage Terminal v4.12</span>
+<span class="inline-flex items-center gap-1 text-label font-label text-muted-silver">
+<span class="material-symbols-outlined text-sm text-mint">check_circle</span>
+              TLS 1.3 Strict
+            </span>
+</div>
+<h2 class="text-headline-lg font-headline-lg text-starlight-white font-bold tracking-tight">Professional &amp; Admin Gateway</h2>
+<p class="text-body-md font-body-md text-muted-silver mt-1">Authenticate credentials to access queue escalation and clinical telemetry.</p>
+</div>
+<!-- Role Selection -->
+<div class="mb-7">
+<label class="block text-label font-label text-starlight-white font-medium mb-3">Select Terminal Context</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="role-selector">
+<!-- Role 1: Peer Responder (Active) -->
+<button class="role-btn text-left p-3.5 rounded-xl border-2 border-primary-container bg-surface-container-high/40 transition-all flex flex-col justify-between relative group hover:border-primary-container" data-role="peer" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="material-symbols-outlined text-primary-container text-xl" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="w-3.5 h-3.5 rounded-full border-2 border-primary-container bg-primary-container flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-elevated-onyx"></span>
+</span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-semibold text-starlight-white">Peer Responder</p>
+<span class="text-[11px] leading-tight text-primary-container font-mono-data block mt-0.5">Tier 1 &amp; 2 Support</span>
+</div>
+</button>
+<!-- Role 2: Clinical Supervisor -->
+<button class="role-btn text-left p-3.5 rounded-xl border border-surface-container-high bg-surface-container-low/60 hover:bg-surface-container-high/30 hover:border-muted-silver/40 transition-all flex flex-col justify-between relative group" data-role="supervisor" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="material-symbols-outlined text-muted-silver group-hover:text-starlight-white text-xl">psychology</span>
+<span class="w-3.5 h-3.5 rounded-full border border-outline/50 flex items-center justify-center"></span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-semibold text-starlight-white">Clinical Supervisor</p>
+<span class="text-[11px] leading-tight text-muted-silver block mt-0.5">Case Escalation</span>
+</div>
+</button>
+<!-- Role 3: System Admin -->
+<button class="role-btn text-left p-3.5 rounded-xl border border-surface-container-high bg-surface-container-low/60 hover:bg-surface-container-high/30 hover:border-muted-silver/40 transition-all flex flex-col justify-between relative group" data-role="admin" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="material-symbols-outlined text-muted-silver group-hover:text-starlight-white text-xl">admin_panel_settings</span>
+<span class="w-3.5 h-3.5 rounded-full border border-outline/50 flex items-center justify-center"></span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-semibold text-starlight-white">System Admin</p>
+<span class="text-[11px] leading-tight text-muted-silver block mt-0.5">Enclave &amp; Audits</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Auth Form -->
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Email Input -->
+<div>
+<label class="block text-label font-label text-muted-silver mb-1.5">Work Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-silver">
+<span class="material-symbols-outlined text-base">mail</span>
+</div>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md placeholder:text-muted-silver/50 focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors" placeholder="responder@crisis.xinnection.org" type="email" value="responder@crisis.xinnection.org"/>
+</div>
+</div>
+<!-- Password Input -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="text-label font-label text-muted-silver">Secure Passphrase</label>
+<a class="text-label font-label text-primary hover:underline hover:text-starlight-white transition-colors" href="#">Forgot security key?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-silver">
+<span class="material-symbols-outlined text-base">lock</span>
+</div>
+<input class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors tracking-widest" placeholder="Enter passphrase" type="password" value="••••••••••••••••"/>
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted-silver hover:text-starlight-white" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</div>
+<!-- MFA Hardware Token / 6-digit box -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="text-label font-label text-muted-silver">MFA Token / Hardware Key</label>
+<span class="text-label font-label text-azure-blue font-mono-data flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">phonelink_lock</span> FIDO2 Ready
+              </span>
+</div>
+<div class="grid grid-cols-6 gap-2">
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" type="text" value="7"/>
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" type="text" value="3"/>
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" type="text" value="9"/>
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" placeholder="•" type="text"/>
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" placeholder="•" type="text"/>
+<input class="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none" maxlength="1" placeholder="•" type="text"/>
+</div>
+<p class="text-body-sm font-body-sm text-muted-silver/80 mt-1.5 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-mint">verified</span>
+              Touch hardware YubiKey or provide 6-digit authenticator code
+            </p>
+</div>
+<!-- Shift persistence toggle -->
+<div class="pt-2 flex items-center justify-between">
+<label class="flex items-center gap-2.5 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded border-surface-container-high bg-canvas-deep text-primary-container focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-starlight-white select-none">Remember terminal for this shift (8h)</span>
+</label>
+<span class="text-[11px] font-mono-data text-muted-silver bg-surface-container-high/40 px-2 py-0.5 rounded border border-surface-container-high">
+              AES-256-GCM
+            </span>
+</div>
+<!-- Primary Submit Button -->
+<div class="pt-4">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary-container hover:bg-primary-container/90 text-starlight-white font-headline-sm font-semibold flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(255,107,107,0.35)] hover:shadow-[0_6px_28px_rgba(255,107,107,0.45)] active:scale-95 transition-all duration-150" type="button">
+<span>Secure Login</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="pt-4 flex items-center gap-3">
+<div class="h-px flex-1 bg-surface-container-high/60"></div>
+<span class="text-label font-label text-muted-silver">Looking for peer help?</span>
+<div class="h-px flex-1 bg-surface-container-high/60"></div>
+</div>
+<!-- Seeker Portal Alternative -->
+<div class="text-center pt-1">
+<a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-surface-container-high/70 hover:border-mint/60 bg-surface-container-low/40 hover:bg-surface-container-high/30 text-muted-silver hover:text-starlight-white transition-all group" href="#">
+<span class="material-symbols-outlined text-mint text-sm group-hover:scale-110 transition-transform">spa</span>
+<span class="text-label font-label font-medium">Access Seeker Portal (Anonymous)</span>
+</a>
+</div>
+<!-- Security Footnote -->
+<p class="text-center text-[11px] leading-relaxed text-muted-silver/70 pt-2 font-mono-data">
+            End-to-End Encrypted Clinical Gateway • Session ephemeral keys purged upon logout
+          </p>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer Anchor (Shared Component JSON) -->
+<footer class="w-full px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-surface-container-high/30 bg-canvas-deep dark:bg-canvas-deep text-muted-silver">
+<div class="flex items-center gap-3">
+<span class="text-headline-sm font-headline-sm font-bold text-starlight-white dark:text-starlight-white">Xinnection</span>
+<span class="text-body-sm font-body-sm text-muted-silver/80">© 2024 Xinnection Systems. End-to-end encrypted crisis network. HIPAA &amp; SOC2 Compliant.</span>
+</div>
+<div class="flex flex-wrap items-center gap-6 text-label font-label">
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150" href="#">Anonymous Protocol</a>
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150" href="#">Security Architecture</a>
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150" href="#">Clinical Standards</a>
+<a class="text-muted-silver dark:text-muted-silver hover:text-starlight-white dark:hover:text-starlight-white transition-colors duration-150" href="#">Crisis Triage Terms</a>
+</div>
+</footer>
+<!-- Micro-Interactions Script for Role Selection -->
+<script>
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Reset all buttons
+        document.querySelectorAll('.role-btn').forEach(b => {
+          b.className = 'role-btn text-left p-3.5 rounded-xl border border-surface-container-high bg-surface-container-low/60 hover:bg-surface-container-high/30 hover:border-muted-silver/40 transition-all flex flex-col justify-between relative group';
+          const icon = b.querySelector('.material-symbols-outlined');
+          if (icon) {
+            icon.classList.remove('text-primary-container');
+            icon.classList.add('text-muted-silver');
+            icon.style.fontVariationSettings = "'FILL' 0";
+          }
+          const radio = b.querySelector('div:first-child span:last-child');
+          if (radio) {
+            radio.className = 'w-3.5 h-3.5 rounded-full border border-outline/50 flex items-center justify-center';
+            radio.innerHTML = '';
+          }
+        });
+
+        // Activate clicked button
+        btn.className = 'role-btn text-left p-3.5 rounded-xl border-2 border-primary-container bg-surface-container-high/40 transition-all flex flex-col justify-between relative group hover:border-primary-container';
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.classList.remove('text-muted-silver');
+          icon.classList.add('text-primary-container');
+          icon.style.fontVariationSettings = "'FILL' 1";
+        }
+        const radio = btn.querySelector('div:first-child span:last-child');
+        if (radio) {
+          radio.className = 'w-3.5 h-3.5 rounded-full border-2 border-primary-container bg-primary-container flex items-center justify-center';
+          radio.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-elevated-onyx"></span>';
+        }
+      });
+    });
+  </script>
+</body></html>

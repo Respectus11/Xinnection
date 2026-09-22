@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xinnection - System Control Console</title>
+<!-- Google Fonts: Outfit & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Container Queries & Forms -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary": "#003824",
+            "on-primary-container": "#6d0010",
+            "mint": "#059669",
+            "outline-variant": "#584140",
+            "surface-container-highest": "#403130",
+            "rose": "#DB2777",
+            "on-tertiary-container": "#003b26",
+            "on-surface": "#f5dddb",
+            "elevated-onyx": "#18181B",
+            "background": "#1c1010",
+            "outline": "#a78a88",
+            "on-secondary-container": "#e6ecff",
+            "primary": "#ffb3b0",
+            "surface-bright": "#453635",
+            "secondary-fixed": "#d8e2ff",
+            "on-surface-variant": "#e0bfbd",
+            "on-background": "#f5dddb",
+            "surface-container-high": "#352726",
+            "secondary": "#adc6ff",
+            "primary-fixed": "#ffdad8",
+            "tertiary": "#52dea2",
+            "inverse-primary": "#ae2f34",
+            "surface-dim": "#1c1010",
+            "inverse-on-surface": "#3b2d2c",
+            "secondary-fixed-dim": "#adc6ff",
+            "peach": "#EA580C",
+            "primary-fixed-dim": "#ffb3b0",
+            "tertiary-container": "#00b179",
+            "surface-container-low": "#251818",
+            "canvas-deep": "#09090B",
+            "on-error-container": "#ffdad6",
+            "on-primary-fixed": "#410006",
+            "on-error": "#690005",
+            "starlight-white": "#FAFAFA",
+            "on-secondary-fixed-variant": "#004395",
+            "error": "#ffb4ab",
+            "on-secondary-fixed": "#001a42",
+            "on-tertiary-fixed": "#002113",
+            "primary-container": "#ff6b6b",
+            "muted-silver": "#A1A1AA",
+            "surface-variant": "#403130",
+            "inverse-surface": "#f5dddb",
+            "error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-tint": "#ffb3b0",
+            "on-primary": "#68000f",
+            "tertiary-fixed-dim": "#52dea2",
+            "surface-container": "#291c1c",
+            "surface": "#1c1010",
+            "on-secondary": "#002e6a",
+            "surface-container-lowest": "#160b0b",
+            "tertiary-fixed": "#72fbbc",
+            "on-primary-fixed-variant": "#8c1520",
+            "lavender": "#4F46E5",
+            "secondary-container": "#0566d9"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "margin": "1.25rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "space-xl": "2.5rem"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "headline-md": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "body-sm": ["Outfit"],
+            "headline-lg": ["Outfit"],
+            "body-lg": ["Outfit"],
+            "headline-xl": ["Outfit"],
+            "mono-data": ["JetBrains Mono"],
+            "label": ["Outfit"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+
+    /* Custom subtle pulse for node markers */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.6); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    .node-pulse {
+      animation: pulse-ring 2.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-canvas-deep text-on-surface font-body-md min-h-screen overflow-x-hidden antialiased flex selection:bg-primary-container selection:text-starlight-white">
+<!-- ========================================================= -->
+<!-- SHARED COMPONENT: SideNavBar (Fixed 260px / w-64 desktop) -->
+<!-- ========================================================= -->
+<aside class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between bg-canvas-deep border-r border-white/10 z-40 select-none">
+<!-- Top & Primary Navigation Stack -->
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 px-space-xs py-space-xs">
+<div class="w-10 h-10 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex items-center justify-center relative shadow-sm">
+<span class="material-symbols-outlined text-primary-container text-2xl" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-mint"></span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="text-headline-sm font-headline-sm text-starlight-white tracking-wide">Xinnection</span>
+</div>
+<span class="text-body-sm font-body-sm text-muted-silver tracking-tight">System Control Console</span>
+</div>
+</div>
+<!-- Navigation Tabs (Shared Component Spec) -->
+<nav class="flex flex-col gap-1.5 mt-2">
+<!-- Active Tab: Network Health -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-DEFAULT bg-surface-container-high text-primary font-headline-sm hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99] border-l-4 border-mint" href="#network-health">
+<span class="material-symbols-outlined text-mint text-xl" data-icon="monitor_heart">monitor_heart</span>
+<span class="text-starlight-white font-headline-sm text-sm">Network Health</span>
+</a>
+<!-- Audit Logs -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant font-body-md hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#audit-ledger">
+<span class="material-symbols-outlined text-muted-silver text-xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-sm">Audit Logs</span>
+</a>
+<!-- Responder Roster -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant font-body-md hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#responder-roster">
+<span class="material-symbols-outlined text-muted-silver text-xl" data-icon="badge">badge</span>
+<span class="font-body-md text-sm">Responder Roster</span>
+</a>
+<!-- Key Rotations -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant font-body-md hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#key-rotations">
+<span class="material-symbols-outlined text-muted-silver text-xl" data-icon="vpn_key">vpn_key</span>
+<span class="font-body-md text-sm">Key Rotations</span>
+</a>
+<!-- Threat Intel -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant font-body-md hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#threat-intel">
+<span class="material-symbols-outlined text-muted-silver text-xl" data-icon="security">security</span>
+<span class="font-body-md text-sm">Threat Intel</span>
+</a>
+</nav>
+<!-- Quick Operational Utility Panel -->
+<div class="mt-4 p-3 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col gap-2.5">
+<div class="flex items-center justify-between text-body-sm font-label">
+<span class="text-muted-silver uppercase tracking-wider text-[11px]">Shift Protocol</span>
+<span class="px-2 py-0.5 rounded-full bg-mint/20 text-mint border border-mint/30 font-mono-data text-[10px] font-semibold">SYNCHRONIZED</span>
+</div>
+<p class="text-body-sm text-on-surface-variant text-[11px] leading-relaxed">
+          Zero-Log Buffer shredding verified on all nodes. Next scheduled scrub in 18m.
+        </p>
+<button class="w-full mt-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-DEFAULT bg-surface-container border border-peach/40 text-peach hover:bg-peach hover:text-starlight-white transition-all text-xs font-mono-data font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="delete_forever">delete_forever</span>
+<span>Emergency Key Shredder</span>
+</button>
+</div>
+</div>
+<!-- Bottom Footer Links & Operator Identity Profile -->
+<div class="p-space-md flex flex-col gap-3 border-t border-white/10 bg-canvas-deep">
+<!-- Footer Nav Tabs -->
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-space-sm px-space-md py-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container hover:text-starlight-white transition-colors duration-150" href="#diagnostics">
+<span class="material-symbols-outlined text-lg" data-icon="tune">tune</span>
+<span class="text-body-sm">Diagnostics</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-1.5 rounded-DEFAULT text-muted-silver hover:bg-surface-container hover:text-starlight-white transition-colors duration-150" href="#settings">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="text-body-sm">Settings</span>
+</a>
+</div>
+<!-- Verified Operator Profile Badge -->
+<div class="p-2.5 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container/20 border border-secondary/40 flex items-center justify-center text-secondary font-mono-data text-xs font-semibold">
+            U09
+          </div>
+<div class="flex flex-col">
+<span class="text-body-sm font-label text-starlight-white leading-tight font-medium">Admin SecOps // U09</span>
+<div class="flex items-center gap-1 text-[10px] text-mint font-mono-data">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified_user">verified_user</span>
+<span>YubiKey FIDO2</span>
+</div>
+</div>
+</div>
+<button class="text-muted-silver hover:text-primary-container transition-colors p-1" title="Disconnect session">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+</button>
+</div>
+<!-- CTA Emergency Lock (Immutable from Shared Components) -->
+<button class="w-full flex items-center justify-center gap-2 py-2 px-space-md rounded-DEFAULT bg-primary-container text-starlight-white font-headline-sm text-sm hover:opacity-95 active:scale-[0.99] transition-all shadow-md">
+<span class="material-symbols-outlined text-base" data-icon="lock">lock</span>
+<span>Emergency Lock</span>
+</button>
+</div>
+</aside>
+<!-- ========================================================= -->
+<!-- MAIN WORKSPACE & CENTRAL COCKPIT AREA                     -->
+<!-- ========================================================= -->
+<main class="ml-64 flex-1 min-h-screen flex flex-col bg-canvas-deep">
+<!-- Top Cockpit Header Bar (Anchored Component Blueprint) -->
+<header class="sticky top-0 z-30 bg-elevated-onyx/90 backdrop-blur-md px-space-xl py-space-md border-b border-white/10 flex justify-between items-center w-full">
+<!-- Breadcrumb & Search -->
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 text-xs font-mono-data text-muted-silver">
+<span>Admin</span>
+<span>/</span>
+<span>Telemetry</span>
+<span>/</span>
+<span class="text-primary-fixed">Global Overview</span>
+</div>
+<h1 class="text-headline-md font-headline-md text-starlight-white tracking-tight mt-0.5">
+            System Control &amp; Telemetry
+          </h1>
+</div>
+<!-- Global Status Pill Indicator -->
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/30 shadow-inner">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-mint"></span>
+</span>
+<span class="text-xs font-mono-data font-medium text-mint tracking-tight">Status: All Systems Nominal</span>
+</div>
+</div>
+<!-- Actions & Ingress Stream -->
+<div class="flex items-center gap-3">
+<!-- Search bar on left side of action deck -->
+<div class="relative hidden xl:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-muted-silver text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border border-white/10 rounded-full pl-9 pr-3 py-1.5 text-xs text-on-surface placeholder:text-muted-silver/60 focus:outline-none focus:ring-1 focus:ring-secondary font-mono-data" placeholder="Search hash, node UUID..." type="text"/>
+</div>
+<!-- Secondary Action: Force Key Rotation -->
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary/10 transition-colors text-xs font-body-md font-medium active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="autorenew">autorenew</span>
+<span>Force Key Rotation</span>
+</button>
+<!-- Primary Action: Deploy Override / Emergency Lockdown -->
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-container text-starlight-white hover:bg-primary-container/90 transition-all text-xs font-body-md font-semibold shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="gpp_bad">gpp_bad</span>
+<span>Emergency Lockdown</span>
+</button>
+<!-- Trailing System Indicators -->
+<div class="flex items-center gap-1.5 ml-2 border-l border-white/10 pl-3">
+<button class="p-2 rounded-full text-muted-silver hover:text-starlight-white hover:bg-surface-container transition-colors relative" title="Active Incidents">
+<span class="material-symbols-outlined text-lg" data-icon="notifications_active">notifications_active</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-peach"></span>
+</button>
+<button class="p-2 rounded-full text-muted-silver hover:text-starlight-white hover:bg-surface-container transition-colors" title="DNS Grid">
+<span class="material-symbols-outlined text-lg" data-icon="dns">dns</span>
+</button>
+<button class="p-2 rounded-full text-muted-silver hover:text-starlight-white hover:bg-surface-container transition-colors" title="Terminal Access">
+<span class="material-symbols-outlined text-lg" data-icon="terminal">terminal</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Cockpit Scrollable Content Canvas -->
+<div class="p-space-xl flex flex-col gap-space-lg">
+<!-- ======================================================= -->
+<!-- ROW 1: High-Level Cockpit Metric Cards (4 Columns)     -->
+<!-- ======================================================= -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Metric 1: Encrypted Sessions -->
+<div class="p-5 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between hover:border-white/20 transition-all shadow-sm">
+<div class="flex items-start justify-between">
+<span class="text-body-sm font-label text-muted-silver">Encrypted Sessions (24h)</span>
+<div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-mint/15 text-mint border border-mint/20 text-xs font-mono-data font-semibold">
+<span class="material-symbols-outlined text-[13px]" data-icon="trending_up">trending_up</span>
+<span>+14.2%</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="text-headline-xl font-headline-xl font-bold font-mono-data text-starlight-white tracking-tight">4,821</span>
+<div class="h-6 w-20 flex items-end gap-1">
+<span class="w-1.5 h-2 bg-mint/40 rounded-t-sm"></span>
+<span class="w-1.5 h-3 bg-mint/60 rounded-t-sm"></span>
+<span class="w-1.5 h-4 bg-mint/50 rounded-t-sm"></span>
+<span class="w-1.5 h-3.5 bg-mint/70 rounded-t-sm"></span>
+<span class="w-1.5 h-5 bg-mint/80 rounded-t-sm"></span>
+<span class="w-1.5 h-6 bg-mint rounded-t-sm shadow-[0_0_8px_rgba(5,150,105,0.6)]"></span>
+</div>
+</div>
+<div class="mt-2 text-xs font-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-mint"></span>
+<span>Multi-hop onion routing active</span>
+</div>
+</div>
+<!-- Metric 2: Responder Utilization -->
+<div class="p-5 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between hover:border-white/20 transition-all shadow-sm">
+<div class="flex items-start justify-between">
+<span class="text-body-sm font-label text-muted-silver">Responder Utilization</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary border border-secondary/20 text-xs font-mono-data">OPTIMAL</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="text-headline-xl font-headline-xl font-bold font-mono-data text-starlight-white tracking-tight">78%</span>
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden flex">
+<div class="bg-secondary h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" style="width: 78%"></div>
+</div>
+</div>
+<div class="mt-2 text-xs font-body-sm text-on-surface-variant flex items-center justify-between">
+<span>18 of 23 Nodes Active</span>
+<span class="font-mono-data text-secondary">5 Standby</span>
+</div>
+</div>
+<!-- Metric 3: Avg Queue Latency -->
+<div class="p-5 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between hover:border-white/20 transition-all shadow-sm">
+<div class="flex items-start justify-between">
+<span class="text-body-sm font-label text-muted-silver">Avg Queue Latency</span>
+<span class="text-xs font-mono-data text-mint font-medium px-2 py-0.5 rounded-full bg-mint/10 border border-mint/20">Target &lt; 2m</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="text-headline-xl font-headline-xl font-bold font-mono-data text-starlight-white tracking-tight">1m 04s</span>
+<span class="material-symbols-outlined text-mint text-2xl" data-icon="speed">speed</span>
+</div>
+<div class="mt-2 text-xs font-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-mint" data-icon="check_circle">check_circle</span>
+<span>Zero congestion spikes in buffer</span>
+</div>
+</div>
+<!-- Metric 4: Ephemeral Shards Purged -->
+<div class="p-5 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between hover:border-white/20 transition-all shadow-sm">
+<div class="flex items-start justify-between">
+<span class="text-body-sm font-label text-muted-silver">Ephemeral Shards Purged</span>
+<span class="material-symbols-outlined text-rose text-lg" data-icon="auto_delete">auto_delete</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="text-headline-xl font-headline-xl font-bold font-mono-data text-starlight-white tracking-tight">12,490</span>
+<span class="text-xs font-mono-data text-rose font-medium">Auto-Tear</span>
+</div>
+<div class="mt-2 text-xs font-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-tertiary" data-icon="verified">verified</span>
+<span class="truncate">Zero-Knowledge Guarantee: 100% Verified</span>
+</div>
+</div>
+</section>
+<!-- ======================================================= -->
+<!-- ROW 2: Middle Section (Asymmetric Grid 7/12 & 5/12)     -->
+<!-- ======================================================= -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Left: Global Relay Nodes & Ephemeral Mesh (7 Cols) -->
+<div class="lg:col-span-7 p-6 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between relative overflow-hidden">
+<!-- Card Header -->
+<div class="flex items-center justify-between z-10">
+<div>
+<h2 class="text-headline-sm font-headline-sm text-starlight-white">Global Relay Nodes &amp; Ephemeral Mesh</h2>
+<p class="text-body-sm text-muted-silver mt-0.5">Real-time telemetry across cross-region decentralized proxies</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high border border-white/10 font-mono-data text-xs text-starlight-white flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-mint"></span>
+<span>4 Active</span>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high border border-peach/30 font-mono-data text-xs text-peach flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-peach"></span>
+<span>1 Syncing</span>
+</span>
+</div>
+</div>
+<!-- Stylized Dark Mesh Interactive Network Map Canvas -->
+<div class="my-6 h-64 w-full relative bg-surface-container-lowest/60 rounded-DEFAULT border border-white/5 overflow-hidden flex items-center justify-center">
+<!-- Global Grid Lines Matrix Pattern -->
+<div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#FAFAFA 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Stylized Minimal World Map SVG Mesh Curves -->
+<svg class="absolute inset-0 w-full h-full stroke-white/10 fill-none" preserveaspectratio="none" viewbox="0 0 700 280">
+<!-- Geo outline mock curves -->
+<path d="M 120,60 Q 180,50 240,90 T 320,130 T 400,80 T 520,70 T 630,110" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4" stroke-width="1.5"></path>
+<path d="M 140,160 Q 220,170 300,200 T 480,210 T 600,190" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4" stroke-width="1.5"></path>
+<!-- Mesh Relay Connections with subtle glowing gradients -->
+<!-- Oregon to Frankfurt -->
+<path d="M 130,95 Q 260,30 360,85" stroke="rgba(5, 150, 105, 0.4)" stroke-dasharray="6 3" stroke-width="1.5"></path>
+<!-- Frankfurt to Tokyo -->
+<path d="M 360,85 Q 480,40 580,105" stroke="rgba(5, 150, 105, 0.4)" stroke-dasharray="6 3" stroke-width="1.5"></path>
+<!-- Oregon to London -->
+<path d="M 130,95 Q 220,70 330,75" stroke="rgba(234, 88, 12, 0.5)" stroke-dasharray="3 3" stroke-width="1.5"></path>
+<!-- Frankfurt to Sao Paulo -->
+<path d="M 360,85 Q 310,180 230,220" stroke="rgba(5, 150, 105, 0.4)" stroke-dasharray="6 3" stroke-width="1.5"></path>
+</svg>
+<!-- NODE 1: Oregon US-West (Nominal Mint) -->
+<div class="absolute left-[18%] top-[34%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-mint/30 node-pulse"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-mint border-2 border-canvas-deep shadow-[0_0_10px_#059669]"></span>
+</div>
+<div class="mt-1.5 px-2 py-0.5 rounded bg-elevated-onyx/90 border border-mint/40 text-[10px] font-mono-data text-starlight-white shadow">
+                US-West (OR) <span class="text-mint font-semibold">22ms</span>
+</div>
+</div>
+<!-- NODE 2: London EU-West (Peach Warning / Re-Keying) -->
+<div class="absolute left-[47%] top-[27%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-8 h-8 rounded-full bg-peach/30 node-pulse"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-peach border-2 border-canvas-deep shadow-[0_0_10px_#EA580C]"></span>
+</div>
+<div class="mt-1.5 px-2 py-0.5 rounded bg-elevated-onyx/90 border border-peach/50 text-[10px] font-mono-data text-starlight-white shadow flex items-center gap-1">
+<span>EU-West (LON)</span>
+<span class="text-peach font-semibold animate-pulse">Re-keying 94%</span>
+</div>
+</div>
+<!-- NODE 3: Frankfurt EU-Central (Nominal Mint) -->
+<div class="absolute left-[52%] top-[31%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-mint/30 node-pulse"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-mint border-2 border-canvas-deep shadow-[0_0_10px_#059669]"></span>
+</div>
+<div class="mt-1.5 px-2 py-0.5 rounded bg-elevated-onyx/90 border border-mint/40 text-[10px] font-mono-data text-starlight-white shadow">
+                EU-Central (FRA) <span class="text-mint font-semibold">14ms</span>
+</div>
+</div>
+<!-- NODE 4: Tokyo AP-North (Nominal Mint) -->
+<div class="absolute left-[83%] top-[38%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-mint/30 node-pulse"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-mint border-2 border-canvas-deep shadow-[0_0_10px_#059669]"></span>
+</div>
+<div class="mt-1.5 px-2 py-0.5 rounded bg-elevated-onyx/90 border border-mint/40 text-[10px] font-mono-data text-starlight-white shadow">
+                AP-North (HND) <span class="text-mint font-semibold">48ms</span>
+</div>
+</div>
+<!-- NODE 5: São Paulo SA-East (Nominal Mint) -->
+<div class="absolute left-[33%] top-[78%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-mint/30 node-pulse"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-mint border-2 border-canvas-deep shadow-[0_0_10px_#059669]"></span>
+</div>
+<div class="mt-1.5 px-2 py-0.5 rounded bg-elevated-onyx/90 border border-mint/40 text-[10px] font-mono-data text-starlight-white shadow">
+                SA-East (GRU) <span class="text-mint font-semibold">61ms</span>
+</div>
+</div>
+</div>
+<!-- Bottom Telemetry Micro Stats -->
+<div class="grid grid-cols-3 gap-3 pt-3 border-t border-white/5 font-mono-data">
+<div class="flex flex-col">
+<span class="text-body-sm text-muted-silver text-xs">Total Node Throughput</span>
+<span class="text-sm font-semibold text-starlight-white mt-0.5">8.42 Gbps / burst</span>
+</div>
+<div class="flex flex-col">
+<span class="text-body-sm text-muted-silver text-xs">Mesh Packet Dispersion</span>
+<span class="text-sm font-semibold text-mint mt-0.5">99.98% Non-Correlated</span>
+</div>
+<div class="flex flex-col">
+<span class="text-body-sm text-muted-silver text-xs">Dynamic Re-route Lag</span>
+<span class="text-sm font-semibold text-secondary mt-0.5">&lt; 180μs automated</span>
+</div>
+</div>
+</div>
+<!-- Right: Real-time Cryptographic Health & Rotations (5 Cols) -->
+<div class="lg:col-span-5 p-6 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h2 class="text-headline-sm font-headline-sm text-starlight-white">Cryptographic Health</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 border border-secondary/30 text-secondary text-xs font-mono-data">AES-256-GCM</span>
+</div>
+<p class="text-body-sm text-muted-silver mt-0.5">Automated Shamir Sharding &amp; Onion Ingress Ledger</p>
+<!-- Key Lifespan Progress Gauge -->
+<div class="mt-5 p-4 rounded-DEFAULT bg-surface-container-lowest border border-white/5 flex flex-col gap-2">
+<div class="flex justify-between items-center text-xs">
+<span class="font-body-md text-starlight-white font-medium">Ephemeral Root Key Lifespan</span>
+<span class="font-mono-data text-peach font-semibold">04m : 12s remaining</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-gradient-to-r from-secondary via-tertiary to-peach h-full rounded-full transition-all duration-300" style="width: 68%;"></div>
+</div>
+<div class="flex justify-between text-[11px] font-mono-data text-muted-silver mt-0.5">
+<span>Cycle #9812-B</span>
+<span>Auto-Re-key at 00m : 00s</span>
+</div>
+</div>
+<!-- Shamir Secret Sharing Breakdown Card -->
+<div class="mt-4 p-4 rounded-DEFAULT bg-surface-container-lowest border border-white/5 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-mint text-base" data-icon="vpn_key">vpn_key</span>
+<span class="text-xs font-headline-sm text-starlight-white">Shamir Shard Threshold (5-of-9)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-mint/20 text-mint text-[11px] font-mono-data font-semibold">QUORUM HEALTHY</span>
+</div>
+<!-- Shard visual matrix pills -->
+<div class="grid grid-cols-9 gap-1.5 mt-1">
+<div class="h-6 rounded bg-mint/30 border border-mint/60 flex items-center justify-center font-mono-data text-[10px] text-mint font-bold" title="Node US-W">S1</div>
+<div class="h-6 rounded bg-mint/30 border border-mint/60 flex items-center justify-center font-mono-data text-[10px] text-mint font-bold" title="Node EU-C">S2</div>
+<div class="h-6 rounded bg-mint/30 border border-mint/60 flex items-center justify-center font-mono-data text-[10px] text-mint font-bold" title="Node AP-N">S3</div>
+<div class="h-6 rounded bg-mint/30 border border-mint/60 flex items-center justify-center font-mono-data text-[10px] text-mint font-bold" title="Node SA-E">S4</div>
+<div class="h-6 rounded bg-mint/30 border border-mint/60 flex items-center justify-center font-mono-data text-[10px] text-mint font-bold" title="Node CA-C">S5</div>
+<div class="h-6 rounded bg-peach/20 border border-peach/50 flex items-center justify-center font-mono-data text-[10px] text-peach font-bold" title="London Re-key">S6</div>
+<div class="h-6 rounded bg-surface-container border border-white/10 flex items-center justify-center font-mono-data text-[10px] text-muted-silver" title="Standby">S7</div>
+<div class="h-6 rounded bg-surface-container border border-white/10 flex items-center justify-center font-mono-data text-[10px] text-muted-silver" title="Standby">S8</div>
+<div class="h-6 rounded bg-surface-container border border-white/10 flex items-center justify-center font-mono-data text-[10px] text-muted-silver" title="Standby">S9</div>
+</div>
+<p class="text-[11px] text-on-surface-variant font-mono-data leading-tight">
+                Quorum requirement met. 5 valid cryptographic fragments currently holding decryption bridge.
+              </p>
+</div>
+</div>
+<!-- Ingress Protocol Bar -->
+<div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono-data">
+<span class="text-muted-silver">Tor Ingress Bandwidth</span>
+<div class="flex items-center gap-2">
+<span class="text-secondary font-semibold">1,489 pkts/sec</span>
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================= -->
+<!-- ROW 3: Recent Audit Logs & Incident Ledger             -->
+<!-- ======================================================= -->
+<section class="p-6 rounded-DEFAULT bg-elevated-onyx border border-white/10 flex flex-col gap-4" id="audit-ledger">
+<!-- Table Header & Filter Toolbar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-sm font-headline-sm text-starlight-white">Recent Audit Logs &amp; Incident Ledger</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container border border-white/10 text-muted-silver font-mono-data text-xs">1,204 records</span>
+</div>
+<p class="text-body-sm text-muted-silver mt-0.5">High-fidelity cryptographic trace logs. Zero persistent PII stored.</p>
+</div>
+<!-- Category Filter Tabs & Fast Search -->
+<div class="flex items-center gap-3">
+<div class="flex items-center p-1 rounded-DEFAULT bg-surface-container-lowest border border-white/5 text-xs font-body-md">
+<button class="px-3 py-1 rounded bg-surface-container-high text-starlight-white font-medium shadow-sm">All Events</button>
+<button class="px-3 py-1 rounded text-muted-silver hover:text-starlight-white transition-colors">Security</button>
+<button class="px-3 py-1 rounded text-muted-silver hover:text-starlight-white transition-colors">Shards</button>
+<button class="px-3 py-1 rounded text-muted-silver hover:text-starlight-white transition-colors">Rotations</button>
+</div>
+<button class="p-2 rounded-DEFAULT bg-surface-container border border-white/10 text-muted-silver hover:text-starlight-white transition-colors" title="Export Ledger">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<!-- High Density Professional Data Table (8pt density) -->
+<div class="overflow-x-auto rounded-DEFAULT border border-white/5 bg-surface-container-lowest/50">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/10 bg-surface-container/60 text-muted-silver text-xs font-label">
+<th class="py-3 px-4 font-medium uppercase tracking-wider">Timestamp (UTC)</th>
+<th class="py-3 px-4 font-medium uppercase tracking-wider">Event Type</th>
+<th class="py-3 px-4 font-medium uppercase tracking-wider">Initiator Hash / UUID</th>
+<th class="py-3 px-4 font-medium uppercase tracking-wider">Routing Protocol</th>
+<th class="py-3 px-4 font-medium uppercase tracking-wider">Status</th>
+<th class="py-3 px-4 font-medium uppercase tracking-wider text-right">Ledger Verification</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 font-mono-data text-xs">
+<!-- Record 1 -->
+<tr class="hover:bg-surface-container/40 transition-colors">
+<td class="py-3 px-4 text-starlight-white whitespace-nowrap">2024-10-24 14:32:08</td>
+<td class="py-3 px-4 font-body-md font-medium text-starlight-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-mint"></span>
+<span>Zero-Log Buffer Shred</span>
+</td>
+<td class="py-3 px-4 text-muted-silver">anon-node-8891 // SHA256</td>
+<td class="py-3 px-4 text-on-surface-variant font-mono-data text-[12px]">Tor Ingress // Onion-v3</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-mint/20 text-mint border border-mint/30">
+                    Success / Purged
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-secondary text-[11px] transition-all">
+                    Inspect Hash
+                  </button>
+</td>
+</tr>
+<!-- Record 2 -->
+<tr class="hover:bg-surface-container/40 transition-colors">
+<td class="py-3 px-4 text-starlight-white whitespace-nowrap">2024-10-24 14:31:45</td>
+<td class="py-3 px-4 font-body-md font-medium text-starlight-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-peach"></span>
+<span>Key Rotation (EU-West)</span>
+</td>
+<td class="py-3 px-4 text-muted-silver">sys-mesh-lon-02</td>
+<td class="py-3 px-4 text-on-surface-variant font-mono-data text-[12px]">WireGuard // Direct Peer</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-secondary/20 text-secondary border border-secondary/30">
+                    In Progress (94%)
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-secondary text-[11px] transition-all">
+                    Inspect Hash
+                  </button>
+</td>
+</tr>
+<!-- Record 3 -->
+<tr class="hover:bg-surface-container/40 transition-colors">
+<td class="py-3 px-4 text-starlight-white whitespace-nowrap">2024-10-24 14:30:19</td>
+<td class="py-3 px-4 font-body-md font-medium text-starlight-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-rose"></span>
+<span>High-Risk Escalation Handshake</span>
+</td>
+<td class="py-3 px-4 text-rose">ingress-edge-4410 // REJECT</td>
+<td class="py-3 px-4 text-on-surface-variant font-mono-data text-[12px]">IPv6 Unknown Relay</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-rose/20 text-rose border border-rose/30">
+                    Blocked / Rate-Limited
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-primary-container text-[11px] transition-all">
+                    Inspect Hash
+                  </button>
+</td>
+</tr>
+<!-- Record 4 -->
+<tr class="hover:bg-surface-container/40 transition-colors">
+<td class="py-3 px-4 text-starlight-white whitespace-nowrap">2024-10-24 14:28:50</td>
+<td class="py-3 px-4 font-body-md font-medium text-starlight-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-mint"></span>
+<span>Admin MFA Challenge</span>
+</td>
+<td class="py-3 px-4 text-muted-silver">sys-secops-09 // FIDO2</td>
+<td class="py-3 px-4 text-on-surface-variant font-mono-data text-[12px]">Internal Hardware Bus</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-peach/20 text-peach border border-peach/30">
+                    Audited
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-secondary text-[11px] transition-all">
+                    Inspect Hash
+                  </button>
+</td>
+</tr>
+<!-- Record 5 -->
+<tr class="hover:bg-surface-container/40 transition-colors">
+<td class="py-3 px-4 text-starlight-white whitespace-nowrap">2024-10-24 14:26:12</td>
+<td class="py-3 px-4 font-body-md font-medium text-starlight-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-mint"></span>
+<span>Node Drop Recovered</span>
+</td>
+<td class="py-3 px-4 text-muted-silver">node-ap-north-01</td>
+<td class="py-3 px-4 text-on-surface-variant font-mono-data text-[12px]">BGP Multi-Path failover</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-mint/20 text-mint border border-mint/30">
+                    Success / Purged
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-secondary text-[11px] transition-all">
+                    Inspect Hash
+                  </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination & Ledger Integrity Hash -->
+<div class="flex flex-col sm:flex-row items-center justify-between text-xs text-muted-silver gap-2 pt-1 font-mono-data">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-mint" data-icon="lock_clock">lock_clock</span>
+<span>Ledger Merkle Root: 0x9f7b...e4a1</span>
+<span class="text-mint font-semibold">[VERIFIED IMMUTABLE]</span>
+</div>
+<div class="flex items-center gap-2">
+<span>Showing 5 of 1,204</span>
+<div class="flex gap-1 ml-2">
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-starlight-white disabled:opacity-30">Prev</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-white/10 text-starlight-white">Next</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
