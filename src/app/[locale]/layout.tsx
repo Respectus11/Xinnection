@@ -6,9 +6,7 @@ import { routing } from "@/i18n/routing";
 import { fraunces, notoEthiopic, notoSans } from "../fonts";
 import "../globals.css";
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
+
 
 export async function generateMetadata({
   params,
