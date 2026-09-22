@@ -1,13 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/Button";
-import { HighlandsMark } from "@/components/ui/HighlandsMark";
 
-// Register-consistent crash state. Shows for errors thrown below the
-// [locale] layout; the root layout itself crashing falls through to
-// global-error.tsx. No error details are rendered — the server log and
-// (future) error tracker are the place for that.
 export default function ErrorPage({
   error,
   reset,
@@ -18,23 +12,29 @@ export default function ErrorPage({
   const t = useTranslations("errors");
   const tCommon = useTranslations("common");
   if (error.digest) {
-    // Content-free correlation id only — safe to log, useful in ops.
     console.error(`[ui] error digest: ${error.digest}`);
   }
 
   return (
-    <main className="atmosphere flex min-h-screen items-center justify-center px-4">
-      <div className="card w-full max-w-md p-8 text-center">
-        <HighlandsMark variant="mark" className="mx-auto h-8 w-auto text-eucalyptus" />
-        <h1 className="display mt-4 text-2xl text-ink">{t("title")}</h1>
-        <p className="mt-2 leading-relaxed text-ink/75">{t("body")}</p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Button variant="primary" onClick={reset}>
+    <main className="flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-md p-8 text-center bg-slate-900/60 border border-slate-800 rounded-xl text-slate-100">
+        <h1 className="mt-4 text-2xl font-semibold">{t("title")}</h1>
+        <p className="mt-2 text-slate-400 leading-relaxed">{t("body")}</p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <button
+            type="button"
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-medium transition-colors"
+            onClick={reset}
+          >
             {t("retry")}
-          </Button>
-          <Button variant="ghost" onClick={() => window.location.assign("/")}>
+          </button>
+          <button
+            type="button"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors"
+            onClick={() => window.location.assign("/")}
+          >
             {tCommon("goHome")}
-          </Button>
+          </button>
         </div>
       </div>
     </main>
