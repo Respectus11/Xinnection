@@ -1,5 +1,6 @@
-import { ThreadLookupForm } from "./ThreadLookupForm";
+import React from "react";
+import { SeekerThreadView } from "@/components/seeker/SeekerThreadView";
 
-export default function ThreadLookupPage() {
-  return <ThreadLookupForm />;
+export default function SeekerThreadPage() {
+  return <SeekerThreadView />;
 }
