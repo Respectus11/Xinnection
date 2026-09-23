@@ -8,6 +8,7 @@ import {
   addMessage,
   touchSession,
 } from "@/lib/threads";
+import DOMPurify from "isomorphic-dompurify";
 
 // Adds a turn to a conversation. Two credential paths:
 // - seeker: proves ownership with their code (hash-compared)
@@ -21,7 +22,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     } catch {
       return errorResponse(400, "BAD_REQUEST");
     }
-    const content = String(body.content ?? "").trim();
+    const contentRaw = String(body.content ?? "").trim();
+    const content = DOMPurify.sanitize(contentRaw, { ALLOWED_TAGS: [] }); // Strip ALL HTML tags
     if (!content || content.length > MAX_MESSAGE_LENGTH) return errorResponse(400, "INVALID");
 
     const thread = await prisma.thread.findUnique({
