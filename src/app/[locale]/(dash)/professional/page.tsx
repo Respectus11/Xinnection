@@ -1,103 +1,67 @@
-import { getTranslations } from "next-intl/server";
-import { categoryKey } from "@/components/categories";
-import { Badge } from "@/components/ui/Badge";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { CONTENT_LANGUAGES } from "@/lib/threads";
-import { prisma } from "@/lib/db";
-import { formatAgo } from "@/lib/time";
-import { ClaimButton } from "./ClaimButton";
-import { QueueFilters } from "./QueueFilters";
+import React from "react";
+import { DashboardSidebar } from "@/components/dash/DashboardSidebar";
+import { LiveMetricsRibbon } from "@/components/dash/LiveMetricsRibbon";
+import { TriageQueueTable } from "@/components/dash/TriageQueueTable";
 
-export const dynamic = "force-dynamic";
-
-// Queue view: data-dense rows separated by hairlines. Crisis-flagged items
-// are always sorted to the top regardless of filters — that ordering is a
-// safety property, not a preference, and the flag badge makes it legible.
-export default async function ProfessionalQueuePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string; language?: string }>;
-}) {
-  const { category, language } = await searchParams;
-  const t = await getTranslations("queue");
-  const tCats = await getTranslations("categories");
-  const tLang = await getTranslations("languages");
-
-  const categories = await prisma.category.findMany({
-    where: { active: true },
-    orderBy: { sortOrder: "asc" },
-  });
-
-  const threads = await prisma.thread.findMany({
-    where: {
-      status: "OPEN",
-      claimedById: null,
-      ...(category ? { category: { slug: category } } : {}),
-      ...(language ? { language } : {}),
-    },
-    include: {
-      category: true,
-      crisisFlags: { where: { resolvedAt: null } },
-      _count: { select: { messages: true } },
-    },
-  });
-  threads.sort((a, b) => {
-    const aFlagged = a.crisisFlags.length > 0 ? 0 : 1;
-    const bFlagged = b.crisisFlags.length > 0 ? 0 : 1;
-    if (aFlagged !== bFlagged) return aFlagged - bFlagged;
-    return a.createdAt.getTime() - b.createdAt.getTime();
-  });
-
+export default function ProfessionalDashboardPage() {
   return (
-    <section className="mx-auto max-w-4xl">
-      <SectionHeading title={t("title")} kicker={t("subtitle")} />
-      <QueueFilters
-        categories={categories.map((c) => ({ slug: c.slug, label: tCats(categoryKey(c.slug)) }))}
-        languages={CONTENT_LANGUAGES.map((code) => ({ code, label: tLang(code) }))}
-        selectedCategory={category ?? ""}
-        selectedLanguage={language ?? ""}
-      />
-      {threads.length === 0 ? (
-        <div className="mt-8">
-          <EmptyState title={t("empty")} />
+    <div className="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">
+      {/* Left Navigation Sidebar */}
+      <DashboardSidebar />
+
+      {/* Main Content Canvas */}
+      <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0 bg-canvas-sunrise">
+        
+        {/* Top Utility Bar */}
+        <header className="flex justify-between items-center w-full px-space-lg h-16 shrink-0 bg-pure-surface shadow-sm z-10">
+          {/* Search and view badge */}
+          <div className="flex items-center gap-space-md flex-1 max-w-xl">
+            <div className="relative w-80">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-warm-slate">
+                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 0" }}>search</span>
+              </span>
+              <input 
+                className="w-full pl-9 pr-4 py-2 rounded-full bg-surface-container-low border-0 text-body-sm font-body-sm text-deep-midnight placeholder-warm-slate focus:ring-2 focus:ring-azure-blue transition-all outline-none" 
+                placeholder="Search Thread ID, keywords, seeker..." 
+                type="text"
+              />
+            </div>
+            
+            {/* Quick Emergency Broadcast Warning Status / Action */}
+            <button className="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-rose-bg text-rose-text border border-rose-bg hover:bg-rose-text hover:text-pure-surface text-label-md font-label-md font-semibold transition-all active:scale-95 shadow-sm">
+              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>campaign</span>
+              <span>Emergency Broadcast</span>
+            </button>
+          </div>
+
+          {/* Right Utility Actions */}
+          <div className="flex items-center gap-space-sm">
+            <button className="inline-flex items-center gap-2 px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high text-deep-midnight text-label-md font-label-md font-medium transition-colors cursor-pointer active:scale-95">
+              <span className="material-symbols-outlined text-base">drive_file_move</span>
+              <span>Batch Assign</span>
+            </button>
+            
+            <div className="h-6 w-px bg-surface-container-high mx-1"></div>
+            
+            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors relative" title="Notifications">
+              <span className="material-symbols-outlined">notifications</span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-vibrant-coral ring-2 ring-pure-surface"></span>
+            </button>
+            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Filter Presets">
+              <span className="material-symbols-outlined">tune</span>
+            </button>
+            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Clinical Protocol Help">
+              <span className="material-symbols-outlined">help_outline</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Body Scrollable Content */}
+        <div className="flex-1 overflow-y-auto px-space-lg py-space-md flex flex-col gap-space-md custom-scrollbar">
+          <LiveMetricsRibbon />
+          <TriageQueueTable />
         </div>
-      ) : (
-        <ul className="mt-2 border-t border-line">
-          {threads.map((thread) => {
-            const flagged = thread.crisisFlags.length > 0;
-            return (
-              <li
-                key={thread.id}
-                className={`grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-3.5 pr-1 transition-colors duration-150 rounded-lg px-2 ${
-                  flagged ? "bg-[rgba(217,107,88,0.08)]" : "hover:bg-white/[0.04]"
-                }`}
-              >
-                <span
-                  role={flagged ? "img" : undefined}
-                  aria-label={flagged ? t("flagged") : undefined}
-                  className={`h-2 w-2 rounded-full ${flagged ? "bg-flag" : "bg-line"}`}
-                />
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge tone={flagged ? "flag" : "neutral"}>
-                      {tCats(categoryKey(thread.category.slug))}
-                    </Badge>
-                    <span className="text-sm font-medium text-slate-300">{tLang(thread.language)}</span>
-                    <span className="tnum text-sm text-slate-300">
-                      {thread._count.messages} {t("messages")}
-                    </span>
-                  </div>
-                  <p className="tnum mt-1 text-sm text-slate-300">
-                    {t("waiting")} {formatAgo(thread.createdAt)}
-                  </p>
-                </div>
-                <ClaimButton threadId={thread.id} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </section>
+      </main>
+    </div>
   );
 }
