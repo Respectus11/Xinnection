@@ -20,7 +20,7 @@ export default async function ProfessionalDashboardPage() {
   return (
     <div className="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">
       {/* Left Navigation Sidebar */}
-      <DashboardSidebar />
+      <DashboardSidebar metrics={metrics} />
 
       {/* Main Content Canvas */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0 bg-canvas-sunrise">
