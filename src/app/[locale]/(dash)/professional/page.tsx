@@ -13,8 +13,8 @@ export default async function ProfessionalDashboardPage() {
 
   const metrics = {
     totalQueue: threads.length,
-    escalations: threads.filter(t => t.riskLevel === "HIGH").length,
-    activeChats: threads.filter(t => t.status === "ACTIVE").length,
+    escalations: threads.filter(t => t.status === "ESCALATED").length,
+    activeChats: threads.filter(t => t.status === "IN_PROGRESS").length,
     handoffLog: 0,
   };
   return (
