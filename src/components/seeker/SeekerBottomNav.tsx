@@ -2,7 +2,13 @@
 import React from "react";
 import Link from "next/link";
 
-export function SeekerBottomNav() {
+interface SeekerBottomNavProps {
+  onSubmit: () => void;
+  isSubmitting?: boolean;
+  disabled?: boolean;
+}
+
+export function SeekerBottomNav({ onSubmit, isSubmitting, disabled }: SeekerBottomNavProps) {
   return (
     <>
       {/* Additional Ambient Grounding Card */}
@@ -18,9 +24,20 @@ export function SeekerBottomNav() {
       <div className="fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center">
         {/* Primary CTA Floating Tray (with blur over canvas) */}
         <div className="w-full max-w-md px-margin pb-2 pt-3 bg-gradient-to-t from-canvas-deep via-canvas-deep/95 to-transparent backdrop-blur-sm flex flex-col items-center gap-1.5">
-          <button className="w-full py-3.5 px-6 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-primary-container/20 hover:brightness-105 active:scale-95 transition-all duration-150" type="button">
-            <span>Submit Anonymously</span>
-            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>send</span>
+          <button 
+            className="w-full py-3.5 px-6 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-primary-container/20 hover:brightness-105 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:active:scale-100" 
+            type="button"
+            onClick={onSubmit}
+            disabled={disabled || isSubmitting}
+          >
+            {isSubmitting ? (
+              <span>Submitting...</span>
+            ) : (
+              <>
+                <span>Submit Anonymously</span>
+                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>send</span>
+              </>
+            )}
           </button>
         </div>
         

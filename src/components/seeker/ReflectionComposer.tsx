@@ -3,7 +3,12 @@ import React from "react";
 
 
 
-export function ReflectionComposer() {
+interface ReflectionComposerProps {
+  content: string;
+  onChange: (content: string) => void;
+}
+
+export function ReflectionComposer({ content, onChange }: ReflectionComposerProps) {
   return (
     <section className="relative">
       <div className="bg-elevated-onyx rounded-2xl p-space-md border border-outline-variant/50 shadow-xl transition-all duration-200 focus-within:border-primary-container/80 focus-within:ring-1 focus-within:ring-primary-container/40">
@@ -27,6 +32,8 @@ export function ReflectionComposer() {
             maxLength={800} 
             placeholder="What is on your mind today? Write without filter..." 
             rows={5}
+            value={content}
+            onChange={(e) => onChange(e.target.value)}
           />
         </div>
         
@@ -42,7 +49,7 @@ export function ReflectionComposer() {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-mono-data text-mono-data text-muted-silver/80" id="char-counter">0 / 800</span>
+            <span className="font-mono-data text-mono-data text-muted-silver/80" id="char-counter">{content.length} / 800</span>
           </div>
         </div>
         

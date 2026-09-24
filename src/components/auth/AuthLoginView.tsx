@@ -8,9 +8,38 @@ export function AuthLoginView() {
   const router = useRouter();
   const [activeRole, setActiveRole] = useState<"peer" | "supervisor" | "admin">("peer");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/professional");
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          email, 
+          password, 
+          portal: activeRole === "admin" ? "admin" : "professional" 
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Invalid credentials");
+      }
+      // If it's a supervisor/admin, they might route to /admin instead.
+      if (activeRole === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/professional");
+      }
+    } catch (err: any) {
+      setError(err.message);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -208,7 +237,13 @@ export function AuthLoginView() {
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-silver">
                     <span className="material-symbols-outlined text-base">mail</span>
                   </div>
-                  <input className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md placeholder:text-muted-silver/50 focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors" placeholder="responder@crisis.xinnection.org" type="email" defaultValue="responder@crisis.xinnection.org" />
+                  <input 
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md placeholder:text-muted-silver/50 focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors" 
+                    placeholder="responder@crisis.xinnection.org" 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
               </div>
               
@@ -222,7 +257,13 @@ export function AuthLoginView() {
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-silver">
                     <span className="material-symbols-outlined text-base">lock</span>
                   </div>
-                  <input className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors tracking-widest" placeholder="Enter passphrase" type="password" defaultValue="password123" />
+                  <input 
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors tracking-widest" 
+                    placeholder="Enter passphrase" 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                   <button className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted-silver hover:text-starlight-white" type="button">
                     <span className="material-symbols-outlined text-base">visibility</span>
                   </button>
@@ -263,10 +304,19 @@ export function AuthLoginView() {
               </div>
               
               {/* Primary Submit Button */}
-              <div className="pt-4">
-                <button className="w-full py-3.5 px-6 rounded-full bg-primary-container hover:bg-primary-container/90 text-starlight-white font-headline-sm font-semibold flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(255,107,107,0.35)] hover:shadow-[0_6px_28px_rgba(255,107,107,0.45)] active:scale-95 transition-all duration-150" type="submit">
-                  <span>Secure Login</span>
-                  <span className="material-symbols-outlined text-base">arrow_forward</span>
+              <div className="pt-4 flex flex-col gap-2">
+                {error && (
+                  <div className="text-error text-label font-label text-center mb-1">
+                    {error}
+                  </div>
+                )}
+                <button 
+                  className="w-full py-3.5 px-6 rounded-full bg-primary-container hover:bg-primary-container/90 text-starlight-white font-headline-sm font-semibold flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(255,107,107,0.35)] hover:shadow-[0_6px_28px_rgba(255,107,107,0.45)] active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed" 
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  <span>{isLoading ? "Authenticating..." : "Secure Login"}</span>
+                  {!isLoading && <span className="material-symbols-outlined text-base">arrow_forward</span>}
                 </button>
               </div>
               

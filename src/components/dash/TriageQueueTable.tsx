@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { TriageQueueRow } from "./TriageQueueRow";
-import { triageQueue } from "@/data/mockData";
+import { Thread } from "@prisma/client";
 
-export function TriageQueueTable() {
+export function TriageQueueTable({ threads }: { threads: Thread[] }) {
   return (
     <section className="bg-pure-surface rounded-DEFAULT shadow-sm flex flex-col flex-1 border border-surface-container-high/40 overflow-hidden">
       {/* Filter Header Ribbon */}
@@ -65,7 +65,7 @@ export function TriageQueueTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-surface-container-high/40 text-body-sm font-body-sm">
-            {triageQueue.map((thread) => (
+            {threads.map((thread) => (
               <TriageQueueRow key={thread.id} thread={thread} />
             ))}
           </tbody>

@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 
 export function SeekerCodeView() {
   const router = useRouter();
-  const token = "XN-442-991";
+  const searchParams = useSearchParams();
+  const token = searchParams.get("c") || "XXXX-XXXX";
   
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
@@ -247,7 +248,7 @@ export function SeekerCodeView() {
       {/* Sticky Bottom Navigation / Primary CTA Container */}
       <footer className="fixed bottom-0 left-0 w-full z-50 bg-elevated-onyx/95 backdrop-blur-md px-margin py-3.5 shadow-lg flex flex-col items-center">
         <div className="w-full max-w-md flex flex-col items-center gap-1.5">
-          <Link href="/thread" className="w-full h-12 rounded-full bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-on-primary-container font-headline-sm text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all duration-150">
+          <Link href={`/en/thread/${token}`} className="w-full h-12 rounded-full bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-on-primary-container font-headline-sm text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all duration-150">
             <span>I have saved my code, continue to thread</span>
             <span className="material-symbols-outlined text-base font-bold">arrow_forward</span>
           </Link>

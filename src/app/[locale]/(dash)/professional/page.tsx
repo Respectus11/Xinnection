@@ -2,8 +2,21 @@ import React from "react";
 import { DashboardSidebar } from "@/components/dash/DashboardSidebar";
 import { LiveMetricsRibbon } from "@/components/dash/LiveMetricsRibbon";
 import { TriageQueueTable } from "@/components/dash/TriageQueueTable";
+import { prisma } from "@/lib/db";
 
-export default function ProfessionalDashboardPage() {
+export default async function ProfessionalDashboardPage() {
+  const threads = await prisma.thread.findMany({
+    where: { status: "ACTIVE" },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
+
+  const metrics = {
+    totalQueue: threads.length,
+    escalations: threads.filter(t => t.riskLevel === "HIGH").length,
+    activeChats: threads.filter(t => t.status === "ACTIVE").length,
+    handoffLog: 0,
+  };
   return (
     <div className="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">
       {/* Left Navigation Sidebar */}
@@ -58,8 +71,8 @@ export default function ProfessionalDashboardPage() {
 
         {/* Body Scrollable Content */}
         <div className="flex-1 overflow-y-auto px-space-lg py-space-md flex flex-col gap-space-md custom-scrollbar">
-          <LiveMetricsRibbon />
-          <TriageQueueTable />
+          <LiveMetricsRibbon metrics={metrics} />
+          <TriageQueueTable threads={threads} />
         </div>
       </main>
     </div>

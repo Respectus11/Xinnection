@@ -2,9 +2,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
-import { liveMetrics } from "@/data/mockData";
+import { MetricsData } from "./LiveMetricsRibbon";
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ metrics }: { metrics: MetricsData }) {
   return (
     <aside className="h-screen w-64 flex flex-col justify-between p-space-md shrink-0 bg-pure-surface dark:bg-inverse-surface shadow-sm dark:shadow-none select-none z-20">
       {/* Top Area: Brand & Responder Profile */}
@@ -46,7 +46,7 @@ export function DashboardSidebar() {
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>inbox</span>
               <span className="text-label-md font-label-md">Live Triage Queue</span>
             </div>
-            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-primary text-white font-medium">{liveMetrics.totalQueue}</span>
+            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-primary text-white font-medium">{metrics.totalQueue}</span>
           </Link>
           
           {/* Escalations */}
@@ -55,7 +55,7 @@ export function DashboardSidebar() {
               <span className="material-symbols-outlined text-vibrant-coral">warning</span>
               <span className="text-label-md font-label-md">Escalations</span>
             </div>
-            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-rose-bg text-rose-text font-semibold">{liveMetrics.escalations}</span>
+            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-rose-bg text-rose-text font-semibold">{metrics.escalations}</span>
           </Link>
           
           {/* My Active Chats */}
@@ -64,7 +64,7 @@ export function DashboardSidebar() {
               <span className="material-symbols-outlined">forum</span>
               <span className="text-label-md font-label-md">My Active Chats</span>
             </div>
-            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">{liveMetrics.activeChats}</span>
+            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">{metrics.activeChats}</span>
           </Link>
           
           {/* Handoff Log */}
@@ -73,7 +73,7 @@ export function DashboardSidebar() {
               <span className="material-symbols-outlined">swap_horiz</span>
               <span className="text-label-md font-label-md">Handoff Log</span>
             </div>
-            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">{liveMetrics.handoffLog}</span>
+            <span className="px-2 py-0.5 rounded-full text-mono-data font-mono-data bg-surface-container-high text-warm-slate">{metrics.handoffLog}</span>
           </Link>
           
           {/* Supervision & Insights */}

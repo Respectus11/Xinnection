@@ -1,8 +1,19 @@
 "use client";
 import React from "react";
-import { seekerCategories } from "@/data/mockData";
+const seekerCategories = [
+  { id: "anxiety", label: "Anxiety", color: "tertiary" },
+  { id: "relationships", label: "Relationships", color: "lavender" },
+  { id: "grief", label: "Grief", color: "peach" },
+  { id: "burnout", label: "Burnout", color: "rose" },
+  { id: "loneliness", label: "Loneliness", color: "secondary" },
+  { id: "transitions", label: "Transitions", color: "primary" },
+];
+interface CategoryPillsGridProps {
+  selectedCategory: string;
+  onSelect: (category: string) => void;
+}
 
-export function CategoryPillsGrid() {
+export function CategoryPillsGrid({ selectedCategory, onSelect }: CategoryPillsGridProps) {
   return (
     <section className="flex flex-col gap-3">
       <div className="flex items-center justify-between px-0.5">
@@ -42,10 +53,14 @@ export function CategoryPillsGrid() {
 
           const style = colorMap[category.id] || colorMap.anxiety;
 
+          const isSelected = selectedCategory === category.id;
+          const activeRing = isSelected ? "ring-2 ring-primary/80 ring-offset-1 ring-offset-canvas-deep" : "";
+
           return (
             <button 
               key={category.id}
-              className={`group relative flex items-center gap-2.5 p-3 rounded-xl ${style.bg} border ${style.border} transition-all duration-150 text-left active:scale-95`} 
+              onClick={() => onSelect(category.id)}
+              className={`group relative flex items-center gap-2.5 p-3 rounded-xl ${style.bg} border ${style.border} transition-all duration-150 text-left active:scale-95 ${activeRing}`} 
               type="button"
             >
               <span className={`h-2.5 w-2.5 rounded-full ${style.dotBg} ${style.dotShadow}`}></span>

@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
-import { liveMetrics } from "@/data/mockData";
+export interface MetricsData {
+  totalQueue: number;
+  escalations: number;
+  activeChats: number;
+  handoffLog: number;
+}
 
-export function LiveMetricsRibbon() {
+export function LiveMetricsRibbon({ metrics }: { metrics: MetricsData }) {
   return (
     <section className="grid grid-cols-4 gap-space-md">
       {/* Metric 1: Total Active Queue */}
@@ -10,7 +15,7 @@ export function LiveMetricsRibbon() {
         <div>
           <span className="text-body-sm font-body-sm text-warm-slate block">Total Active Queue</span>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-headline-md font-headline-md text-deep-midnight font-bold">{liveMetrics.totalQueue}</span>
+            <span className="text-headline-md font-headline-md text-deep-midnight font-bold">{metrics.totalQueue}</span>
             <span className="text-mono-data font-mono-data text-warm-slate">threads</span>
           </div>
         </div>
@@ -27,7 +32,7 @@ export function LiveMetricsRibbon() {
             <span className="inline-block w-2 h-2 rounded-full bg-vibrant-coral animate-ping"></span>
           </div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-headline-md font-headline-md text-primary font-bold">{liveMetrics.escalations}</span>
+            <span className="text-headline-md font-headline-md text-primary font-bold">{metrics.escalations}</span>
             <span className="text-mono-data font-mono-data text-primary font-medium">Action Required</span>
           </div>
         </div>
