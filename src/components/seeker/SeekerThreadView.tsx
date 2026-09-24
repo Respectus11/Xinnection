@@ -18,7 +18,6 @@ export function SeekerThreadView({ code }: { code: string }) {
     if (!code) return;
     const fetchThread = async () => {
       try {
-        const id = "placeholder"; // We don't have the ID, we need to look it up by code, but GET /api/threads/:id doesn't know ID.
         // Wait, the page is /thread/[code]. We don't have the thread ID on the client unless we decode it.
         // I need to change how the client fetches the thread.
         // Let's use a new route or just look it up in page.tsx and pass it down.

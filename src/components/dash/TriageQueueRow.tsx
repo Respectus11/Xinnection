@@ -8,6 +8,7 @@ export interface TriageQueueRowProps {
 
 export function TriageQueueRow({ thread }: Readonly<TriageQueueRowProps>) {
   // Mapping risk to specific styles based on Stitch designs
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const riskStyles: Record<string, any> = {
     HIGH: {
       bgRow: "bg-rose-bg/10 hover:bg-rose-bg/20",

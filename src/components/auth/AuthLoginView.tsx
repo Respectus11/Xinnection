@@ -36,8 +36,8 @@ export function AuthLoginView() {
       } else {
         router.push("/professional");
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err as Error).message);
       setIsLoading(false);
     }
   };
