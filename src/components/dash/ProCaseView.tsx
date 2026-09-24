@@ -3,12 +3,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Thread, ThreadMessage } from "@prisma/client";
+import { Thread, Message } from "@prisma/client";
 
 export function ProCaseView({ threadId }: { threadId: string }) {
   const [activeTab, setActiveTab] = useState<"reply" | "note">("reply");
   const [thread, setThread] = useState<Thread | null>(null);
-  const [messages, setMessages] = useState<ThreadMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);;
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -225,7 +225,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
               {/* Tags & Incident Actions */}
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-mint/20 text-tertiary-fixed font-label text-label border border-mint/40">
-                  {thread?.category || "Unknown"}
+                  {thread?.categoryId || "Unknown"}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label text-label border border-secondary-container/40">
                   Zero-Logs Encrypted
@@ -251,9 +251,9 @@ export function ProCaseView({ threadId }: { threadId: string }) {
               </div>
 
               {messages.map((msg, idx) => (
-                <div key={idx} className={`flex flex-col ${msg.role === 'SEEKER' ? 'items-start' : 'items-end ml-auto'} max-w-xl`}>
+                <div key={idx} className={`flex flex-col ${msg.senderRole === 'SEEKER' ? 'items-start' : 'items-end ml-auto'} max-w-xl`}>
                   <div className="flex items-center gap-2 mb-1 px-1">
-                    {msg.role === 'SEEKER' ? (
+                    {msg.senderRole === 'SEEKER' ? (
                       <>
                         <span className="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
                         <span className="font-mono-data text-[11px] text-muted-silver">
@@ -269,8 +269,8 @@ export function ProCaseView({ threadId }: { threadId: string }) {
                       </>
                     )}
                   </div>
-                  <div className={`${msg.role === 'SEEKER' ? 'bg-elevated-onyx border-outline-variant/30 text-starlight-white' : 'bg-lavender/20 border-lavender/40 text-starlight-white'} border rounded-DEFAULT p-3.5 shadow-sm leading-relaxed`}>
-                    {msg.content}
+                  <div className={`${msg.senderRole === 'SEEKER' ? 'bg-elevated-onyx border-outline-variant/30 text-starlight-white' : 'bg-lavender/20 border-lavender/40 text-starlight-white'} border rounded-DEFAULT p-3.5 shadow-sm leading-relaxed`}>
+                    {msg.ciphertext}
                   </div>
                 </div>
               ))}

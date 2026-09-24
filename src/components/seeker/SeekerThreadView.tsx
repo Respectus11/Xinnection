@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Thread, ThreadMessage } from "@prisma/client";
+import { Thread, Message } from "@prisma/client";
 
 export function SeekerThreadView({ code }: { code: string }) {
   const router = useRouter();
   const [isPurgeModalOpen, setIsPurgeModalOpen] = useState(false);
   const [isPurged, setIsPurged] = useState(false);
   const [thread, setThread] = useState<Thread | null>(null);
-  const [messages, setMessages] = useState<ThreadMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -147,11 +147,11 @@ export function SeekerThreadView({ code }: { code: string }) {
         </div>
 
         {messages.map((msg, idx) => (
-          <div key={idx} className={`flex flex-col ${msg.role === 'SEEKER' ? 'items-end' : 'items-start'} gap-1.5 max-w-[88%] ${msg.role === 'SEEKER' ? 'self-end' : 'self-start'}`}>
-            {msg.role === 'SEEKER' ? (
+          <div key={idx} className={`flex flex-col ${msg.senderRole === 'SEEKER' ? 'items-end' : 'items-start'} gap-1.5 max-w-[88%] ${msg.senderRole === 'SEEKER' ? 'self-end' : 'self-start'}`}>
+            {msg.senderRole === 'SEEKER' ? (
               <>
                 <div className="bg-elevated-onyx border border-white/10 rounded-2xl rounded-tr-sm p-space-md shadow-md text-starlight-white">
-                  <p className="font-body-md text-body-md leading-relaxed font-normal">{msg.content}</p>
+                  <p className="font-body-md text-body-md leading-relaxed font-normal">{msg.ciphertext}</p>
                 </div>
                 <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pr-1">
                   <span className="font-mono-data text-[11px]">{new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -175,7 +175,7 @@ export function SeekerThreadView({ code }: { code: string }) {
                   </div>
                 </div>
                 <div className="bg-elevated-onyx/90 border border-lavender/25 rounded-2xl rounded-tl-sm p-space-md shadow-md text-starlight-white relative overflow-hidden">
-                  <p className="font-body-md text-body-md leading-relaxed">{msg.content}</p>
+                  <p className="font-body-md text-body-md leading-relaxed">{msg.ciphertext}</p>
                 </div>
                 <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pl-1">
                   <span className="font-mono-data text-[11px]">{new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>

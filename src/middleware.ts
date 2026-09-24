@@ -36,7 +36,7 @@ const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
   // Extract client IP
-  const ip = request.headers.get("x-forwarded-for") ?? request.ip ?? "127.0.0.1";
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "127.0.0.1";
   
   // Rate Limit check
   const isAllowed = checkRateLimit(ip);
