@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db";
 
 export default async function ProfessionalDashboardPage() {
   const threads = await prisma.thread.findMany({
-    where: { status: "ACTIVE" },
+    where: { status: "IN_PROGRESS" },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
