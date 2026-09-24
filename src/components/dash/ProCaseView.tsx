@@ -1,17 +1,62 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { Thread, ThreadMessage } from "@prisma/client";
 
-
-
-
-export function ProCaseView() {
-  
-
-  // Simple state for tabs
+export function ProCaseView({ threadId }: { threadId: string }) {
   const [activeTab, setActiveTab] = useState<"reply" | "note">("reply");
+  const [thread, setThread] = useState<Thread | null>(null);
+  const [messages, setMessages] = useState<ThreadMessage[]>([]);
+  const [content, setContent] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    if (!threadId) return;
+    const fetchThread = async () => {
+      try {
+        const res = await fetch(`/api/threads/${threadId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setThread(data);
+          setMessages(data.messages || []);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    
+    fetchThread();
+    const interval = setInterval(fetchThread, 5000);
+    return () => clearInterval(interval);
+  }, [threadId]);
+
+  const handleSend = async () => {
+    if (!content.trim() || isSending) return;
+    setIsSending(true);
+    try {
+      const res = await fetch(`/api/threads/${threadId}/messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
+      });
+      if (res.ok) {
+        setContent("");
+        // Optimistic refresh handled by next poll or we can force it
+        const newThreadRes = await fetch(`/api/threads/${threadId}`);
+        if (newThreadRes.ok) {
+          const data = await newThreadRes.json();
+          setThread(data);
+          setMessages(data.messages || []);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <div className="bg-canvas-deep text-starlight-white font-body-md text-body-md antialiased h-[100dvh] overflow-hidden flex flex-col select-none">
@@ -164,7 +209,7 @@ export function ProCaseView() {
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2 bg-canvas-deep/70 px-2.5 py-1 rounded-DEFAULT border border-outline-variant/30">
                   <span className="text-label font-label text-muted-silver">Thread ID:</span>
-                  <span className="font-mono-data text-mono-data text-starlight-white font-semibold">XN-442-991</span>
+                  <span className="font-mono-data text-mono-data text-starlight-white font-semibold">{thread?.id.split("-")[0].toUpperCase() || "..."}</span>
                 </div>
                 {/* Status Indicator Pill */}
                 <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-mint/20 border border-mint/40 text-tertiary-fixed text-label font-label">
@@ -180,7 +225,7 @@ export function ProCaseView() {
               {/* Tags & Incident Actions */}
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-mint/20 text-tertiary-fixed font-label text-label border border-mint/40">
-                  Panic & Anxiety
+                  {thread?.category || "Unknown"}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label text-label border border-secondary-container/40">
                   Zero-Logs Encrypted
@@ -205,51 +250,32 @@ export function ProCaseView() {
                 </div>
               </div>
 
-              {/* Seeker Message 1 (Left-aligned) */}
-              <div className="flex flex-col items-start max-w-xl">
-                <div className="flex items-center gap-2 mb-1 px-1">
-                  <span className="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
-                  <span className="font-mono-data text-[11px] text-muted-silver">10:42 PM</span>
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex flex-col ${msg.role === 'SEEKER' ? 'items-start' : 'items-end ml-auto'} max-w-xl`}>
+                  <div className="flex items-center gap-2 mb-1 px-1">
+                    {msg.role === 'SEEKER' ? (
+                      <>
+                        <span className="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
+                        <span className="font-mono-data text-[11px] text-muted-silver">
+                          {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-mono-data text-[11px] text-muted-silver">
+                          {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </span>
+                        <span className="text-label font-label text-secondary font-semibold">You (Responder)</span>
+                      </>
+                    )}
+                  </div>
+                  <div className={`${msg.role === 'SEEKER' ? 'bg-elevated-onyx border-outline-variant/30 text-starlight-white' : 'bg-lavender/20 border-lavender/40 text-starlight-white'} border rounded-DEFAULT p-3.5 shadow-sm leading-relaxed`}>
+                    {msg.content}
+                  </div>
                 </div>
-                <div className="bg-elevated-onyx border border-outline-variant/30 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
-                  I’ve been feeling an overwhelming amount of panic about my work and family responsibilities lately. It feels like I can&apos;t catch a full breath and I don&apos;t really have anyone I can admit this to without feeling like a burden.
-                </div>
-              </div>
+              ))}
 
-              {/* NLP Sentiment Telemetry Callout in Feed */}
-              <div className="flex items-center gap-2 my-2 py-1.5 px-3 rounded-DEFAULT bg-surface-container-high/30 border border-outline-variant/20 max-w-lg text-label font-label">
-                <span className="material-symbols-outlined text-peach text-sm">psychology</span>
-                <span className="text-muted-silver">NLP Sentiment:</span>
-                <span className="text-peach font-medium">High Distress / Non-Lethal Somatic Panic</span>
-                <span className="text-muted-silver">•</span>
-                <span className="text-mint font-medium">Zero Harm Indicators</span>
-              </div>
 
-              {/* Clinician / Responder Message (Right-aligned, Soft Lavender/Azure Container) */}
-              <div className="flex flex-col items-end max-w-xl ml-auto">
-                <div className="flex items-center gap-2 mb-1 px-1">
-                  <span className="font-mono-data text-[11px] text-muted-silver">10:44 PM</span>
-                  <span className="text-label font-label text-secondary font-semibold">Julian (LCSW Peer Lead)</span>
-                </div>
-                <div className="bg-lavender/20 border border-lavender/40 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
-                  Hi, I&apos;m Julian. I hear how heavy and suffocating that weight feels right now. First, take a slow breath with me—you don&apos;t have to carry all of it in this exact moment, and you are never a burden here. We have plenty of time. When you feel ready, tell me what feels most pressing right now.
-                </div>
-                <div className="flex items-center gap-1 mt-1 text-[11px] text-muted-silver font-mono-data">
-                  <span className="material-symbols-outlined text-xs text-tertiary">done_all</span>
-                  <span>Delivered & Read</span>
-                </div>
-              </div>
-
-              {/* Seeker Follow-Up Message (Left-aligned) */}
-              <div className="flex flex-col items-start max-w-xl">
-                <div className="flex items-center gap-2 mb-1 px-1">
-                  <span className="text-label font-label text-muted-silver font-semibold">Anonymous Seeker</span>
-                  <span className="font-mono-data text-[11px] text-muted-silver">10:47 PM</span>
-                </div>
-                <div className="bg-elevated-onyx border border-outline-variant/30 rounded-DEFAULT p-3.5 text-starlight-white shadow-sm leading-relaxed">
-                  Thank you Julian. Just hearing that helps a little bit. It&apos;s mostly the feeling that if I drop even one ball at my job or let my family down, everything will collapse.
-                </div>
-              </div>
 
               {/* Real-Time Typing Indicator */}
               <div className="flex items-center gap-2 px-2 py-1 text-label font-label text-muted-silver">
@@ -314,8 +340,16 @@ export function ProCaseView() {
                 <textarea 
                   className="w-full bg-transparent p-3 text-body-md font-body-md text-starlight-white placeholder:text-muted-silver focus:outline-none resize-none" 
                   placeholder="Type an empathic, validating response or use protocols above..." 
-                  defaultValue="You&apos;re carrying a massive burden trying to be flawless for both your family and work. What would happen if we gave yourself permission to set just one small thing down for the next 15 minutes?"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
                   rows={3}
+                  disabled={isSending}
                 ></textarea>
                 <div className="flex items-center justify-between px-3 py-2 border-t border-outline-variant/20 bg-canvas-deep/40 rounded-b-DEFAULT">
                   <div className="flex items-center gap-2 text-muted-silver text-body-sm font-body-sm">
@@ -329,8 +363,8 @@ export function ProCaseView() {
                     <button className="p-1.5 rounded-full text-muted-silver hover:text-starlight-white hover:bg-surface-container" type="button">
                       <span className="material-symbols-outlined text-base">mic</span>
                     </button>
-                    <button className="px-4 py-1.5 rounded-full bg-primary-container text-starlight-white hover:opacity-90 font-label text-label flex items-center gap-1.5 shadow-sm active:scale-95 transition-all" type="button">
-                      <span>Send</span>
+                    <button onClick={handleSend} disabled={isSending || !content.trim()} className="px-4 py-1.5 rounded-full bg-primary-container text-starlight-white disabled:opacity-50 hover:opacity-90 font-label text-label flex items-center gap-1.5 shadow-sm active:scale-95 transition-all" type="button">
+                      <span>{isSending ? "Sending..." : "Send"}</span>
                       <span className="material-symbols-outlined text-sm">send</span>
                     </button>
                   </div>

@@ -1,19 +1,83 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Thread, ThreadMessage } from "@prisma/client";
 
-
-
-export function SeekerThreadView() {
+export function SeekerThreadView({ code }: { code: string }) {
   const router = useRouter();
   const [isPurgeModalOpen, setIsPurgeModalOpen] = useState(false);
   const [isPurged, setIsPurged] = useState(false);
+  const [thread, setThread] = useState<Thread | null>(null);
+  const [messages, setMessages] = useState<ThreadMessage[]>([]);
+  const [content, setContent] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    if (!code) return;
+    const fetchThread = async () => {
+      try {
+        const id = "placeholder"; // We don't have the ID, we need to look it up by code, but GET /api/threads/:id doesn't know ID.
+        // Wait, the page is /thread/[code]. We don't have the thread ID on the client unless we decode it.
+        // I need to change how the client fetches the thread.
+        // Let's use a new route or just look it up in page.tsx and pass it down.
+        // Oh wait! The code contains the Thread ID! It's formatted as `XN-[uuid]-...`.
+        // Let's just fetch it from `GET /api/threads/${code}` by changing the api route name? 
+        // No, the code is passed to the route. Wait, the token *is* the thread ID if we parse it, but no, the token is `threadId:tokenStr`. 
+        // Let's look up how `SeekerCodeView` creates the code. It's just a string like `XN-442-991`? 
+        // No, `generateSeekerCode` generates it.
+        const res = await fetch(`/api/threads/by-code?code=${code}`);
+        if (res.ok) {
+          const data = await res.json();
+          setThread(data);
+          setMessages(data.messages || []);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchThread();
+    const interval = setInterval(fetchThread, 5000);
+    return () => clearInterval(interval);
+  }, [code]);
+
+  const handleSend = async () => {
+    if (!content.trim() || isSending || !thread) return;
+    setIsSending(true);
+    try {
+      const res = await fetch(`/api/threads/${thread.id}/messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, code })
+      });
+      if (res.ok) {
+        setContent("");
+        // Force refresh
+        const newThreadRes = await fetch(`/api/threads/by-code?code=${code}`);
+        if (newThreadRes.ok) {
+          const data = await newThreadRes.json();
+          setThread(data);
+          setMessages(data.messages || []);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   const handlePurgeClick = () => setIsPurgeModalOpen(true);
   const handleCancelPurge = () => setIsPurgeModalOpen(false);
-  const handleConfirmPurge = () => {
+  const handleConfirmPurge = async () => {
+    if (thread) {
+      await fetch(`/api/threads/${thread.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      });
+    }
     setIsPurged(true);
     setIsPurgeModalOpen(false);
   };
@@ -51,7 +115,7 @@ export function SeekerThreadView() {
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-mint shadow-[0_0_8px_rgba(5,150,105,0.8)]"></span>
-            <span className="font-mono-data text-mono-data font-medium text-starlight-white tracking-tight">Thread XN-442-991</span>
+            <span className="font-mono-data text-mono-data font-medium text-starlight-white tracking-tight">Thread {thread?.id?.split("-")[0].toUpperCase() || "..."}</span>
           </div>
           <div className="flex items-center gap-1 mt-0.5">
             <span className="material-symbols-outlined text-[13px] text-mint">lock</span>
@@ -83,72 +147,46 @@ export function SeekerThreadView() {
           </p>
         </div>
 
-        {/* User Seeker Question / Reflection (Right Aligned) */}
-        <div className="flex flex-col items-end gap-1.5 max-w-[88%] self-end">
-          {/* Category Pill */}
-          <div className="inline-flex items-center gap-1 bg-mint/20 border border-mint/30 text-mint font-label text-[11px] font-semibold px-2.5 py-0.5 rounded-full mb-1">
-            <span className="material-symbols-outlined text-[13px]">spa</span>
-            <span>Panic & Anxiety</span>
+        {messages.map((msg, idx) => (
+          <div key={idx} className={`flex flex-col ${msg.role === 'SEEKER' ? 'items-end' : 'items-start'} gap-1.5 max-w-[88%] ${msg.role === 'SEEKER' ? 'self-end' : 'self-start'}`}>
+            {msg.role === 'SEEKER' ? (
+              <>
+                <div className="bg-elevated-onyx border border-white/10 rounded-2xl rounded-tr-sm p-space-md shadow-md text-starlight-white">
+                  <p className="font-body-md text-body-md leading-relaxed font-normal">{msg.content}</p>
+                </div>
+                <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pr-1">
+                  <span className="font-mono-data text-[11px]">{new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-0.5 text-mint font-medium">
+                    <span className="material-symbols-outlined text-[13px]">done_all</span> Delivered
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-7 h-7 rounded-full bg-lavender/30 border border-lavender/50 flex items-center justify-center text-secondary">
+                    <span className="material-symbols-outlined text-[16px]">support_agent</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-label text-label font-semibold text-starlight-white">Responder</span>
+                    <span className="inline-flex items-center gap-0.5 bg-lavender/20 text-secondary border border-lavender/40 px-2 py-0.5 rounded-full text-[10px] font-medium">
+                      <span className="material-symbols-outlined text-[11px]">verified</span> Verified Peer
+                    </span>
+                  </div>
+                </div>
+                <div className="bg-elevated-onyx/90 border border-lavender/25 rounded-2xl rounded-tl-sm p-space-md shadow-md text-starlight-white relative overflow-hidden">
+                  <p className="font-body-md text-body-md leading-relaxed">{msg.content}</p>
+                </div>
+                <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pl-1">
+                  <span className="font-mono-data text-[11px]">{new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                  <span>•</span>
+                  <span className="text-secondary font-medium">Verified Responder</span>
+                </div>
+              </>
+            )}
           </div>
-          {/* Bubble Container */}
-          <div className="bg-elevated-onyx border border-white/10 rounded-2xl rounded-tr-sm p-space-md shadow-md text-starlight-white">
-            <p className="font-body-md text-body-md leading-relaxed font-normal">
-              I’ve been feeling an overwhelming amount of panic about my work and family responsibilities lately. It feels like I can&apos;t catch a full breath and I don&apos;t really have anyone I can admit this to without feeling like a burden.
-            </p>
-          </div>
-          {/* Bubble Metadata */}
-          <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pr-1">
-            <span className="font-mono-data text-[11px]">10:42 PM</span>
-            <span>•</span>
-            <span className="inline-flex items-center gap-0.5 text-mint font-medium">
-              <span className="material-symbols-outlined text-[13px]">done_all</span>
-              Delivered • Encrypted
-            </span>
-          </div>
-        </div>
-
-        {/* Peer Connected System Pill */}
-        <div className="flex items-center justify-center my-1">
-          <div className="inline-flex items-center gap-2 bg-elevated-onyx/90 border border-white/10 px-3.5 py-1.5 rounded-full shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-lavender animate-ping"></span>
-            <span className="font-label text-label text-muted-silver">
-              <span className="text-starlight-white font-medium">Julian M.</span> connected • Verified Level 2 Peer Responder
-            </span>
-          </div>
-        </div>
-
-        {/* Professional Peer Reply (Left Aligned) */}
-        <div className="flex flex-col items-start gap-1.5 max-w-[90%] self-start">
-          {/* Verified Responder Card Header */}
-          <div className="flex items-center gap-2 px-1">
-            <div className="w-7 h-7 rounded-full bg-lavender/30 border border-lavender/50 flex items-center justify-center text-secondary">
-              <span className="material-symbols-outlined text-[16px]">support_agent</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-label text-label font-semibold text-starlight-white">Julian M.</span>
-              <span className="inline-flex items-center gap-0.5 bg-lavender/20 text-secondary border border-lavender/40 px-2 py-0.5 rounded-full text-[10px] font-medium">
-                <span className="material-symbols-outlined text-[11px]">verified</span>
-                Crisis & Peer Specialist • L2
-              </span>
-            </div>
-          </div>
-          {/* Message Content */}
-          <div className="bg-elevated-onyx/90 border border-lavender/25 rounded-2xl rounded-tl-sm p-space-md shadow-md text-starlight-white relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-24 h-24 bg-lavender/10 rounded-full blur-xl pointer-events-none"></div>
-            <p className="font-body-md text-body-md leading-relaxed">
-              Hi, I&apos;m Julian. I hear how heavy and suffocating that weight feels right now. First, take a slow breath with me—you don&apos;t have to carry all of it in this exact moment, and you are never a burden here. We have plenty of time.
-            </p>
-            <p className="font-body-md text-body-md leading-relaxed mt-2.5">
-              When you feel ready, tell me what feels most pressing right now.
-            </p>
-          </div>
-          {/* Responder Timestamp */}
-          <div className="flex items-center gap-1.5 text-muted-silver font-label text-[11px] pl-1">
-            <span className="font-mono-data text-[11px]">10:44 PM</span>
-            <span>•</span>
-            <span className="text-secondary font-medium">Verified Responder</span>
-          </div>
-        </div>
+        ))}
 
         {/* Live Empathy Status / Typing Indicator */}
         <div className="flex items-center gap-2.5 px-2 py-1.5 max-w-fit">
@@ -179,11 +217,20 @@ export function SeekerThreadView() {
               <textarea 
                 className="w-full bg-transparent border-0 p-0 text-starlight-white placeholder:text-muted-silver font-body-md text-body-md resize-none focus:ring-0 focus:outline-none max-h-24 overflow-y-auto leading-relaxed" 
                 placeholder="Type without filter... (Anonymous)" 
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                disabled={isSending}
                 rows={1}
               ></textarea>
             </div>
             {/* Primary Send Button in Vibrant Coral */}
-            <button aria-label="Send message anonymously" className="w-10 h-10 rounded-full bg-primary-container text-on-primary-container font-semibold flex items-center justify-center shadow-lg hover:brightness-110 active:scale-95 transition-transform duration-150 flex-shrink-0" type="button">
+            <button onClick={handleSend} disabled={isSending || !content.trim()} aria-label="Send message anonymously" className="w-10 h-10 rounded-full bg-primary-container text-on-primary-container font-semibold flex items-center justify-center shadow-lg disabled:opacity-50 hover:brightness-110 active:scale-95 transition-transform duration-150 flex-shrink-0" type="button">
               <span className="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
             </button>
           </div>
