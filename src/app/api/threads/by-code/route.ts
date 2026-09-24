@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
     const tokenHash = hashToken(code);
 
-    const session = await prisma.session.findUnique({
+    const anonymousSession = await prisma.anonymousSession.findUnique({
       where: { tokenHash },
       include: {
         thread: {
@@ -24,11 +24,11 @@ export async function GET(request: Request) {
       },
     });
 
-    if (!session || !session.thread) {
+    if (!anonymousSession || !anonymousSession.thread) {
       return errorResponse(404, "NOT_FOUND");
     }
 
-    return Response.json(session.thread);
+    return Response.json(anonymousSession.thread);
   } catch (error) {
     return handleApiError(error);
   }
