@@ -162,21 +162,7 @@ export function AuthLoginView() {
             <p className="mt-4 text-body-lg font-body-lg text-muted-silver leading-relaxed max-w-sm">
               Audited real-time crisis escalation protocols, resilient low-latency routing, and zero-knowledge telemetry built for frontline mental health responders.
             </p>
-            {/* Feature Pills Chips */}
-            <div className="mt-8 flex flex-wrap gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-mint/15 text-mint border border-mint/30 text-label font-label">
-                <span className="material-symbols-outlined text-xs">lock</span>
-                HIPAA & SOC-2 Verified
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lavender/20 text-secondary border border-lavender/40 text-label font-label">
-                <span className="material-symbols-outlined text-xs">vpn_key</span>
-                Zero-Knowledge Enclave
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-peach/15 text-peach border border-peach/30 text-label font-label">
-                <span className="material-symbols-outlined text-xs">speed</span>
-                Real-time Telemetry
-              </span>
-            </div>
+
           </div>
           
           <div className="relative z-10 mt-8 lg:mt-0 pt-6 border-t border-surface-container-high/30">
@@ -418,7 +404,7 @@ export function AuthLoginView() {
       <footer className="w-full px-6 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-surface-container-high/30 bg-canvas-deep text-muted-silver mt-auto text-xs">
         <div className="flex items-center gap-3">
           <span className="text-headline-sm font-headline-sm font-bold text-starlight-white">Xinnection</span>
-          <span className="text-body-sm font-body-sm text-muted-silver/80">© 2024 Xinnection Systems. End-to-end encrypted crisis network. HIPAA & SOC2 Compliant.</span>
+          <span className="text-body-sm font-body-sm text-muted-silver/80">© 2024 Xinnection Systems. End-to-end encrypted crisis support network.</span>
         </div>
         <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-label font-label">
           <button 
