@@ -18,6 +18,7 @@ export async function GET(request: Request) {
       include: {
         thread: {
           include: {
+            category: true,
             messages: { orderBy: { createdAt: "asc" } },
           },
         },
