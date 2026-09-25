@@ -38,4 +38,5 @@ server.err
 
 # python bytecode caches from vendored agent skills
 __pycache__/
+.cdp*
 *.pyc

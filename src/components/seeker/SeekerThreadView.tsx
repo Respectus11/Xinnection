@@ -315,7 +315,7 @@ export function SeekerThreadView({ code }: { code: string }) {
         </div>
 
         {messages.map((msg, idx) => {
-          const isVoice = msg.ciphertext.startsWith("[Voice Reflection") || msg.ciphertext.startsWith("[Voice Note");
+          const isVoice = msg.ciphertext.startsWith("[Voice Reflection") || msg.ciphertext.startsWith("[Voice Note") || msg.ciphertext.startsWith("[Voice Response");
           return (
             <div key={idx} className={`flex flex-col ${msg.senderRole === "SEEKER" ? "items-end self-end" : "items-start self-start"} gap-1.5 max-w-[88%]`}>
               {msg.senderRole === "SEEKER" ? (

@@ -5,12 +5,13 @@ import { hashToken } from "@/lib/crypto";
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const code = url.searchParams.get("code");
+    const rawCode = url.searchParams.get("code");
     
-    if (!code) {
+    if (!rawCode) {
       return errorResponse(400, "BAD_REQUEST");
     }
 
+    const code = decodeURIComponent(rawCode).trim();
     const tokenHash = hashToken(code);
 
     const anonymousSession = await prisma.anonymousSession.findUnique({
