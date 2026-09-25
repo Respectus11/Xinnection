@@ -126,7 +126,7 @@ export function ReflectionComposer({ content, onChange }: ReflectionComposerProp
             setLiveTranscript(text);
           }
         };
-        recognition.onerror = (e: any) => {
+        recognition.onerror = (e: unknown) => {
           console.warn("SpeechRecognition error:", e);
         };
         recognition.start();

@@ -1,7 +1,7 @@
 import { errorResponse, handleApiError } from "@/lib/api";
 import { clientIpFromHeaders, rateLimit } from "@/lib/rateLimit";
 import { MAX_MESSAGE_LENGTH, createThread, isContentLanguage } from "@/lib/threads";
-import DOMPurify from "isomorphic-dompurify";
+import { sanitizePlainText } from "@/lib/sanitize";
 
 // Anonymous submission. No account, no identity: the response carries the
 // one-time code the seeker must save. Raw code is never stored — only its
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       return errorResponse(400, "BAD_REQUEST");
     }
     const contentRaw = String(body.content ?? "").trim();
-    const content = DOMPurify.sanitize(contentRaw, { ALLOWED_TAGS: [] }); // Strip ALL HTML tags
+    const content = sanitizePlainText(contentRaw); // Strip ALL HTML tags
     const categorySlug = String(body.categorySlug ?? "");
     const language = body.language;
     if (!content || content.length > MAX_MESSAGE_LENGTH || !categorySlug) {

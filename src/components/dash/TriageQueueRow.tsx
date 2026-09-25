@@ -26,7 +26,7 @@ export function TriageQueueRow({ thread }: Readonly<TriageQueueRowProps>) {
   };
 
   // Map thread status to a visual risk tier for the triage queue UI
-  const riskStyles: Record<string, any> = {
+  const riskStyles: Record<string, { bgRow: string; dot: string; status: string; tierLabel: string; tierBadge: string; time: string; isHigh: boolean; actionBtn: React.ReactNode }> = {
     ESCALATED: {
       bgRow: "bg-rose-bg/10 hover:bg-rose-bg/20",
       dot: "bg-vibrant-coral animate-ping",

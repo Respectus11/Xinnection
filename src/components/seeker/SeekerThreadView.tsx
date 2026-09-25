@@ -150,7 +150,7 @@ export function SeekerThreadView({ code }: { code: string }) {
           }
           if (text) setLiveTranscript(text);
         };
-        recognition.onerror = (e: any) => {
+        recognition.onerror = (e: unknown) => {
           console.warn("SpeechRecognition error:", e);
         };
         recognition.start();

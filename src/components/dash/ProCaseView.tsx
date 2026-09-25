@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -177,7 +176,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
           }
           if (text) setLiveTranscript(text);
         };
-        recognition.onerror = (e: any) => {
+        recognition.onerror = (e: unknown) => {
           console.warn("SpeechRecognition error:", e);
         };
         recognition.start();

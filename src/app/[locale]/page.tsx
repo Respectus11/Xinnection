@@ -34,9 +34,10 @@ export default function HomePage() {
       }
       const data = await res.json();
       router.push(`/${locale}/code?c=${data.code}`);
-    } catch (error: any) {
-      console.error("Submission error:", error);
-      setSubmitError(error.message || "Failed to connect to anonymous relay. Please try again.");
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error("Submission error:", err);
+      setSubmitError(err.message || "Failed to connect to anonymous relay. Please try again.");
       setIsSubmitting(false);
     }
   };
