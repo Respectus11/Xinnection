@@ -44,7 +44,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     } else {
       const session = await getSession();
       if (!session || session.role !== "PROFESSIONAL") return errorResponse(401, "UNAUTHENTICATED");
-      if (thread.claimedById !== session.sub) return errorResponse(403, "FORBIDDEN");
+      if (!thread.claimedById) {
+        await prisma.thread.update({
+          where: { id: thread.id },
+          data: { claimedById: session.sub, claimedAt: new Date(), status: "IN_PROGRESS" },
+        });
+      } else if (thread.claimedById !== session.sub) {
+        return errorResponse(403, "FORBIDDEN");
+      }
       senderRole = "PROFESSIONAL";
     }
 

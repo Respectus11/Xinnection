@@ -35,3 +35,42 @@ export async function POST(request: Request) {
     return handleApiError(error);
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const { getSession } = await import("@/lib/auth");
+    const { prisma } = await import("@/lib/db");
+    const session = await getSession();
+    if (!session || (session.role !== "PROFESSIONAL" && session.role !== "ADMIN" && session.role !== "SUPER_ADMIN")) {
+      return errorResponse(401, "UNAUTHENTICATED");
+    }
+
+    const url = new URL(request.url);
+    const statusParam = url.searchParams.get("status");
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: any = {};
+    if (statusParam && ["OPEN", "IN_PROGRESS", "RESOLVED", "ESCALATED"].includes(statusParam)) {
+      where.status = statusParam;
+    } else {
+      where.status = { in: ["OPEN", "IN_PROGRESS", "ESCALATED"] };
+    }
+
+    const threads = await prisma.thread.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 50,
+      include: {
+        category: true,
+        messages: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+        },
+      },
+    });
+
+    return Response.json(threads);
+  } catch (error) {
+    return handleApiError(error);
+  }
+}

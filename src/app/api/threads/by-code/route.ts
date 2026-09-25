@@ -28,7 +28,20 @@ export async function GET(request: Request) {
       return errorResponse(404, "NOT_FOUND");
     }
 
-    return Response.json(anonymousSession.thread);
+    const { thread } = anonymousSession;
+    const { decryptMessages } = await import("@/lib/threads");
+    const plainTurns = decryptMessages(thread.wrappedDek, thread.messages);
+
+    const decryptedThread = {
+      ...thread,
+      messages: thread.messages.map((m, idx) => ({
+        ...m,
+        ciphertext: plainTurns[idx]?.text || m.ciphertext,
+        text: plainTurns[idx]?.text || m.ciphertext,
+      })),
+    };
+
+    return Response.json(decryptedThread);
   } catch (error) {
     return handleApiError(error);
   }

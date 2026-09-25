@@ -12,7 +12,7 @@ export default async function DashLayout({
   const session = await getSession();
   if (!session) {
     const { locale } = await params;
-    redirect(`/${locale}/auth/login`);
+    redirect(`/${locale}/auth`);
   }
 
   // Passing session could be useful for providers, but Next doesn't support 

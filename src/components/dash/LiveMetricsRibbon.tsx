@@ -9,7 +9,7 @@ export interface MetricsData {
 
 export function LiveMetricsRibbon({ metrics }: { metrics: MetricsData }) {
   return (
-    <section className="grid grid-cols-4 gap-space-md">
+    <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
       {/* Metric 1: Total Active Queue */}
       <div className="bg-pure-surface p-space-md rounded-DEFAULT shadow-sm flex items-center justify-between border-l-4 border-azure-blue">
         <div>

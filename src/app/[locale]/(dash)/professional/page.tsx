@@ -6,16 +6,16 @@ import { prisma } from "@/lib/db";
 
 export default async function ProfessionalDashboardPage() {
   const threads = await prisma.thread.findMany({
-    where: { status: "IN_PROGRESS" },
+    where: { status: { in: ["OPEN", "IN_PROGRESS", "ESCALATED"] } },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
 
   const metrics = {
     totalQueue: threads.length,
-    escalations: threads.filter(t => t.status === "ESCALATED").length,
-    activeChats: threads.filter(t => t.status === "IN_PROGRESS").length,
-    handoffLog: 0,
+    escalations: threads.filter((t) => t.status === "ESCALATED").length,
+    activeChats: threads.filter((t) => t.status === "IN_PROGRESS").length,
+    handoffLog: threads.filter((t) => t.status === "RESOLVED").length,
   };
   return (
     <div className="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">

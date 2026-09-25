@@ -45,25 +45,11 @@ export default async function LocaleLayout({
       className={`${notoSans.variable} ${notoEthiopic.variable} ${fraunces.variable}`}
     >
       <head>
+        <link rel="preload" href="/fonts/material-symbols-outlined.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        <style>{`
-          .material-symbols-outlined {
-            font-family: 'Material Symbols Outlined';
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            display: inline-block;
-            vertical-align: middle;
-            line-height: 1;
-            /* Support for all WebKit browsers. */
-            -webkit-font-smoothing: antialiased;
-            /* Support for Safari and Chrome. */
-            text-rendering: optimizeLegibility;
-            /* Support for Firefox. */
-            -moz-osx-font-smoothing: grayscale;
-          }
-        `}</style>
       </head>
       <body className="font-sans text-ink antialiased" style={{ background: "#081524" }}>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

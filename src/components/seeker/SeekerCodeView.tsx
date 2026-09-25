@@ -1,18 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-
-
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import QRCode from "qrcode";
 
 export function SeekerCodeView() {
   const router = useRouter();
+  const params = useParams();
   const searchParams = useSearchParams();
   const token = searchParams.get("c") || "XXXX-XXXX";
+  const locale = (params?.locale as string) || "en";
   
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (token) {
+      QRCode.toDataURL(token, {
+        width: 260,
+        margin: 1,
+        color: {
+          dark: "#09090B",
+          light: "#FAFAFA",
+        },
+      })
+        .then((url) => setQrDataUrl(url))
+        .catch((err) => console.error("QR Code Error:", err));
+    }
+  }, [token]);
 
   const handleCopy = () => {
     if (navigator.clipboard) {
@@ -21,7 +38,6 @@ export function SeekerCodeView() {
         setTimeout(() => setCopyState("idle"), 2000);
       });
     } else {
-      // Fallback
       const tempInput = document.createElement("input");
       tempInput.value = token;
       document.body.appendChild(tempInput);
@@ -35,10 +51,72 @@ export function SeekerCodeView() {
 
   const handleSaveScreenshot = () => {
     setSaveState("saving");
-    setTimeout(() => {
+    try {
+      // Create off-screen canvas to draw an elegant recovery card
+      const canvas = document.createElement("canvas");
+      canvas.width = 600;
+      canvas.height = 750;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        // Background
+        ctx.fillStyle = "#09090B";
+        ctx.fillRect(0, 0, 600, 750);
+
+        // Header Border
+        ctx.strokeStyle = "rgba(255, 107, 107, 0.4)";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(20, 20, 560, 710);
+
+        // Brand Title
+        ctx.fillStyle = "#FAFAFA";
+        ctx.font = "bold 32px Outfit, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Xinnection Anonymous Recovery Key", 300, 80);
+
+        ctx.fillStyle = "#A1A1AA";
+        ctx.font = "16px sans-serif";
+        ctx.fillText("Keep this key private. It is your only access to your thread.", 300, 115);
+
+        // Token Box
+        ctx.fillStyle = "#18181B";
+        ctx.fillRect(50, 140, 500, 70);
+        ctx.fillStyle = "#FF6B6B";
+        ctx.font = "bold 28px 'JetBrains Mono', monospace";
+        ctx.fillText(token, 300, 185);
+
+        // QR Code
+        if (qrDataUrl) {
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, 175, 240, 250, 250);
+            
+            // Instructions
+            ctx.fillStyle = "#E4E4E7";
+            ctx.font = "14px sans-serif";
+            ctx.fillText("Scan or enter code at xinnection.org/code", 300, 540);
+            ctx.fillStyle = "#71717A";
+            ctx.font = "12px monospace";
+            ctx.fillText(`Generated: ${new Date().toUTCString()}`, 300, 580);
+            ctx.fillText("Zero cookies • Ephemeral storage • 100% Anonymous", 300, 610);
+
+            // Trigger download
+            const link = document.createElement("a");
+            link.download = `xinnection-key-${token}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            setSaveState("saved");
+            setTimeout(() => setSaveState("idle"), 2500);
+          };
+          img.src = qrDataUrl;
+          return;
+        }
+      }
       setSaveState("saved");
       setTimeout(() => setSaveState("idle"), 2000);
-    }, 800);
+    } catch (e) {
+      console.error("Save image error:", e);
+      setSaveState("idle");
+    }
   };
 
   return (
@@ -126,69 +204,20 @@ export function SeekerCodeView() {
 
           {/* High-Contrast Crisp QR Code Container */}
           <div className="flex flex-col items-center justify-center">
-            <div className="relative bg-starlight-white p-4 rounded-DEFAULT shadow-md flex items-center justify-center w-52 h-52 transition-transform duration-200 hover:scale-[1.01]">
-              {/* Synthetic QR Mockup */}
-              <svg aria-label="QR Code Representation" className="w-full h-full text-canvas-deep" fill="currentColor" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-                <rect height="40" rx="6" width="40" x="10" y="10"></rect>
-                <rect fill="#FAFAFA" height="28" rx="3" width="28" x="16" y="16"></rect>
-                <rect height="16" rx="2" width="16" x="22" y="22"></rect>
-                
-                <rect height="40" rx="6" width="40" x="110" y="10"></rect>
-                <rect fill="#FAFAFA" height="28" rx="3" width="28" x="116" y="16"></rect>
-                <rect height="16" rx="2" width="16" x="122" y="22"></rect>
-                
-                <rect height="40" rx="6" width="40" x="10" y="110"></rect>
-                <rect fill="#FAFAFA" height="28" rx="3" width="28" x="16" y="116"></rect>
-                <rect height="16" rx="2" width="16" x="22" y="122"></rect>
-                
-                {/* Random blocks for mockup */}
-                <rect height="8" rx="1.5" width="8" x="60" y="12"></rect>
-                <rect height="8" rx="1.5" width="14" x="76" y="12"></rect>
-                <rect height="8" rx="1.5" width="6" x="96" y="12"></rect>
-                <rect height="6" rx="1" width="12" x="56" y="26"></rect>
-                <rect height="8" rx="1" width="8" x="74" y="26"></rect>
-                <rect height="6" rx="1" width="14" x="88" y="26"></rect>
-                <rect height="12" rx="1" width="6" x="58" y="38"></rect>
-                <rect height="6" rx="1" width="16" x="70" y="42"></rect>
-                <rect height="10" rx="1" width="10" x="92" y="38"></rect>
-                <rect height="10" rx="1" width="8" x="12" y="58"></rect>
-                <rect height="6" rx="1" width="12" x="26" y="58"></rect>
-                <rect height="14" rx="1" width="6" x="42" y="58"></rect>
-                <rect height="10" rx="1" width="10" x="112" y="58"></rect>
-                <rect height="6" rx="1" width="18" x="128" y="58"></rect>
-                <rect height="8" rx="1" width="14" x="12" y="74"></rect>
-                <rect height="16" rx="1" width="6" x="32" y="72"></rect>
-                <rect height="14" rx="1" width="8" x="118" y="74"></rect>
-                <rect height="8" rx="1" width="14" x="134" y="74"></rect>
-                <rect height="8" rx="1" width="8" x="14" y="94"></rect>
-                <rect height="6" rx="1" width="18" x="28" y="92"></rect>
-                <rect height="6" rx="1" width="12" x="112" y="92"></rect>
-                <rect height="12" rx="1" width="6" x="130" y="92"></rect>
-                
-                {/* Bottom Matrix */}
-                <rect height="8" rx="1" width="12" x="58" y="112"></rect>
-                <rect height="6" rx="1" width="14" x="76" y="112"></rect>
-                <rect height="8" rx="1" width="8" x="96" y="112"></rect>
-                <rect height="14" rx="1" width="8" x="114" y="112"></rect>
-                <rect height="8" rx="1" width="16" x="130" y="114"></rect>
-                <rect height="14" rx="1" width="8" x="58" y="126"></rect>
-                <rect height="8" rx="1" width="18" x="72" y="124"></rect>
-                <rect height="6" rx="1" width="12" x="96" y="126"></rect>
-                <rect height="8" rx="1" width="14" x="114" y="132"></rect>
-                <rect height="14" rx="1" width="12" x="134" y="128"></rect>
-                <rect height="6" rx="1" width="18" x="58" y="144"></rect>
-                <rect height="8" rx="1" width="10" x="82" y="142"></rect>
-                <rect height="8" rx="1" width="8" x="98" y="142"></rect>
-                <rect height="6" rx="1" width="34" x="112" y="146"></rect>
-
-                {/* Core Cutout */}
-                <rect fill="#FAFAFA" height="36" rx="10" width="36" x="62" y="62"></rect>
-                <rect fill="#18181B" height="28" rx="8" width="28" x="66" y="66"></rect>
-              </svg>
-              {/* Centered Icon */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="material-symbols-outlined text-primary-container text-xl">lock</span>
-              </div>
+            <div className="relative bg-starlight-white p-3 rounded-2xl shadow-md flex items-center justify-center w-52 h-52 transition-transform duration-200 hover:scale-[1.01]">
+              {qrDataUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img 
+                  src={qrDataUrl} 
+                  alt={`QR Code for anonymous access key ${token}`} 
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-2 text-muted-silver">
+                  <span className="material-symbols-outlined text-3xl animate-spin">refresh</span>
+                  <span className="text-xs font-mono-data">Generating QR...</span>
+                </div>
+              )}
             </div>
             <p className="font-body-sm text-body-sm text-muted-silver mt-2">Scan from another device to sync thread</p>
           </div>
@@ -197,7 +226,7 @@ export function SeekerCodeView() {
           <div className="grid grid-cols-2 gap-space-sm mt-space-md">
             <button 
               onClick={handleCopy} 
-              className="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5" 
+              className="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5 cursor-pointer" 
               type="button"
             >
               <span className="material-symbols-outlined text-base text-primary-container">content_copy</span>
@@ -205,7 +234,7 @@ export function SeekerCodeView() {
             </button>
             <button 
               onClick={handleSaveScreenshot}
-              className="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5" 
+              className="py-2.5 px-3 rounded-full bg-canvas-deep hover:bg-canvas-deep/60 active:scale-95 text-starlight-white text-label font-label flex items-center justify-center gap-1.5 transition-all duration-150 border border-white/5 cursor-pointer" 
               type="button"
             >
               <span className="material-symbols-outlined text-base text-secondary">download</span>
@@ -217,7 +246,7 @@ export function SeekerCodeView() {
         </section>
 
         {/* Section 3: Empathetic Instructions & Security Notice Card */}
-        <section className="bg-elevated-onyx rounded-DEFAULT p-space-md border-l-4 border-peach border-t border-r border-b border-white/5 space-y-space-sm shadow-sm">
+        <section className="bg-elevated-onyx rounded-2xl p-space-md border-l-4 border-peach border-t border-r border-b border-white/5 space-y-space-sm shadow-sm">
           <div className="flex items-start gap-2.5">
             <span className="material-symbols-outlined text-peach text-xl shrink-0 mt-0.5">warning</span>
             <div>
@@ -248,7 +277,7 @@ export function SeekerCodeView() {
       {/* Sticky Bottom Navigation / Primary CTA Container */}
       <footer className="fixed bottom-0 left-0 w-full z-50 bg-elevated-onyx/95 backdrop-blur-md px-margin py-3.5 shadow-lg flex flex-col items-center">
         <div className="w-full max-w-md flex flex-col items-center gap-1.5">
-          <Link href={`/en/thread/${token}`} className="w-full h-12 rounded-full bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-on-primary-container font-headline-sm text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all duration-150">
+          <Link href={`/${locale}/thread/${token}`} className="w-full h-12 rounded-full bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-on-primary-container font-headline-sm text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all duration-150">
             <span>I have saved my code, continue to thread</span>
             <span className="material-symbols-outlined text-base font-bold">arrow_forward</span>
           </Link>

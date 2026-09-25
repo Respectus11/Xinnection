@@ -62,9 +62,52 @@ export async function GET(
       }
     }
 
-    return Response.json(thread);
+    const { decryptMessages } = await import("@/lib/threads");
+    const plainTurns = decryptMessages(thread.wrappedDek, thread.messages);
+    const decryptedThread = {
+      ...thread,
+      messages: thread.messages.map((m, idx) => ({
+        ...m,
+        ciphertext: plainTurns[idx]?.text || m.ciphertext,
+        text: plainTurns[idx]?.text || m.ciphertext,
+      })),
+    };
+
+    return Response.json(decryptedThread);
   } catch (error) {
     return handleApiError(error);
   }
 }
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params;
+    const session = await getSession();
+    if (!session || session.role !== "PROFESSIONAL") {
+      return errorResponse(401, "UNAUTHENTICATED");
+    }
 
+    let body: { status?: "OPEN" | "IN_PROGRESS" | "RESOLVED" | "ESCALATED" };
+    try {
+      body = await request.json();
+    } catch {
+      return errorResponse(400, "BAD_REQUEST");
+    }
+
+    const { status } = body;
+    if (!status || !["OPEN", "IN_PROGRESS", "RESOLVED", "ESCALATED"].includes(status)) {
+      return errorResponse(400, "BAD_REQUEST");
+    }
+
+    const updated = await prisma.thread.update({
+      where: { id },
+      data: { status },
+    });
+
+    return Response.json(updated);
+  } catch (error) {
+    return handleApiError(error);
+  }
+}

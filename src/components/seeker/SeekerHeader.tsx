@@ -23,10 +23,21 @@ export function SeekerHeader() {
           </span>
         </Link>
         <div className="flex items-center gap-2">
-          <span className="text-xs px-2.5 py-1 rounded-full bg-surface-container-high text-muted-silver font-medium border border-outline-variant/30 flex items-center gap-1.5">
+          <a
+            href="tel:988"
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose/15 text-rose border border-rose/30 text-xs font-label hover:bg-rose/25 transition-colors"
+            title="Immediate Crisis Line 988"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-rose animate-pulse"></span>
+            <span>Crisis 988</span>
+          </a>
+          <Link 
+            href="/auth"
+            className="text-xs px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-muted-silver hover:text-starlight-white font-medium border border-outline-variant/30 flex items-center gap-1.5 transition-colors"
+          >
             <span className="material-symbols-outlined text-[14px] text-tertiary">spa</span>
-            <span>Peer Sanctuary</span>
-          </span>
+            <span>Responder Login</span>
+          </Link>
         </div>
       </header>
     </>

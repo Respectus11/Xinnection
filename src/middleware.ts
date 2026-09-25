@@ -45,6 +45,15 @@ export default function middleware(request: NextRequest) {
     return new NextResponse("Too Many Requests - Rate Limit Exceeded", { status: 429 });
   }
 
+  // API routes bypass intl middleware
+  if (request.nextUrl.pathname.startsWith("/api")) {
+    const response = NextResponse.next();
+    response.headers.set("X-Frame-Options", "DENY");
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    return response;
+  }
+
   // Security Headers against XSS and Clickjacking
   const response = intlMiddleware(request);
   response.headers.set("X-Frame-Options", "DENY");
@@ -55,5 +64,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/((?!_next|_vercel|.*\\..*).*)",
+  matcher: ["/((?!_next|_vercel|.*\\..*).*)"],
 };

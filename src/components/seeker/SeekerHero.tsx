@@ -14,7 +14,7 @@ export function SeekerHero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
             </span>
-            <span className="tracking-wide">24/7 Live</span>
+            <span className="tracking-wide">Peer Network Live</span>
           </div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-elevated-onyx border border-outline-variant/40 shadow-sm text-muted-silver text-xs font-label">
             <span className="material-symbols-outlined text-tertiary-fixed-dim text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>

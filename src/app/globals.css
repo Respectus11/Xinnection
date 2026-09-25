@@ -60,6 +60,23 @@
   --color-secondary-fixed-dim: #adc6ff;
   --color-error: #ffb4ab;
 
+  /* Clinical Cockpit & Dashboard Bridge Tokens */
+  --color-canvas-sunrise: #081524;
+  --color-pure-surface: #0f1c2e;
+  --color-deep-midnight: #F8FAFC;
+  --color-warm-slate: #94A3B8;
+  --color-vibrant-coral: #FF6B6B;
+  --color-azure-blue: #38BDF8;
+  --color-rose-bg: rgba(225, 29, 72, 0.18);
+  --color-rose-text: #FB7185;
+  --color-mint-bg: rgba(5, 150, 105, 0.18);
+  --color-mint-text: #34D399;
+  --color-peach-bg: rgba(234, 88, 12, 0.18);
+  --color-peach-text: #FB923C;
+  --color-lavender-bg: rgba(99, 102, 241, 0.18);
+  --color-lavender-text: #A5B4FC;
+
+  --radius-DEFAULT: 1rem;
   --radius-sm: 0.5rem;
   --radius-md: 1.5rem;
   --radius-lg: 2rem;
@@ -95,6 +112,36 @@
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Material Symbols Font (Self-hosted) ── */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url('/fonts/material-symbols-outlined.ttf') format('truetype');
+  font-display: block;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+  vertical-align: middle;
 }
 
 /* ── base ── */

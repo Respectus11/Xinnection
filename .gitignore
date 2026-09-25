@@ -23,6 +23,8 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+.env.vercel
+push_env*.js
 
 # vercel
 .vercel
