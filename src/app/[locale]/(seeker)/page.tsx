@@ -10,7 +10,7 @@ import { SeekerBottomNav } from "@/components/seeker/SeekerBottomNav";
 export default function SeekerLandingPage() {
   const router = useRouter();
   const [content, setContent] = useState("");
-  const [categorySlug, setCategorySlug] = useState("");
+  const [categorySlug, setCategorySlug] = useState("other");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {

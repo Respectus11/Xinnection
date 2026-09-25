@@ -7,6 +7,7 @@ const seekerCategories = [
   { id: "burnout", label: "Burnout", color: "rose" },
   { id: "loneliness", label: "Loneliness", color: "secondary" },
   { id: "transitions", label: "Transitions", color: "primary" },
+  { id: "other", label: "Other", color: "other" },
 ];
 interface CategoryPillsGridProps {
   selectedCategory: string;
@@ -22,8 +23,6 @@ export function CategoryPillsGrid({ selectedCategory, onSelect }: CategoryPillsG
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="theme-pill-group">
         {seekerCategories.map((category) => {
-          // A bit of custom mapping to replicate the vibrant colors exactly as in the Stitch design.
-          // In a fully integrated tailwind setup, these could map to dynamic classes.
           const colorMap: Record<string, { bg: string, border: string, dotBg: string, dotShadow: string, textColor: string }> = {
             anxiety: {
               bg: "bg-tertiary/10", border: "border-tertiary/25 hover:border-tertiary/60",
@@ -48,23 +47,32 @@ export function CategoryPillsGrid({ selectedCategory, onSelect }: CategoryPillsG
             transitions: {
               bg: "bg-surface-container-high", border: "border-outline-variant/60 hover:border-primary/50",
               dotBg: "bg-primary", dotShadow: "shadow-[0_0_8px_rgba(255,179,176,0.6)]", textColor: "text-on-surface-variant"
+            },
+            other: {
+              bg: "bg-surface-container-high/60", border: "border-outline-variant/60 hover:border-starlight-white/40",
+              dotBg: "bg-muted-silver", dotShadow: "shadow-[0_0_8px_rgba(156,163,175,0.6)]", textColor: "text-starlight-white"
             }
           };
 
           const style = colorMap[category.id] || colorMap.anxiety;
 
           const isSelected = selectedCategory === category.id;
-          const activeRing = isSelected ? "ring-2 ring-primary/80 ring-offset-1 ring-offset-canvas-deep" : "";
+          const activeRing = isSelected ? "ring-2 ring-primary/80 ring-offset-2 ring-offset-canvas-deep bg-surface-bright/20 shadow-md" : "opacity-85 hover:opacity-100";
 
           return (
             <button 
               key={category.id}
               onClick={() => onSelect(category.id)}
-              className={`group relative flex items-center gap-2.5 p-3 rounded-xl ${style.bg} border ${style.border} transition-all duration-150 text-left active:scale-95 ${activeRing}`} 
+              className={`group relative flex items-center justify-between p-3 rounded-xl ${style.bg} border ${style.border} transition-all duration-150 text-left active:scale-95 cursor-pointer ${activeRing}`} 
               type="button"
             >
-              <span className={`h-2.5 w-2.5 rounded-full ${style.dotBg} ${style.dotShadow}`}></span>
-              <span className={`font-body-md text-body-md font-medium ${style.textColor}`}>{category.label}</span>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className={`h-2.5 w-2.5 rounded-full ${style.dotBg} ${style.dotShadow} shrink-0`}></span>
+                <span className={`font-body-md text-body-md font-medium truncate ${style.textColor}`}>{category.label}</span>
+              </div>
+              {isSelected && (
+                <span className="material-symbols-outlined text-[16px] text-tertiary font-bold shrink-0">check</span>
+              )}
             </button>
           );
         })}

@@ -14,7 +14,7 @@ export default function HomePage() {
   const locale = (params?.locale as string) || "en";
 
   const [content, setContent] = useState("");
-  const [categorySlug, setCategorySlug] = useState("");
+  const [categorySlug, setCategorySlug] = useState("other");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
