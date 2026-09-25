@@ -39,6 +39,51 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         return errorResponse(403, "FORBIDDEN");
       }
       senderRole = "SEEKER";
+
+      // Enforce 40-second anti-spam cooldown and duplicate check between seeker messages
+      const lastSeekerMessage = await prisma.message.findFirst({
+        where: { threadId: thread.id, senderRole: "SEEKER" },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (lastSeekerMessage) {
+        const elapsedSec = (Date.now() - new Date(lastSeekerMessage.createdAt).getTime()) / 1000;
+        if (elapsedSec < 40) {
+          const retryAfter = Math.ceil(40 - elapsedSec);
+          return Response.json(
+            {
+              error: "COOLDOWN",
+              message: `Please pause and reflect. You can send another message in ${retryAfter} seconds.`,
+              retryAfter,
+            },
+            { status: 429 }
+          );
+        }
+
+        // Check for consecutive identical duplicate message
+        const { unwrapThreadKey, openForThread } = await import("@/lib/crypto");
+        try {
+          const dek = unwrapThreadKey(thread.wrappedDek);
+          const lastText = openForThread(dek, {
+            ciphertext: lastSeekerMessage.ciphertext,
+            iv: lastSeekerMessage.iv,
+            authTag: lastSeekerMessage.authTag,
+            keyVersion: lastSeekerMessage.keyVersion,
+          });
+          if (lastText.trim().toLowerCase() === content.trim().toLowerCase()) {
+            return Response.json(
+              {
+                error: "DUPLICATE",
+                message: "You already shared this reflection. Please give your companion time to respond.",
+              },
+              { status: 400 }
+            );
+          }
+        } catch {
+          // non-fatal if decryption fails during duplicate check
+        }
+      }
+
       const rl = await rateLimit("thread-message", clientIpFromHeaders(request.headers), 20, 3600);
       if (!rl.ok) return errorResponse(429, "RATE_LIMITED");
     } else {

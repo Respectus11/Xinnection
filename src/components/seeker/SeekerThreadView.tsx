@@ -14,6 +14,8 @@ export function SeekerThreadView({ code }: { code: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const [spamWarning, setSpamWarning] = useState<string | null>(null);
 
   // Real voice recording state
   const [isRecording, setIsRecording] = useState(false);
@@ -55,9 +57,43 @@ export function SeekerThreadView({ code }: { code: string }) {
     }
   }, [messages]);
 
+  // Active cooldown countdown
+  useEffect(() => {
+    if (cooldownSeconds <= 0) return;
+    const interval = setInterval(() => {
+      setCooldownSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setSpamWarning(null);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [cooldownSeconds]);
+
+  // Sync remaining cooldown from latest seeker message on thread load
+  useEffect(() => {
+    if (!messages.length) return;
+    const seekerMsgs = messages.filter((m) => m.senderRole === "SEEKER");
+    if (!seekerMsgs.length) return;
+    const lastSeeker = seekerMsgs[seekerMsgs.length - 1];
+    if (lastSeeker?.createdAt) {
+      const elapsed = (Date.now() - new Date(lastSeeker.createdAt).getTime()) / 1000;
+      if (elapsed < 40) {
+        setCooldownSeconds((prev) => Math.max(prev, Math.ceil(40 - elapsed)));
+      }
+    }
+  }, [messages]);
+
   const handleSend = async (customText?: string) => {
     const textToSend = customText ?? content;
     if (!textToSend.trim() || isSending) return;
+    if (cooldownSeconds > 0) {
+      setSpamWarning(`Please pause and reflect. You can send another message in ${cooldownSeconds}s.`);
+      return;
+    }
     setIsSending(true);
 
     try {
@@ -82,11 +118,23 @@ export function SeekerThreadView({ code }: { code: string }) {
       });
       if (res.ok) {
         setContent("");
+        setCooldownSeconds(40);
+        setSpamWarning(null);
         const newThreadRes = await fetch(`/api/threads/by-code?code=${encodeURIComponent(code)}`);
         if (newThreadRes.ok) {
           const data = await newThreadRes.json();
           setThread(data);
           setMessages(data.messages || []);
+        }
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        if (errData.error === "COOLDOWN" && errData.retryAfter) {
+          setCooldownSeconds(errData.retryAfter);
+          setSpamWarning(errData.message || `Please wait ${errData.retryAfter}s before sending again.`);
+        } else if (errData.error === "DUPLICATE") {
+          setSpamWarning(errData.message || "You already shared this reflection. Please give your companion time to respond.");
+        } else {
+          setSpamWarning(errData.message || "Unable to send message. Please wait a moment.");
         }
       }
     } catch (err) {
@@ -438,6 +486,23 @@ export function SeekerThreadView({ code }: { code: string }) {
       {/* STICKY BOTTOM COMPOSER BAR & DOCKED CONTROLS */}
       <footer className="fixed bottom-0 left-0 w-full z-40 bg-gradient-to-t from-canvas-deep via-canvas-deep to-canvas-deep/80 backdrop-blur-lg pt-2 pb-safe">
         <div className="max-w-2xl mx-auto px-margin pb-space-sm flex flex-col gap-2">
+          {/* Anti-Spam Cooldown & Reflection Notification */}
+          {(spamWarning || cooldownSeconds > 0) && (
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 text-xs text-amber-200 shadow-sm animate-in fade-in duration-200">
+              <div className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[15px] text-amber-400">hourglass_top</span>
+                <span>
+                  {spamWarning || `Please pause and reflect. You can send another message in ${cooldownSeconds}s.`}
+                </span>
+              </div>
+              {cooldownSeconds > 0 && (
+                <span className="font-mono-data font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 shrink-0">
+                  {cooldownSeconds}s
+                </span>
+              )}
+            </div>
+          )}
+
           {/* If Recording Voice: Display Active Voice Recording Bar */}
           {isRecording ? (
             <div className="bg-elevated-onyx border border-rose/60 rounded-2xl p-3 shadow-xl flex items-center justify-between gap-3 animate-in fade-in slide-in-from-bottom-2">
@@ -471,10 +536,11 @@ export function SeekerThreadView({ code }: { code: string }) {
                 </button>
                 <button 
                   onClick={finishAndSendRecording}
-                  className="px-4 py-2 rounded-full bg-primary-container hover:brightness-110 text-starlight-white font-semibold text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-all cursor-pointer"
+                  disabled={cooldownSeconds > 0}
+                  className="px-4 py-2 rounded-full bg-primary-container disabled:opacity-50 hover:brightness-110 text-starlight-white font-semibold text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-all cursor-pointer"
                   type="button"
                 >
-                  <span>Send Voice</span>
+                  <span>{cooldownSeconds > 0 ? `Wait ${cooldownSeconds}s` : "Send Voice"}</span>
                   <span className="material-symbols-outlined text-sm">send</span>
                 </button>
               </div>
@@ -485,10 +551,11 @@ export function SeekerThreadView({ code }: { code: string }) {
               {/* Mic button: Starts real recording */}
               <button 
                 onClick={startRecording}
+                disabled={cooldownSeconds > 0}
                 aria-label="Record voice reflection" 
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer text-muted-silver hover:text-starlight-white hover:bg-surface-container active:scale-95" 
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer text-muted-silver hover:text-starlight-white hover:bg-surface-container active:scale-95 disabled:opacity-40" 
                 type="button"
-                title="Record voice reflection"
+                title={cooldownSeconds > 0 ? `Please wait ${cooldownSeconds}s` : "Record voice reflection"}
               >
                 <span className="material-symbols-outlined text-[20px]">mic</span>
               </button>
@@ -506,7 +573,7 @@ export function SeekerThreadView({ code }: { code: string }) {
               <div className="flex-1 py-1.5">
                 <textarea 
                   className="w-full bg-transparent border-0 p-0 text-starlight-white placeholder:text-muted-silver font-body-md text-body-md resize-none focus:ring-0 focus:outline-none max-h-24 overflow-y-auto leading-relaxed" 
-                  placeholder="Type without filter... (Anonymous)" 
+                  placeholder={cooldownSeconds > 0 ? `Please pause & reflect (${cooldownSeconds}s)...` : "Type without filter... (Anonymous)"} 
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   onKeyDown={(e) => {
@@ -515,19 +582,24 @@ export function SeekerThreadView({ code }: { code: string }) {
                       handleSend();
                     }
                   }}
-                  disabled={isSending}
+                  disabled={isSending || cooldownSeconds > 0}
                   rows={1}
                 ></textarea>
               </div>
               {/* Send Button */}
               <button 
                 onClick={() => handleSend()} 
-                disabled={isSending || !content.trim()} 
+                disabled={isSending || !content.trim() || cooldownSeconds > 0} 
                 aria-label="Send message anonymously" 
-                className="w-10 h-10 rounded-full bg-primary-container text-starlight-white font-semibold flex items-center justify-center shadow-lg disabled:opacity-50 hover:brightness-110 active:scale-95 transition-transform duration-150 flex-shrink-0 cursor-pointer" 
+                className={`w-10 h-10 rounded-full ${cooldownSeconds > 0 ? "bg-surface-container border border-white/10 text-amber-300" : "bg-primary-container text-starlight-white"} font-semibold flex items-center justify-center shadow-lg disabled:opacity-50 hover:brightness-110 active:scale-95 transition-all duration-150 flex-shrink-0 cursor-pointer`} 
                 type="button"
+                title={cooldownSeconds > 0 ? `Wait ${cooldownSeconds}s` : "Send message"}
               >
-                <span className="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
+                {cooldownSeconds > 0 ? (
+                  <span className="font-mono-data text-xs font-bold text-amber-300">{cooldownSeconds}</span>
+                ) : (
+                  <span className="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
+                )}
               </button>
             </div>
           )}
