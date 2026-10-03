@@ -1,80 +1,75 @@
 import React from "react";
-import { DashboardSidebar } from "@/components/dash/DashboardSidebar";
-import { LiveMetricsRibbon } from "@/components/dash/LiveMetricsRibbon";
 import { TriageQueueTable } from "@/components/dash/TriageQueueTable";
 import { prisma } from "@/lib/db";
+import { getSession } from "@/lib/auth";
 
 export default async function ProfessionalDashboardPage() {
+  const session = await getSession();
+  
+  // Include category to show category names
   const threads = await prisma.thread.findMany({
     where: { status: { in: ["OPEN", "IN_PROGRESS", "ESCALATED"] } },
     orderBy: { createdAt: "desc" },
+    include: { category: true },
     take: 50,
   });
 
   const metrics = {
-    totalQueue: threads.length,
+    unclaimed: threads.filter((t) => t.status === "OPEN").length,
     escalations: threads.filter((t) => t.status === "ESCALATED").length,
-    activeChats: threads.filter((t) => t.status === "IN_PROGRESS").length,
-    handoffLog: threads.filter((t) => t.status === "RESOLVED").length,
+    myChats: threads.filter((t) => t.status === "IN_PROGRESS" && t.claimedById === session?.sub).length,
   };
+
   return (
-    <div className="bg-canvas-sunrise text-deep-midnight font-body-md antialiased h-screen overflow-hidden flex">
-      {/* Left Navigation Sidebar */}
-      <DashboardSidebar metrics={metrics} />
+    <div className="flex-1 flex flex-col min-w-0 bg-canvas-deep">
+      {/* Top Utility Bar */}
+      <header className="flex justify-between items-center w-full px-6 h-16 shrink-0 bg-elevated-onyx border-b border-white/10 z-10">
+        <h1 className="text-lg font-bold text-starlight-white">Triage Queue</h1>
+      </header>
 
-      {/* Main Content Canvas */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0 bg-canvas-sunrise">
-        
-        {/* Top Utility Bar */}
-        <header className="flex justify-between items-center w-full px-space-lg h-16 shrink-0 bg-pure-surface shadow-sm z-10">
-          {/* Search and view badge */}
-          <div className="flex items-center gap-space-md flex-1 max-w-xl">
-            <div className="relative w-80">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-warm-slate">
-                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 0" }}>search</span>
-              </span>
-              <input 
-                className="w-full pl-9 pr-4 py-2 rounded-full bg-surface-container-low border-0 text-body-sm font-body-sm text-deep-midnight placeholder-warm-slate focus:ring-2 focus:ring-azure-blue transition-all outline-none" 
-                placeholder="Search Thread ID, keywords, seeker..." 
-                type="text"
-              />
+      {/* Body Scrollable Content */}
+      <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-6">
+        {/* Real Metrics Ribbon */}
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-elevated-onyx p-4 rounded-xl border border-white/10 flex items-center justify-between">
+            <div>
+              <span className="text-sm text-muted-silver block">Waiting (Unclaimed)</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-2xl text-starlight-white font-bold">{metrics.unclaimed}</span>
+              </div>
             </div>
-            
-            {/* Quick Emergency Broadcast Warning Status / Action */}
-            <button className="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-rose-bg text-rose-text border border-rose-bg hover:bg-rose-text hover:text-pure-surface text-label-md font-label-md font-semibold transition-all active:scale-95 shadow-sm">
-              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>campaign</span>
-              <span>Emergency Broadcast</span>
-            </button>
+            <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-muted-silver">
+              <span className="material-symbols-outlined">inbox</span>
+            </div>
+          </div>
+          
+          <div className="bg-elevated-onyx p-4 rounded-xl border border-white/10 flex items-center justify-between">
+            <div>
+              <span className="text-sm text-muted-silver block">My Active Cases</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-2xl text-starlight-white font-bold">{metrics.myChats}</span>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+              <span className="material-symbols-outlined">forum</span>
+            </div>
           </div>
 
-          {/* Right Utility Actions */}
-          <div className="flex items-center gap-space-sm">
-            <button className="inline-flex items-center gap-2 px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high text-deep-midnight text-label-md font-label-md font-medium transition-colors cursor-pointer active:scale-95">
-              <span className="material-symbols-outlined text-base">drive_file_move</span>
-              <span>Batch Assign</span>
-            </button>
-            
-            <div className="h-6 w-px bg-surface-container-high mx-1"></div>
-            
-            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors relative" title="Notifications">
-              <span className="material-symbols-outlined">notifications</span>
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-vibrant-coral ring-2 ring-pure-surface"></span>
-            </button>
-            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Filter Presets">
-              <span className="material-symbols-outlined">tune</span>
-            </button>
-            <button className="p-2 rounded-full text-warm-slate hover:bg-surface-container-low hover:text-deep-midnight transition-colors" title="Clinical Protocol Help">
-              <span className="material-symbols-outlined">help_outline</span>
-            </button>
+          <div className="bg-elevated-onyx p-4 rounded-xl border border-rose/30 flex items-center justify-between">
+            <div>
+              <span className="text-sm text-rose font-medium block">Escalated / Critical</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-2xl text-starlight-white font-bold">{metrics.escalations}</span>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-rose/20 flex items-center justify-center text-rose">
+              <span className="material-symbols-outlined">warning</span>
+            </div>
           </div>
-        </header>
+        </section>
 
-        {/* Body Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-space-lg py-space-md flex flex-col gap-space-md custom-scrollbar">
-          <LiveMetricsRibbon metrics={metrics} />
-          <TriageQueueTable threads={threads} />
-        </div>
-      </main>
+        <TriageQueueTable threads={threads} currentUserId={session?.sub || ""} />
+      </div>
     </div>
   );
 }

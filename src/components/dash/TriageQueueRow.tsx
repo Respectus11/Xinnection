@@ -1,101 +1,66 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import { Thread, ThreadStatus } from "@prisma/client";
+import { Thread, ThreadStatus, Category } from "@prisma/client";
 
 export interface TriageQueueRowProps {
-  thread: Thread;
+  thread: Thread & { category?: Category | null };
+  currentUserId: string;
 }
 
-export function TriageQueueRow({ thread }: Readonly<TriageQueueRowProps>) {
+export function TriageQueueRow({ thread, currentUserId }: Readonly<TriageQueueRowProps>) {
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [copyFeedback, setCopyFeedback] = useState(false);
 
   const handleOpenCase = () => {
     router.push(`/professional/case/${thread.id}`);
   };
 
-  const handleCopyId = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    navigator.clipboard?.writeText(thread.id);
-    setCopyFeedback(true);
-    setTimeout(() => setCopyFeedback(false), 2000);
-    setIsMenuOpen(false);
-  };
+  const isMine = thread.claimedById === currentUserId;
 
-  // Map thread status to a visual risk tier for the triage queue UI
-  const riskStyles: Record<string, { bgRow: string; dot: string; status: string; tierLabel: string; tierBadge: string; time: string; isHigh: boolean; actionBtn: React.ReactNode }> = {
+  const riskStyles: Record<string, { bgRow: string; dot: string; statusLabel: string; statusPill: string; actionBtn: React.ReactNode }> = {
     ESCALATED: {
-      bgRow: "bg-rose-bg/10 hover:bg-rose-bg/20",
-      dot: "bg-vibrant-coral animate-ping",
-      status: "text-rose-text",
-      tierLabel: "Tier 1 Crisis / Escalated",
-      tierBadge: "bg-rose-bg text-rose-text border-rose-bg",
-      time: "text-rose-text bg-rose-bg",
-      isHigh: true,
+      bgRow: "bg-rose/5 hover:bg-rose/10",
+      dot: "bg-rose animate-ping",
+      statusLabel: "Escalated",
+      statusPill: "bg-rose/20 text-rose border-rose/30",
       actionBtn: (
         <button 
           onClick={(e) => { e.stopPropagation(); handleOpenCase(); }}
-          className="px-3.5 py-1.5 rounded-full bg-vibrant-coral hover:bg-primary text-pure-surface text-label-md font-label-md font-semibold shadow-sm transition-all active:scale-95 cursor-pointer"
+          className="px-3.5 py-1.5 rounded-full bg-rose hover:bg-rose/80 text-starlight-white text-sm font-semibold shadow-sm transition-all active:scale-95 cursor-pointer"
           type="button"
         >
-          Claim & Intervene
+          {isMine ? "Continue" : "Claim"}
         </button>
       ),
     },
     IN_PROGRESS: {
-      bgRow: "hover:bg-peach-bg/20 transition-colors",
-      dot: "bg-peach-text",
-      status: "text-warm-slate",
-      tierLabel: "Tier 2 In Progress",
-      tierBadge: "bg-peach-bg text-peach-text border-peach-bg",
-      time: "text-deep-midnight bg-transparent",
-      isHigh: false,
+      bgRow: "hover:bg-surface-container/30 transition-colors",
+      dot: "bg-secondary",
+      statusLabel: "In Progress",
+      statusPill: "bg-secondary/20 text-secondary border-secondary/30",
       actionBtn: (
         <button 
           onClick={(e) => { e.stopPropagation(); handleOpenCase(); }}
-          className="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container-high text-deep-midnight text-label-md font-label-md font-medium transition-colors cursor-pointer"
+          className="px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-starlight-white text-sm font-medium transition-colors cursor-pointer"
           type="button"
         >
-          Monitor
+          {isMine ? "Open" : "View"}
         </button>
       ),
     },
     OPEN: {
-      bgRow: "hover:bg-surface-container-low transition-colors",
-      dot: "bg-azure-blue",
-      status: "text-warm-slate",
-      tierLabel: "Tier 3 Open",
-      tierBadge: "bg-secondary-fixed/30 text-azure-blue border-transparent",
-      time: "text-warm-slate bg-transparent",
-      isHigh: false,
+      bgRow: "hover:bg-surface-container/30 transition-colors",
+      dot: "bg-mint",
+      statusLabel: "Open",
+      statusPill: "bg-mint/20 text-mint border-mint/30",
       actionBtn: (
         <button 
           onClick={(e) => { e.stopPropagation(); handleOpenCase(); }}
-          className="px-3 py-1 rounded-full text-warm-slate hover:text-deep-midnight hover:bg-surface-container-high text-label-md font-label-md font-medium transition-colors cursor-pointer"
+          className="px-3 py-1 rounded-full text-muted-silver border border-white/10 hover:text-starlight-white hover:bg-surface-container-high text-sm font-medium transition-colors cursor-pointer"
           type="button"
         >
           Claim
-        </button>
-      ),
-    },
-    RESOLVED: {
-      bgRow: "opacity-60 hover:bg-surface-container-low transition-colors",
-      dot: "bg-mint-text",
-      status: "text-warm-slate",
-      tierLabel: "Resolved",
-      tierBadge: "bg-surface-container-low text-warm-slate border-transparent",
-      time: "text-warm-slate bg-transparent",
-      isHigh: false,
-      actionBtn: (
-        <button 
-          onClick={(e) => { e.stopPropagation(); handleOpenCase(); }}
-          className="px-3 py-1 rounded-full text-warm-slate hover:bg-surface-container-high text-label-md font-label-md font-medium transition-colors cursor-pointer"
-          type="button"
-        >
-          View Notes
         </button>
       ),
     },
@@ -106,89 +71,40 @@ export function TriageQueueRow({ thread }: Readonly<TriageQueueRowProps>) {
   return (
     <tr 
       onClick={handleOpenCase}
-      className={`${style.bgRow} cursor-pointer transition-colors relative`}
+      className={`${style.bgRow} cursor-pointer transition-colors`}
     >
-      <td className="py-3.5 px-space-md">
+      <td className="py-3.5 px-5">
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full ${style.dot}`}></span>
-          <span className="font-mono-data text-mono-data font-bold text-deep-midnight">
+          <span className="font-mono-data font-bold text-starlight-white">
             {thread.id.split("-")[0].toUpperCase()}
           </span>
         </div>
-        <span className={`text-mono-data font-mono-data font-medium block mt-0.5 ml-4 ${style.status}`}>
-          {thread.claimedById ? "Assigned" : "Unassigned"}
+      </td>
+      <td className="py-3.5 px-5">
+        <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-starlight-white border border-white/10 uppercase">
+          {thread.category?.slug || "GENERAL"}
         </span>
       </td>
-      <td className="py-3.5 px-space-md">
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${style.tierBadge}`}>
-          {style.isHigh && <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>}
-          {style.tierLabel}
+      <td className="py-3.5 px-5">
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${style.statusPill}`}>
+          {style.statusLabel}
         </span>
       </td>
-      <td className="py-3.5 px-space-md">
-        <div className="flex flex-wrap gap-1">
-          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-lavender-bg text-lavender-text">
-            {thread.categoryId || "general"}
-          </span>
-        </div>
+      <td className="py-3.5 px-5 whitespace-nowrap text-muted-silver">
+        {new Date(thread.createdAt).toLocaleDateString()} {new Date(thread.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </td>
-      <td className="py-3.5 px-space-md">
-        <p className="text-deep-midnight font-medium line-clamp-2 leading-relaxed font-mono-data max-w-xs truncate">
-          Thread #{thread.id.slice(0, 8)}…
-        </p>
-      </td>
-      <td className="py-3.5 px-space-md whitespace-nowrap">
-        <span className={`font-mono-data text-mono-data font-bold px-2 py-0.5 rounded ${style.time}`}>
-          {new Date(thread.createdAt).toLocaleDateString()}
-        </span>
-      </td>
-      <td className="py-3.5 px-space-md whitespace-nowrap">
+      <td className="py-3.5 px-5 whitespace-nowrap">
         {!thread.claimedById ? (
-          <span className="text-mono-data font-mono-data text-warm-slate italic">Unassigned</span>
+          <span className="text-muted-silver italic">Unassigned</span>
+        ) : isMine ? (
+          <span className="text-starlight-white font-medium">Me</span>
         ) : (
-          <div className="flex items-center gap-1.5">
-            <span className="w-5 h-5 rounded-full bg-secondary-fixed text-azure-blue flex items-center justify-center font-bold text-[10px]">P</span>
-            <span className="text-body-sm font-body-sm text-deep-midnight">Assigned</span>
-          </div>
+          <span className="text-starlight-white">Assigned</span>
         )}
       </td>
-      <td className="py-3.5 px-space-md text-right whitespace-nowrap">
-        <div className="flex items-center justify-end gap-1.5 relative">
-          {style.actionBtn}
-          <div className="relative">
-            <button 
-              onClick={(e) => { e.stopPropagation(); setIsMenuOpen((prev) => !prev); }}
-              className="p-1.5 rounded-full text-warm-slate hover:bg-surface-container-high transition-colors cursor-pointer"
-              title="More actions"
-              type="button"
-            >
-              <span className="material-symbols-outlined">more_vert</span>
-            </button>
-            {isMenuOpen && (
-              <div 
-                onClick={(e) => e.stopPropagation()}
-                className="absolute right-0 top-8 z-30 w-44 rounded-xl bg-pure-surface border border-surface-container-high shadow-xl py-1 text-left text-xs font-label"
-              >
-                <button 
-                  onClick={handleOpenCase}
-                  className="w-full px-3 py-2 text-deep-midnight hover:bg-surface-container-low flex items-center gap-2"
-                  type="button"
-                >
-                  <span className="material-symbols-outlined text-sm">visibility</span>
-                  <span>Open Triage Cockpit</span>
-                </button>
-                <button 
-                  onClick={handleCopyId}
-                  className="w-full px-3 py-2 text-deep-midnight hover:bg-surface-container-low flex items-center gap-2"
-                  type="button"
-                >
-                  <span className="material-symbols-outlined text-sm">content_copy</span>
-                  <span>{copyFeedback ? "Copied ID!" : "Copy Thread ID"}</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+      <td className="py-3.5 px-5 text-right whitespace-nowrap">
+        {style.actionBtn}
       </td>
     </tr>
   );

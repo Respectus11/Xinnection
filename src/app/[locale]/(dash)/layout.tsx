@@ -1,6 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
+import { DashShell } from "@/components/dash/DashShell";
 
 export default async function DashLayout({
   children,
@@ -15,8 +16,9 @@ export default async function DashLayout({
     redirect(`/${locale}/auth`);
   }
 
-  // Passing session could be useful for providers, but Next doesn't support 
-  // server components directly passing data deeply without a Provider.
-  // We'll just enforce auth at the layout level.
-  return <>{children}</>;
+  return (
+    <DashShell session={session}>
+      {children}
+    </DashShell>
+  );
 }
