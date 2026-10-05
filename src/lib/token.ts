@@ -2,11 +2,12 @@ import crypto from "node:crypto";
 
 // Memorable-but-strong anonymous codes, e.g. "cloud-river-stone-42-k7q".
 //
-// Entropy (see docs/security-notes.md): 3 words from a 160-word list
-// (~21.9 bits) + 2 digits (6.6 bits) + 3 characters from a 30-character
-// unambiguous alphabet (~14.7 bits) = ~43 bits. Lookup attempts are rate
-// limited (lib/rateLimit.ts), which keeps brute-force cost far out of reach
-// for the threat model of a deletable anonymous thread.
+// Entropy (see docs/security-notes.md): 4 words from a 160-word list
+// (~29.3 bits) + 2 digits (6.6 bits) + 5 characters from a 30-character
+// unambiguous alphabet (~24.5 bits) = ~60 bits. Failed lookups are
+// additionally throttled per client (lib/codeLookup.ts). Codes issued before
+// this change (3 words + 3 chars) keep working: lookup hashes whatever string
+// the seeker enters.
 
 const WORDS = [
   "cloud", "river", "stone", "dawn", "ember", "harbor", "willow", "cedar", "maple", "birch",
@@ -36,6 +37,6 @@ function securePick<T>(items: readonly T[]): T {
 export function generateSeekerCode(): string {
   const word = () => securePick(WORDS);
   const digits = String(crypto.randomInt(0, 100)).padStart(2, "0");
-  const suffix = Array.from({ length: 3 }, () => securePick(CODE_ALPHABET)).join("");
-  return `${word()} ${word()} ${word()} ${digits} ${suffix}`;
+  const suffix = Array.from({ length: 5 }, () => securePick(CODE_ALPHABET)).join("");
+  return `${word()} ${word()} ${word()} ${word()} ${digits} ${suffix}`;
 }
