@@ -30,14 +30,18 @@ const securityHeaders = [
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=(), payment=()" },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
 ];
 
 const nextConfig: NextConfig = {
   // Self-contained server bundle for container deploys (see Dockerfile).
   output: "standalone",
   devIndicators: false,
+  poweredByHeader: false,
+  // Lint failures must fail the build — they are part of the security gate.
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
