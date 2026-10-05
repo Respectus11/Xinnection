@@ -25,6 +25,7 @@ yarn-error.log*
 .env.*.local
 .env.vercel
 push_env*.js
+all_*.txt
 
 # vercel
 .vercel
