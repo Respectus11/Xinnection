@@ -1,9 +1,26 @@
 // Central runtime configuration. All values come from environment variables;
 // dev fallbacks exist ONLY to make local development and tests runnable and
 // must never be relied on in production (see .env.example).
+//
+// In production the fallbacks are refused outright (not only at boot via
+// instrumentation.ts): any module that reads a missing secret throws, so an
+// edge/preview/worker runtime can never silently sign sessions with a known
+// constant. `next build` is exempt (NEXT_PHASE) so CI builds need no secrets.
+const isProd = process.env.NODE_ENV === "production";
+const isBuild = process.env.NEXT_PHASE === "phase-production-build";
+
+function secret(name: string, devFallback: string): string {
+  const value = process.env[name];
+  if (value) return value;
+  if (isProd && !isBuild) {
+    throw new Error(`Missing required environment variable ${name}`);
+  }
+  return devFallback;
+}
+
 export const config = {
-  authSecret: process.env.AUTH_SECRET ?? "dev-only-insecure-secret",
-  tokenPepper: process.env.TOKEN_PEPPER ?? "dev-only-token-pepper",
+  authSecret: secret("AUTH_SECRET", "dev-only-insecure-secret"),
+  tokenPepper: secret("TOKEN_PEPPER", "dev-only-token-pepper"),
   sessionCookieName: "xinnection_session",
   sessionTtlHours: 12,
   // Anonymous sessions auto-expire after this many days of the conversation

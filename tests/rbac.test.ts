@@ -52,4 +52,16 @@ describe("RBAC at the API layer", () => {
     withCookies("not-a-jwt");
     await expect(requireRole(["PROFESSIONAL"])).rejects.toMatchObject({ status: 401 });
   });
+
+  it("includes jti, iss, and aud in minted session tokens", async () => {
+    const { jwtVerify } = await import("jose");
+    const { config } = await import("@/lib/config");
+    const token = await createSessionToken({ sub: "pro_2", role: "PROFESSIONAL", name: "Dawit" });
+
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(config.authSecret));
+    expect(payload.iss).toBe("xinnection");
+    expect(payload.aud).toBe("xinnection-staff");
+    expect(payload.jti).toBeDefined();
+    expect(payload.role).toBe("PROFESSIONAL");
+  });
 });
