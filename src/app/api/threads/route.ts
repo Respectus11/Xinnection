@@ -14,8 +14,7 @@ export async function POST(request: Request) {
     } catch {
       return errorResponse(400, "BAD_REQUEST");
     }
-    const contentRaw = String(body.content ?? "").trim();
-    const content = sanitizePlainText(contentRaw); // Strip ALL HTML tags
+    const content = sanitizePlainText(String(body.content ?? ""));
     const categorySlug = String(body.categorySlug ?? "");
     const language = body.language;
     if (!content || content.length > MAX_MESSAGE_LENGTH || !categorySlug) {
@@ -38,38 +37,39 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const { getSession } = await import("@/lib/auth");
+    const { requireRole } = await import("@/lib/auth");
     const { prisma } = await import("@/lib/db");
-    const session = await getSession();
-    if (!session || (session.role !== "PROFESSIONAL" && session.role !== "ADMIN" && session.role !== "SUPER_ADMIN")) {
-      return errorResponse(401, "UNAUTHENTICATED");
-    }
+    await requireRole(["PROFESSIONAL", "ADMIN", "SUPER_ADMIN"]);
 
     const url = new URL(request.url);
     const statusParam = url.searchParams.get("status");
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const where: any = {};
-    if (statusParam && ["OPEN", "IN_PROGRESS", "RESOLVED", "ESCALATED"].includes(statusParam)) {
-      where.status = statusParam;
-    } else {
-      where.status = { in: ["OPEN", "IN_PROGRESS", "ESCALATED"] };
-    }
+    const statuses = ["OPEN", "IN_PROGRESS", "RESOLVED", "ESCALATED"] as const;
+    type Status = (typeof statuses)[number];
+    const where: { status: Status | { in: Status[] } } =
+      statusParam && (statuses as readonly string[]).includes(statusParam)
+        ? { status: statusParam as Status }
+        : { status: { in: ["OPEN", "IN_PROGRESS", "ESCALATED"] } };
 
+    // Explicit select: never return wrappedDek, session/token data or message
+    // ciphertext in a list response.
     const threads = await prisma.thread.findMany({
       where,
       orderBy: { createdAt: "desc" },
       take: 50,
-      include: {
-        category: true,
-        messages: {
-          orderBy: { createdAt: "desc" },
-          take: 1,
-        },
+      select: {
+        id: true,
+        status: true,
+        language: true,
+        claimedById: true,
+        claimedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        category: { select: { id: true, slug: true, isCrisis: true } },
       },
     });
 
-    return Response.json(threads);
+    return Response.json(threads, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     return handleApiError(error);
   }

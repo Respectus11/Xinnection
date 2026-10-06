@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import type { Message, ThreadStatus } from "@prisma/client";
 import { config } from "./config";
 import { prisma } from "./db";
@@ -55,7 +56,10 @@ export async function createThread(input: {
   for (let attempt = 0; attempt < 2; attempt++) {
     const code = generateSeekerCode();
     const dek = generateThreadKey();
-    const sealed = sealForThread(dek, input.content);
+    // The thread id is generated up-front so it can be bound into every
+    // message's GCM tag as associated data (ciphertext cannot be re-homed).
+    const threadId = crypto.randomUUID();
+    const sealed = sealForThread(dek, input.content, threadId);
     try {
       const session = await prisma.anonymousSession.create({
         data: {
@@ -63,6 +67,7 @@ export async function createThread(input: {
           expiresAt: new Date(Date.now() + config.anonSessionDays * 24 * 60 * 60 * 1000),
           thread: {
             create: {
+              id: threadId,
               categoryId: category.id,
               language: input.language,
               wrappedDek: wrapThreadKey(dek),
@@ -108,17 +113,21 @@ export type PlainTurn = {
   createdAt: Date;
 };
 
-export function decryptMessages(wrappedDek: string, messages: Message[]): PlainTurn[] {
+export function decryptMessages(threadId: string, wrappedDek: string, messages: Message[]): PlainTurn[] {
   const dek = unwrapThreadKey(wrappedDek);
   return messages.map((m) => ({
     id: m.id,
     role: m.senderRole,
-    text: openForThread(dek, {
-      ciphertext: m.ciphertext,
-      iv: m.iv,
-      authTag: m.authTag,
-      keyVersion: m.keyVersion,
-    }),
+    text: openForThread(
+      dek,
+      {
+        ciphertext: m.ciphertext,
+        iv: m.iv,
+        authTag: m.authTag,
+        keyVersion: m.keyVersion,
+      },
+      threadId,
+    ),
     createdAt: m.createdAt,
   }));
 }
@@ -138,7 +147,7 @@ export async function addMessage(
     await prisma.crisisFlag.create({ data: { threadId: thread.id, source: "KEYWORD_SCREEN" } });
   }
   const dek = unwrapThreadKey(thread.wrappedDek);
-  const sealed = sealForThread(dek, content);
+  const sealed = sealForThread(dek, content, thread.id);
   await prisma.message.create({ data: { threadId: thread.id, senderRole, ...sealed } });
   return { crisisFlagged };
 }
