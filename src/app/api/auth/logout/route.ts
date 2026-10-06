@@ -1,6 +1,6 @@
-import { clearSessionCookie } from "@/lib/auth";
+import { revokeCurrentSession } from "@/lib/auth";
 
 export async function POST() {
-  await clearSessionCookie();
+  await revokeCurrentSession();
   return Response.json({ ok: true });
 }
