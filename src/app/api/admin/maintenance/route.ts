@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
 import { config } from "@/lib/config";
 import { purgeExpiredSessions } from "@/lib/maintenance";
+import { clientIpFromHeaders, rateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,12 @@ function secretMatches(candidate: string | null): boolean {
 
 export async function POST(request: Request) {
   try {
+    // Throttle credential guessing against the shared secret.
+    const rl = await rateLimit("maintenance", clientIpFromHeaders(request.headers), 10, 900, {
+      failClosed: true,
+    });
+    if (!rl.ok) return errorResponse(429, "RATE_LIMITED");
+
     const session = await getSession();
     const authorized =
       secretMatches(request.headers.get("x-maintenance-secret")) ||

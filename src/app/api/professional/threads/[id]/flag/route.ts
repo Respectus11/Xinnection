@@ -1,5 +1,5 @@
 import { handleApiError } from "@/lib/api";
-import { requireRole } from "@/lib/auth";
+import { requireActiveProfessional } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
 import { flagThreadHighRisk } from "@/lib/threads";
 
@@ -8,7 +8,7 @@ import { flagThreadHighRisk } from "@/lib/threads";
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await requireRole(["PROFESSIONAL"]);
+    const session = await requireActiveProfessional();
 
     let body: { reason?: string };
     let reason: string | undefined;

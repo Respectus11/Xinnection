@@ -1,5 +1,5 @@
 import { errorResponse, handleApiError } from "@/lib/api";
-import { requireRole } from "@/lib/auth";
+import { requireActiveProfessional } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
 import { prisma } from "@/lib/db";
 import { setThreadStatus } from "@/lib/threads";
@@ -9,7 +9,7 @@ const VALID_STATUSES = ["OPEN", "IN_PROGRESS", "RESOLVED", "ESCALATED"] as const
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await requireRole(["PROFESSIONAL"]);
+    const session = await requireActiveProfessional();
 
     let body: { status?: string };
     try {
