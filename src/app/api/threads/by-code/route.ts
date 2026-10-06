@@ -1,21 +1,25 @@
 import { errorResponse, handleApiError } from "@/lib/api";
 import { prisma } from "@/lib/db";
 import { hashToken } from "@/lib/crypto";
+import { assertCodeAttemptAllowed, recordBadCode } from "@/lib/codeLookup";
+import { toThreadDto } from "@/lib/dto";
+
+export const dynamic = "force-dynamic";
+
+const NO_STORE = { "Cache-Control": "no-store" };
 
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url);
-    const rawCode = url.searchParams.get("code");
-    
-    if (!rawCode) {
-      return errorResponse(400, "BAD_REQUEST");
-    }
+    await assertCodeAttemptAllowed(request.headers);
 
-    const code = decodeURIComponent(rawCode).trim();
-    const tokenHash = hashToken(code);
+    const url = new URL(request.url);
+    // searchParams is already percent-decoded; decoding again would corrupt
+    // codes and can throw on malformed input.
+    const code = (url.searchParams.get("code") ?? "").trim();
+    if (!code || code.length > 128) return errorResponse(400, "BAD_REQUEST");
 
     const anonymousSession = await prisma.anonymousSession.findUnique({
-      where: { tokenHash },
+      where: { tokenHash: hashToken(code) },
       include: {
         thread: {
           include: {
@@ -27,23 +31,11 @@ export async function GET(request: Request) {
     });
 
     if (!anonymousSession || !anonymousSession.thread) {
+      await recordBadCode(request.headers);
       return errorResponse(404, "NOT_FOUND");
     }
 
-    const { thread } = anonymousSession;
-    const { decryptMessages } = await import("@/lib/threads");
-    const plainTurns = decryptMessages(thread.wrappedDek, thread.messages);
-
-    const decryptedThread = {
-      ...thread,
-      messages: thread.messages.map((m, idx) => ({
-        ...m,
-        ciphertext: plainTurns[idx]?.text || m.ciphertext,
-        text: plainTurns[idx]?.text || m.ciphertext,
-      })),
-    };
-
-    return Response.json(decryptedThread);
+    return Response.json(toThreadDto(anonymousSession.thread), { headers: NO_STORE });
   } catch (error) {
     return handleApiError(error);
   }
