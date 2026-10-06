@@ -35,7 +35,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const speechRecognitionRef = useRef<any>(null);
+  const speechRecognitionRef = useRef<{ stop?: () => void } | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
   const showToast = (msg: string) => {
@@ -134,14 +134,36 @@ export function ProCaseView({ threadId }: { threadId: string }) {
         });
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    type SpeechRecognitionWindow = Window & {
+      SpeechRecognition?: new () => {
+        continuous: boolean;
+        interimResults: boolean;
+        lang: string;
+        onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+        onerror: ((e: unknown) => void) | null;
+        start: () => void;
+        stop?: () => void;
+      };
+      webkitSpeechRecognition?: new () => {
+        continuous: boolean;
+        interimResults: boolean;
+        lang: string;
+        onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+        onerror: ((e: unknown) => void) | null;
+        start: () => void;
+        stop?: () => void;
+      };
+    };
+
+    const win = window as unknown as SpeechRecognitionWindow;
+    const SpeechRecognition = win.SpeechRecognition || win.webkitSpeechRecognition;
     if (SpeechRecognition) {
       try {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "en-US";
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => {
           let text = "";
           for (let i = 0; i < event.results.length; i++) {
             text += event.results[i][0].transcript;
