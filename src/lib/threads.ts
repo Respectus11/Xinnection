@@ -46,6 +46,7 @@ export async function createThread(input: {
   content: string;
   categorySlug: string;
   language: ContentLanguage;
+  preferredProfessionalId?: string;
 }): Promise<CreateThreadResult> {
   const category = await prismaCategory(input.categorySlug);
   const crisisFlagged = category.isCrisis || screenForCrisis(input.content, input.language);
@@ -99,7 +100,15 @@ export async function getThreadByCode(code: string) {
       category: true,
       session: { select: { id: true, lastSeenAt: true, expiresAt: true } },
       crisisFlags: true,
-      claimedBy: { select: { id: true, fullName: true } },
+      claimedBy: {
+        select: {
+          id: true,
+          fullName: true,
+          specialty: true,
+          photoUrl: true,
+          bio: true,
+        },
+      },
     },
   });
 }
