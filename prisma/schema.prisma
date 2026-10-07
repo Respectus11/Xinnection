@@ -127,6 +127,9 @@ model Professional {
   licenseNumber  String             @unique
   specialty      String
   languages      String[]
+  // Public profile fields shown to seekers in the professional directory.
+  bio            String?
+  photoUrl       String?
   status         ProfessionalStatus @default(PENDING)
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
