@@ -7,6 +7,14 @@ import { decryptMessages } from "./threads";
 // `ciphertext` is kept as an alias of `text` because the existing UI reads the
 // plaintext from `msg.ciphertext`; it contains PLAINTEXT, never real ciphertext.
 
+type ProfessionalPublic = {
+  id: string;
+  fullName: string;
+  specialty: string;
+  photoUrl: string | null;
+  bio: string | null;
+} | null;
+
 type ThreadRow = {
   id: string;
   status: string;
@@ -18,6 +26,7 @@ type ThreadRow = {
   wrappedDek: string;
   category?: { id: string; slug: string; isCrisis: boolean } | null;
   messages: Message[];
+  claimedBy?: ProfessionalPublic;
 };
 
 export function toThreadDto(thread: ThreadRow) {
@@ -33,6 +42,16 @@ export function toThreadDto(thread: ThreadRow) {
     category: thread.category
       ? { id: thread.category.id, slug: thread.category.slug, isCrisis: thread.category.isCrisis }
       : undefined,
+    // Safe professional profile — only public display fields, never credentials.
+    claimedBy: thread.claimedBy
+      ? {
+          id: thread.claimedBy.id,
+          fullName: thread.claimedBy.fullName,
+          specialty: thread.claimedBy.specialty,
+          photoUrl: thread.claimedBy.photoUrl ?? null,
+          bio: thread.claimedBy.bio ?? null,
+        }
+      : null,
     messages: turns.map((t, i) => ({
       id: t.id,
       threadId: thread.id,
