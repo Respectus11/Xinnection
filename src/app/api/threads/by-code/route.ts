@@ -25,6 +25,15 @@ export async function GET(request: Request) {
           include: {
             category: true,
             messages: { orderBy: { createdAt: "asc" } },
+            claimedBy: {
+              select: {
+                id: true,
+                fullName: true,
+                specialty: true,
+                photoUrl: true,
+                bio: true,
+              },
+            },
           },
         },
       },
