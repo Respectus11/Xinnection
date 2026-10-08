@@ -14,6 +14,7 @@ export function SeekerThreadView({ code }: { code: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
   const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const [spamWarning, setSpamWarning] = useState<string | null>(null);
 
@@ -120,6 +121,7 @@ export function SeekerThreadView({ code }: { code: string }) {
         setContent("");
         setCooldownSeconds(40);
         setSpamWarning(null);
+        setSendError(false);
         const newThreadRes = await fetch(`/api/threads/by-code?code=${encodeURIComponent(code)}`);
         if (newThreadRes.ok) {
           const data = await newThreadRes.json();
@@ -133,12 +135,19 @@ export function SeekerThreadView({ code }: { code: string }) {
           setSpamWarning(errData.message || `Please wait ${errData.retryAfter}s before sending again.`);
         } else if (errData.error === "DUPLICATE") {
           setSpamWarning(errData.message || "You already shared this reflection. Please give your companion time to respond.");
+        } else if (errData.error === "NOT_FOUND") {
+          setSpamWarning("This thread could not be found. Please check your access code.");
+        } else if (errData.error === "FORBIDDEN") {
+          setSpamWarning("You are not authorized to post to this thread.");
         } else {
-          setSpamWarning(errData.message || "Unable to send message. Please wait a moment.");
+          setSpamWarning("Something went wrong on our end. Please try again in a moment.");
+          setSendError(true);
         }
       }
     } catch (err) {
       console.error(err);
+      setSpamWarning("Network error. Please check your connection and try again.");
+      setSendError(true);
     } finally {
       setIsSending(false);
     }
@@ -326,17 +335,41 @@ export function SeekerThreadView({ code }: { code: string }) {
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
+        {/* Center Header — Thread ID or Professional Profile */}
         <div className="flex flex-col items-center">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-mint shadow-[0_0_8px_rgba(5,150,105,0.8)]"></span>
-            <span className="font-mono-data text-mono-data font-medium text-starlight-white tracking-tight">
-              Thread {thread?.id?.slice(0, 8).toUpperCase() || "..."}
-            </span>
-          </div>
-          <div className="flex items-center gap-1 mt-0.5">
-            <span className="material-symbols-outlined text-[13px] text-mint">lock</span>
-            <span className="font-label text-[11px] text-muted-silver tracking-wide">Zero Logs Encrypted</span>
-          </div>
+          {/* @ts-ignore - DTO claimedBy expansion is safe here */}
+          {thread?.claimedBy ? (
+            <div className="flex items-center gap-2.5">
+              {/* @ts-ignore */}
+              {thread.claimedBy.photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={(thread as any).claimedBy.photoUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-lavender/40 shadow-sm" />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-lavender/20 border border-lavender/40 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-secondary text-sm">support_agent</span>
+                </div>
+              )}
+              <div className="flex flex-col items-start">
+                {/* @ts-ignore */}
+                <span className="text-xs font-semibold text-starlight-white leading-tight">{thread.claimedBy.fullName}</span>
+                {/* @ts-ignore */}
+                <span className="text-[10px] text-muted-silver">{thread.claimedBy.specialty}</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-mint shadow-[0_0_8px_rgba(5,150,105,0.8)]"></span>
+                <span className="font-mono-data text-mono-data font-medium text-starlight-white tracking-tight">
+                  Thread {thread?.id?.slice(0, 8).toUpperCase() || "..."}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 mt-0.5">
+                <span className="material-symbols-outlined text-[13px] text-mint">lock</span>
+                <span className="font-label text-[11px] text-muted-silver tracking-wide">Zero Logs Encrypted</span>
+              </div>
+            </>
+          )}
         </div>
         <button 
           onClick={handlePurgeClick}
@@ -487,18 +520,31 @@ export function SeekerThreadView({ code }: { code: string }) {
       <footer className="fixed bottom-0 left-0 w-full z-40 bg-gradient-to-t from-canvas-deep via-canvas-deep to-canvas-deep/80 backdrop-blur-lg pt-2 pb-safe">
         <div className="max-w-2xl mx-auto px-margin pb-space-sm flex flex-col gap-2">
           {/* Anti-Spam Cooldown & Reflection Notification */}
-          {(spamWarning || cooldownSeconds > 0) && (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 text-xs text-amber-200 shadow-sm animate-in fade-in duration-200">
+          {(spamWarning || cooldownSeconds > 0 || sendError) && (
+            <div className={`border rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 text-xs shadow-sm animate-in fade-in duration-200 ${
+              sendError ? "bg-rose/10 border-rose/30 text-rose" : "bg-amber-500/10 border-amber-500/30 text-amber-200"
+            }`}>
               <div className="flex items-center gap-1.5">
-                <span className="material-symbols-outlined text-[15px] text-amber-400">hourglass_top</span>
+                <span className={`material-symbols-outlined text-[15px] ${sendError ? "text-rose/80" : "text-amber-400"}`}>
+                  {sendError ? "error" : "hourglass_top"}
+                </span>
                 <span>
                   {spamWarning || `Please pause and reflect. You can send another message in ${cooldownSeconds}s.`}
                 </span>
               </div>
-              {cooldownSeconds > 0 && (
+              {cooldownSeconds > 0 && !sendError && (
                 <span className="font-mono-data font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 shrink-0">
                   {cooldownSeconds}s
                 </span>
+              )}
+              {sendError && (
+                <button 
+                  onClick={() => { setSendError(false); setSpamWarning(null); handleSend(); }}
+                  className="font-mono-data font-bold px-2 py-0.5 rounded bg-rose/20 text-rose shrink-0 hover:bg-rose/30 transition-colors"
+                  type="button"
+                >
+                  Retry
+                </button>
               )}
             </div>
           )}
