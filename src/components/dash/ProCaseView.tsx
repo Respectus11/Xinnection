@@ -482,7 +482,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
               Breathing Cadence
             </button>
             <button 
-              onClick={() => insertProtocol("[Support Resource: Crisis & Suicide Lifeline: Call or text 988]")}
+              onClick={() => insertProtocol("[Support Resource: Local Emergency Services]")}
               className="px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/30 hover:bg-secondary/20 text-xs whitespace-nowrap transition-colors" 
               type="button"
             >
