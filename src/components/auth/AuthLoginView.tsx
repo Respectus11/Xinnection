@@ -323,27 +323,7 @@ export function AuthLoginView() {
                 </div>
               </div>
               
-              {/* MFA Hardware Token / 6-digit indicator */}
-              <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="text-label font-label text-muted-silver">MFA Token / Hardware Key</label>
-                  <span className="text-label font-label text-[#3B82F6] font-mono-data flex items-center gap-1 text-xs">
-                    <span className="material-symbols-outlined text-xs">phonelink_lock</span> FIDO2 Ready
-                  </span>
-                </div>
-                <div className="grid grid-cols-6 gap-2">
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} type="text" defaultValue="7" readOnly />
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} type="text" defaultValue="3" readOnly />
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} type="text" defaultValue="9" readOnly />
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} placeholder="•" type="text" />
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} placeholder="•" type="text" />
-                  <input className="h-11 text-center font-mono-data font-semibold text-headline-sm bg-canvas-deep border border-surface-container-high rounded-lg text-starlight-white focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] focus:outline-none" maxLength={1} placeholder="•" type="text" />
-                </div>
-                <p className="text-body-sm font-body-sm text-muted-silver/80 mt-1.5 flex items-center gap-1.5 text-xs">
-                  <span className="material-symbols-outlined text-xs text-mint">verified</span>
-                  Touch hardware YubiKey or provide 6-digit authenticator code
-                </p>
-              </div>
+
               
               {/* Shift persistence toggle */}
               <div className="pt-2 flex items-center justify-between">

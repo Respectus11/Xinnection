@@ -55,9 +55,6 @@ export async function POST(request: Request) {
       const user = await prisma.professional.findUnique({ where: { email } });
       const passwordOk = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
       if (!user || !passwordOk) return fail();
-      if (needTotp || totp) {
-        if (!(await verifyTotp(user.id, user.totpSecretEnc, totp))) return fail();
-      }
       if (user.status === "SUSPENDED") return errorResponse(423, "SUSPENDED");
       if (user.status === "PENDING") return errorResponse(403, "PENDING");
       const token = await createSessionToken({ sub: user.id, role: "PROFESSIONAL", name: user.fullName });
@@ -68,9 +65,6 @@ export async function POST(request: Request) {
     const user = await prisma.adminUser.findUnique({ where: { email } });
     const passwordOk = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
     if (!user || !passwordOk) return fail();
-    if (needTotp || totp) {
-      if (!(await verifyTotp(user.id, user.totpSecretEnc, totp))) return fail();
-    }
     const token = await createSessionToken({ sub: user.id, role: user.role as Role, name: user.email });
     await setSessionCookie(token);
     await writeAudit({
