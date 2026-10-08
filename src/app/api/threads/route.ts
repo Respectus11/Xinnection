@@ -8,7 +8,7 @@ import { sanitizePlainText } from "@/lib/sanitize";
 // peppered hash (see lib/crypto.ts).
 export async function POST(request: Request) {
   try {
-    let body: { content?: string; categorySlug?: string; language?: string };
+    let body: { content?: string; categorySlug?: string; language?: string; preferredProfessionalId?: string };
     try {
       body = await request.json();
     } catch {
@@ -17,6 +17,13 @@ export async function POST(request: Request) {
     const content = sanitizePlainText(String(body.content ?? ""));
     const categorySlug = String(body.categorySlug ?? "");
     const language = body.language;
+    // Optional: seeker may have selected a specific professional from the directory.
+    // Stored for informational purposes — does not bypass security or auto-claim.
+    const preferredProfessionalId =
+      body.preferredProfessionalId && typeof body.preferredProfessionalId === "string"
+        ? body.preferredProfessionalId.trim().slice(0, 64)
+        : undefined;
+
     if (!content || content.length > MAX_MESSAGE_LENGTH || !categorySlug) {
       return errorResponse(400, "INVALID");
     }
@@ -25,7 +32,7 @@ export async function POST(request: Request) {
     const rl = await rateLimit("thread-submit", clientIpFromHeaders(request.headers), 5, 3600);
     if (!rl.ok) return errorResponse(429, "RATE_LIMITED");
 
-    const result = await createThread({ content, categorySlug, language });
+    const result = await createThread({ content, categorySlug, language, preferredProfessionalId });
     return Response.json(result, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "CATEGORY_NOT_FOUND") {
