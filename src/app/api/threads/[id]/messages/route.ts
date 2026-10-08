@@ -126,6 +126,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     if (senderRole === "SEEKER") await touchSession(thread!.session.id);
     return Response.json({ ok: true, crisisFlagged: result.crisisFlagged });
   } catch (error) {
+    console.error("[messages POST] error", {
+      threadId: id,
+      errorType: error instanceof Error ? error.constructor.name : typeof error,
+      message: error instanceof Error ? error.message : String(error),
+    });
     return handleApiError(error);
   }
 }
