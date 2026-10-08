@@ -116,13 +116,7 @@ export function AuthLoginView() {
         </div>
         {/* Trailing Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <a 
-            href="tel:988" 
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-elevated-onyx/80 border border-surface-container-high/60 text-body-sm font-body-sm text-starlight-white hover:border-muted-silver transition-colors"
-          >
-            <span className="w-2 h-2 rounded-full bg-mint"></span>
-            <span>Crisis Line 988</span>
-          </a>
+
           <button 
             onClick={handleEmergencyExit}
             className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-surface-container-high/80 hover:bg-rose/20 text-rose border border-rose/30 text-label font-label transition-colors active:scale-95 duration-150" 
