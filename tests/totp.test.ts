@@ -38,8 +38,7 @@ describe('TOTP Verification', () => {
     });
     const token = totp.generate();
     
-    // @ts-ignore
-    redis.set.mockResolvedValueOnce('OK');
+    vi.mocked(redis.set).mockResolvedValueOnce('OK' as never);
     
     const result = await verifyTotp('user1', wrapped, token);
     expect(result).toBe(true);
@@ -59,8 +58,7 @@ describe('TOTP Verification', () => {
     const token = totp.generate();
     
     // Simulate redis rejecting the SET NX because it already exists
-    // @ts-ignore
-    redis.set.mockResolvedValueOnce(null);
+    vi.mocked(redis.set).mockResolvedValueOnce(null as never);
     
     const result = await verifyTotp('user1', wrapped, token);
     expect(result).toBe(false);

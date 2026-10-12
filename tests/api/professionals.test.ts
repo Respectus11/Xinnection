@@ -27,8 +27,7 @@ describe('GET /api/professionals', () => {
       },
     ];
 
-    // @ts-ignore
-    prisma.professional.findMany.mockResolvedValueOnce(mockPros);
+    vi.mocked(prisma.professional.findMany).mockResolvedValueOnce(mockPros as never);
 
     const response = await GET();
     const data = await response.json();
@@ -53,8 +52,7 @@ describe('GET /api/professionals', () => {
   });
 
   it('returns 500 on database error', async () => {
-    // @ts-ignore
-    prisma.professional.findMany.mockRejectedValueOnce(new Error('DB connection failed'));
+    vi.mocked(prisma.professional.findMany).mockRejectedValueOnce(new Error('DB connection failed'));
 
     const response = await GET();
     const data = await response.json();

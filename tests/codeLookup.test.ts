@@ -15,15 +15,13 @@ describe('codeLookup anti-brute force', () => {
   });
 
   it('allows attempt when not blocked', async () => {
-    // @ts-ignore
-    rateLimit.isBlocked.mockResolvedValueOnce({ ok: true });
+    vi.mocked(rateLimit.isBlocked).mockResolvedValueOnce({ ok: true, retryAfterSec: 0 });
     await expect(assertCodeAttemptAllowed(new Headers())).resolves.toBeUndefined();
     expect(rateLimit.isBlocked).toHaveBeenCalledWith('code-guess', '127.0.0.1', 10);
   });
 
   it('throws RATE_LIMITED when blocked', async () => {
-    // @ts-ignore
-    rateLimit.isBlocked.mockResolvedValueOnce({ ok: false });
+    vi.mocked(rateLimit.isBlocked).mockResolvedValueOnce({ ok: false, retryAfterSec: 60 });
     await expect(assertCodeAttemptAllowed(new Headers())).rejects.toThrowError(ApiError);
   });
 
