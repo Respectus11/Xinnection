@@ -1,4 +1,4 @@
-import { ApiError, requireActiveProfessional } from "@/lib/auth";
+import { requireActiveProfessional } from "@/lib/auth";
 import { errorResponse, handleApiError } from "@/lib/api";
 import { deleteThreadByCode, setThreadStatus } from "@/lib/threads";
 import { prisma } from "@/lib/db";
@@ -116,7 +116,8 @@ export async function PATCH(
       select: { id: true, claimedById: true, status: true },
     });
     if (!thread) return errorResponse(404, "NOT_FOUND");
-    if (thread.claimedById !== session.sub) throw new ApiError(403, "FORBIDDEN");
+    // Ensure only the assigned professional who claimed the thread can transition its status
+    if (thread.claimedById !== session.sub) return errorResponse(403, "FORBIDDEN");
 
     await setThreadStatus(id, status as (typeof VALID_STATUSES)[number]);
     await writeAudit({

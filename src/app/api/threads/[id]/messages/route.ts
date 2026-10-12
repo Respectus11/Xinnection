@@ -18,8 +18,8 @@ export const dynamic = "force-dynamic";
 // - seeker: proves ownership with their code (hash-compared)
 // - professional: authenticated, ACTIVE session, must be the claiming professional
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const { id } = await params;
     let body: { content?: string; code?: string };
     try {
       body = await request.json();
@@ -126,11 +126,6 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     if (senderRole === "SEEKER") await touchSession(thread!.session.id);
     return Response.json({ ok: true, crisisFlagged: result.crisisFlagged });
   } catch (error) {
-    console.error("[messages POST] error", {
-      threadId: id,
-      errorType: error instanceof Error ? error.constructor.name : typeof error,
-      message: error instanceof Error ? error.message : String(error),
-    });
     return handleApiError(error);
   }
 }

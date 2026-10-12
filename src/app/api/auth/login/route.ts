@@ -55,6 +55,14 @@ export async function POST(request: Request) {
       const user = await prisma.professional.findUnique({ where: { email } });
       const passwordOk = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
       if (!user || !passwordOk) return fail();
+
+      // When TOTP is enforced globally (totpRequired) or supplied by the client,
+      // validate the time-based token against the user's encrypted secret.
+      if (needTotp || totp) {
+        if (!totp) return fail();
+        const totpOk = await verifyTotp(user.id, user.totpSecretEnc, totp);
+        if (!totpOk) return fail();
+      }
       if (user.status === "SUSPENDED") return errorResponse(423, "SUSPENDED");
       if (user.status === "PENDING") return errorResponse(403, "PENDING");
       const token = await createSessionToken({ sub: user.id, role: "PROFESSIONAL", name: user.fullName });
@@ -65,6 +73,13 @@ export async function POST(request: Request) {
     const user = await prisma.adminUser.findUnique({ where: { email } });
     const passwordOk = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
     if (!user || !passwordOk) return fail();
+
+    // Verify TOTP token for admin portal if required or provided
+    if (needTotp || totp) {
+      if (!totp) return fail();
+      const totpOk = await verifyTotp(user.id, user.totpSecretEnc, totp);
+      if (!totpOk) return fail();
+    }
     const token = await createSessionToken({ sub: user.id, role: user.role as Role, name: user.email });
     await setSessionCookie(token);
     await writeAudit({

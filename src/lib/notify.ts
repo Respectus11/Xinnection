@@ -6,11 +6,10 @@ export interface Notifier {
   professionalApproved(input: { id: string; email: string; fullName: string }): Promise<void>;
 }
 
-class ConsoleNotifier implements Notifier {
+class NoopNotifier implements Notifier {
   async professionalApproved(): Promise<void> {
     // Content-free by policy: the audit log already records who approved whom.
-    console.log("[notify:console] professional approval — no email provider configured");
   }
 }
 
-export const notifier: Notifier = new ConsoleNotifier();
+export const notifier: Notifier = new NoopNotifier();

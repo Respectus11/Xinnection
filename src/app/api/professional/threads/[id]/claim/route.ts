@@ -4,7 +4,7 @@ import { writeAudit } from "@/lib/audit";
 import { prisma } from "@/lib/db";
 import { claimThread } from "@/lib/threads";
 
-export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const session = await requireRole(["PROFESSIONAL"]);

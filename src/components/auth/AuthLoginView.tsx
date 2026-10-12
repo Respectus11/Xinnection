@@ -277,7 +277,7 @@ export function AuthLoginView() {
                   </div>
                   <input 
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-canvas-deep border border-surface-container-high text-starlight-white text-body-md font-body-md placeholder:text-muted-silver/50 focus:border-azure-blue focus:ring-1 focus:ring-azure-blue focus:outline-none transition-colors" 
-                    placeholder="responder@crisis.xinnection.org" 
+                    placeholder="responder@xinnection.org" 
                     type="email" 
                     required
                     value={email}

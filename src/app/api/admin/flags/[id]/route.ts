@@ -4,7 +4,7 @@ import { writeAudit } from "@/lib/audit";
 import { prisma } from "@/lib/db";
 
 // Mark a high-risk flag reviewed (the safety-net oversight action).
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const session = await requireRole(["ADMIN", "SUPER_ADMIN"]);
