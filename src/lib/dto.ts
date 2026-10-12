@@ -62,3 +62,5 @@ export function toThreadDto(thread: ThreadRow) {
     })),
   };
 }
+
+export type ThreadDto = ReturnType<typeof toThreadDto>;

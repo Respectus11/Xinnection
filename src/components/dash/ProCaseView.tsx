@@ -55,8 +55,8 @@ export function ProCaseView({ threadId }: { threadId: string }) {
           setThread(data);
           setMessages(data.messages || []);
         }
-      } catch (err) {
-        console.error(err);
+      } catch {
+        // Polling failure handled silently
       }
     };
 
@@ -92,8 +92,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
         }
         showToast("Reply transmitted securely");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       showToast("Failed to transmit message. Please retry.");
     } finally {
       setIsSending(false);
@@ -125,12 +124,12 @@ export function ProCaseView({ threadId }: { threadId: string }) {
               }
             };
             mr.start(250);
-          } catch (e) {
-            console.warn("MediaRecorder start failed", e);
+          } catch {
+            // MediaRecorder not supported or failed to start
           }
         })
-        .catch((err) => {
-          console.warn("Microphone access prompt or device error:", err);
+        .catch(() => {
+          // Microphone access denied or unavailable
         });
     }
 
@@ -170,13 +169,13 @@ export function ProCaseView({ threadId }: { threadId: string }) {
           }
           if (text) setLiveTranscript(text);
         };
-        recognition.onerror = (e: unknown) => {
-          console.warn("SpeechRecognition error:", e);
+        recognition.onerror = () => {
+          // Non-fatal recognition error
         };
         recognition.start();
         speechRecognitionRef.current = recognition;
-      } catch (e) {
-        console.warn("SpeechRecognition start error:", e);
+      } catch {
+        // Speech recognition unavailable or unsupported
       }
     }
   };
@@ -188,7 +187,7 @@ export function ProCaseView({ threadId }: { threadId: string }) {
     }
     if (speechRecognitionRef.current) {
       try {
-        speechRecognitionRef.current.stop();
+        speechRecognitionRef.current.stop?.();
       } catch {
         // ignore
       }
@@ -480,13 +479,6 @@ export function ProCaseView({ threadId }: { threadId: string }) {
               type="button"
             >
               Breathing Cadence
-            </button>
-            <button 
-              onClick={() => insertProtocol("[Support Resource: Local Emergency Services]")}
-              className="px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/30 hover:bg-secondary/20 text-xs whitespace-nowrap transition-colors" 
-              type="button"
-            >
-              Attach Safe Resource
             </button>
           </div>
           

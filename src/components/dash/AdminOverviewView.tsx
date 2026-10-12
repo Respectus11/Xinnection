@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 interface AdminMetrics {
@@ -78,7 +78,7 @@ export function AdminOverviewView() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/overview");
       if (!res.ok) {
@@ -96,13 +96,13 @@ export function AdminOverviewView() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     loadData();
     const interval = setInterval(loadData, 20000); // Poll every 20s
     return () => clearInterval(interval);
-  }, []);
+  }, [loadData]);
 
   const handleProAction = async (proId: string, action: "approve" | "suspend" | "reinstate", reason?: string) => {
     setIsActionLoading(true);

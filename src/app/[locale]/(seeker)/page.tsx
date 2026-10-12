@@ -13,14 +13,17 @@ export default function SeekerLandingPage() {
   const [content, setContent] = useState("");
   const [categorySlug, setCategorySlug] = useState("other");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Professional selection state
   const [selectedProfessionalId, setSelectedProfessionalId] = useState<string | null>(null);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
+  // Submit seeker reflection to initialize an anonymous thread and redirect to the access code view
   const handleSubmit = async () => {
     if (!content.trim() || !categorySlug) return;
     setIsSubmitting(true);
+    setSubmitError(null);
     try {
       const res = await fetch("/api/threads", {
         method: "POST",
@@ -32,11 +35,11 @@ export default function SeekerLandingPage() {
           preferredProfessionalId: selectedProfessionalId ?? undefined,
         }),
       });
-      if (!res.ok) throw new Error("Failed to submit");
+      if (!res.ok) throw new Error("Failed to submit reflection");
       const data = await res.json();
       router.push(`/en/code?c=${data.code}`);
-    } catch (error) {
-      console.error(error);
+    } catch {
+      setSubmitError("Failed to connect to anonymous relay. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -48,6 +51,12 @@ export default function SeekerLandingPage() {
       {/* Main Scrollable Canvas */}
       <main className="w-full max-w-md mx-auto pt-16 px-margin flex flex-col gap-6">
         <SeekerHero />
+        {submitError && (
+          <div className="p-3.5 rounded-xl bg-error-container/30 border border-error/40 text-error text-xs flex items-center gap-2">
+            <span className="material-symbols-outlined text-base">error</span>
+            <span>{submitError}</span>
+          </div>
+        )}
         <ReflectionComposer content={content} onChange={setContent} />
         <CategoryPillsGrid selectedCategory={categorySlug} onSelect={setCategorySlug} />
 

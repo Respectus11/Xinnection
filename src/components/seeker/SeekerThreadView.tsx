@@ -3,15 +3,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Thread, Message } from "@prisma/client";
+import type { ThreadDto } from "@/lib/dto";
+
+// Minimal typed interface for browser Web Speech API SpeechRecognition
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop?: () => void;
+}
+
+interface SpeechRecognitionWindow extends Window {
+  SpeechRecognition?: new () => SpeechRecognitionInstance;
+  webkitSpeechRecognition?: new () => SpeechRecognitionInstance;
+}
 
 export function SeekerThreadView({ code }: { code: string }) {
   const router = useRouter();
   const [isPurgeModalOpen, setIsPurgeModalOpen] = useState(false);
   const [isPurged, setIsPurged] = useState(false);
   const [isBreathingOpen, setIsBreathingOpen] = useState(false);
-  const [thread, setThread] = useState<Thread | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [thread, setThread] = useState<ThreadDto | null>(null);
+  const [messages, setMessages] = useState<ThreadDto["messages"]>([]);
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [sendError, setSendError] = useState(false);
@@ -27,8 +43,7 @@ export function SeekerThreadView({ code }: { code: string }) {
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const speechRecognitionRef = useRef<any>(null);
+  const speechRecognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   const audioChunksRef = useRef<Blob[]>([]);
@@ -43,8 +58,8 @@ export function SeekerThreadView({ code }: { code: string }) {
           setThread(data);
           setMessages(data.messages || []);
         }
-      } catch (err) {
-        console.error(err);
+      } catch {
+        // Polling failure handled silently
       }
     };
     fetchThread();
@@ -108,7 +123,6 @@ export function SeekerThreadView({ code }: { code: string }) {
       }
 
       if (!currentThread?.id) {
-        console.error("No active thread available to post message");
         return;
       }
 
@@ -144,8 +158,7 @@ export function SeekerThreadView({ code }: { code: string }) {
           setSendError(true);
         }
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setSpamWarning("Network error. Please check your connection and try again.");
       setSendError(true);
     } finally {
@@ -181,39 +194,38 @@ export function SeekerThreadView({ code }: { code: string }) {
               }
             };
             mr.start(250);
-          } catch (e) {
-            console.warn("MediaRecorder start failed:", e);
+          } catch {
+            // MediaRecorder not supported
           }
         })
-        .catch((err) => {
-          console.warn("Microphone access prompt or device error:", err);
+        .catch(() => {
+          // Microphone access unavailable
         });
     }
 
-    // 4. Start Web Speech API transcription in parallel if available
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    // 4. Start Web Speech API transcription in parallel if available in the browser
+    const win = window as unknown as SpeechRecognitionWindow;
+    const SpeechRecognition = win.SpeechRecognition || win.webkitSpeechRecognition;
     if (SpeechRecognition) {
       try {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "en-US";
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => {
           let text = "";
           for (let i = 0; i < event.results.length; i++) {
             text += event.results[i][0].transcript;
           }
           if (text) setLiveTranscript(text);
         };
-        recognition.onerror = (e: unknown) => {
-          console.warn("SpeechRecognition error:", e);
+        recognition.onerror = () => {
+          // Non-fatal recognition error
         };
         recognition.start();
         speechRecognitionRef.current = recognition;
-      } catch (e) {
-        console.warn("SpeechRecognition start error:", e);
+      } catch {
+        // SpeechRecognition not supported or disabled
       }
     }
   };
@@ -225,7 +237,7 @@ export function SeekerThreadView({ code }: { code: string }) {
     }
     if (speechRecognitionRef.current) {
       try {
-        speechRecognitionRef.current.stop();
+        speechRecognitionRef.current.stop?.();
       } catch {
         // ignore
       }
@@ -337,22 +349,18 @@ export function SeekerThreadView({ code }: { code: string }) {
         </button>
         {/* Center Header — Thread ID or Professional Profile */}
         <div className="flex flex-col items-center">
-          {/* @ts-ignore - DTO claimedBy expansion is safe here */}
           {thread?.claimedBy ? (
             <div className="flex items-center gap-2.5">
-              {/* @ts-ignore */}
               {thread.claimedBy.photoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={(thread as any).claimedBy.photoUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-lavender/40 shadow-sm" />
+                <img src={thread.claimedBy.photoUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-lavender/40 shadow-sm" />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-lavender/20 border border-lavender/40 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-secondary text-sm">support_agent</span>
                 </div>
               )}
               <div className="flex flex-col items-start">
-                {/* @ts-ignore */}
                 <span className="text-xs font-semibold text-starlight-white leading-tight">{thread.claimedBy.fullName}</span>
-                {/* @ts-ignore */}
                 <span className="text-[10px] text-muted-silver">{thread.claimedBy.specialty}</span>
               </div>
             </div>

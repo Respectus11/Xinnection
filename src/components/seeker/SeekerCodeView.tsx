@@ -27,7 +27,7 @@ export function SeekerCodeView() {
         },
       })
         .then((url) => setQrDataUrl(url))
-        .catch((err) => console.error("QR Code Error:", err));
+        .catch(() => undefined);
     }
   }, [token]);
 
@@ -113,8 +113,7 @@ export function SeekerCodeView() {
       }
       setSaveState("saved");
       setTimeout(() => setSaveState("idle"), 2000);
-    } catch (e) {
-      console.error("Save image error:", e);
+    } catch {
       setSaveState("idle");
     }
   };

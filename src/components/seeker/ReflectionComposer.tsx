@@ -14,41 +14,41 @@ const GENTLE_PROMPTS = [
   "I just need someone to hear that "
 ];
 
+// Minimal typed interface for browser Web Speech API SpeechRecognition
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop?: () => void;
+}
+
+interface SpeechRecognitionWindow extends Window {
+  SpeechRecognition?: new () => SpeechRecognitionInstance;
+  webkitSpeechRecognition?: new () => SpeechRecognitionInstance;
+}
+
 export function ReflectionComposer({ content, onChange }: ReflectionComposerProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [promptIndex, setPromptIndex] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.stop();
-        } catch {
-          // ignore
-        }
-      }
-      if (mediaStreamRef.current) {
-        mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, []);
-
-  const [liveTranscript, setLiveTranscript] = useState("");
   const audioChunksRef = useRef<Blob[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
+  const [liveTranscript, setLiveTranscript] = useState("");
+
+  // Clean up all active recording, recognition, and media stream tracks on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (recognitionRef.current) {
         try {
-          recognitionRef.current.stop();
+          recognitionRef.current.stop?.();
         } catch {
           // ignore
         }
@@ -98,26 +98,25 @@ export function ReflectionComposer({ content, onChange }: ReflectionComposerProp
               }
             };
             mr.start(250);
-          } catch (e) {
-            console.warn("MediaRecorder start failed:", e);
+          } catch {
+            // MediaRecorder not supported
           }
         })
-        .catch((err) => {
-          console.warn("Microphone access prompt or device error:", err);
+        .catch(() => {
+          // Microphone access unavailable
         });
     }
 
     // 4. Start Web Speech API transcription in parallel if available
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const win = window as unknown as SpeechRecognitionWindow;
+    const SpeechRecognition = win.SpeechRecognition || win.webkitSpeechRecognition;
     if (SpeechRecognition) {
       try {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "en-US";
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => {
           let text = "";
           for (let i = 0; i < event.results.length; i++) {
             text += event.results[i][0].transcript;
@@ -126,13 +125,13 @@ export function ReflectionComposer({ content, onChange }: ReflectionComposerProp
             setLiveTranscript(text);
           }
         };
-        recognition.onerror = (e: unknown) => {
-          console.warn("SpeechRecognition error:", e);
+        recognition.onerror = () => {
+          // Non-fatal recognition error
         };
         recognition.start();
         recognitionRef.current = recognition;
-      } catch (e) {
-        console.warn("SpeechRecognition start error:", e);
+      } catch {
+        // SpeechRecognition not supported or disabled
       }
     }
   };
@@ -147,7 +146,7 @@ export function ReflectionComposer({ content, onChange }: ReflectionComposerProp
     }
     if (recognitionRef.current) {
       try {
-        recognitionRef.current.stop();
+        recognitionRef.current.stop?.();
       } catch {
         // ignore
       }
