@@ -217,10 +217,6 @@
     font-optical-sizing: auto;
   }
 
-  html[data-script="ethiopic"] .display {
-    font-family: var(--font-noto-ethiopic), ui-sans-serif, sans-serif;
-    font-weight: 700;
-  }
 
   /* Page atmosphere — architectural ambient gradients */
   .atmosphere {

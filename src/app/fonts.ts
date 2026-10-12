@@ -15,12 +15,6 @@ export const notoSans = localFont({
   display: "swap",
 });
 
-export const notoEthiopic = localFont({
-  src: "./fonts/noto-sans-ethiopic-ethiopic-wght-normal.woff2",
-  weight: "100 900",
-  variable: "--font-noto-ethiopic",
-  display: "swap",
-});
 
 // Display serif for headlines (Latin locales). Fraunces' optical-size axis
 // carries the warm editorial print feel at display sizes. When a script

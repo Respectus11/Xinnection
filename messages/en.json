@@ -41,14 +41,6 @@
     "limits": "If you share that you are in immediate danger, a professional may follow our safety process. Your data is never sold or used for advertising.",
     "continue": "Continue"
   },
-  "crisis": {
-    "bannerTitle": "If you are in immediate danger",
-    "bannerBody": "Please don't wait for a reply here. These steps can help right now:",
-    "hospital": "Go to your nearest hospital emergency department, or call local emergency services.",
-    "befrienders": "Befrienders Worldwide: find a helpline near you",
-    "who": "World Health Organization: mental health resources",
-    "reviewNote": "Local helpline details are being verified for accuracy."
-  },
   "saved": {
     "title": "Your code",
     "body": "This is the only way back to this conversation. We cannot recover it for you.",

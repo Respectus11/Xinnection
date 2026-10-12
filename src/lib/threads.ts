@@ -13,10 +13,7 @@ import {
 import { screenForCrisis } from "./screening";
 import { generateSeekerCode } from "./token";
 
-export const LOCALES = ["en", "am", "om", "ti"] as const;
-// Content languages a conversation may be written in. Deliberately separate
-// from the UI locale list (i18n/routing.ts): the interface ships English-only
-// while professionals still filter and read threads written in any of these.
+export const LOCALES = ["en"] as const;
 export const CONTENT_LANGUAGES = LOCALES;
 export type ContentLanguage = (typeof LOCALES)[number];
 
@@ -49,7 +46,7 @@ export async function createThread(input: {
   preferredProfessionalId?: string;
 }): Promise<CreateThreadResult> {
   const category = await prismaCategory(input.categorySlug);
-  const crisisFlagged = category.isCrisis || screenForCrisis(input.content, input.language);
+  const crisisFlagged = category.isCrisis || screenForCrisis(input.content);
 
   // One nested create returns the thread id (no second lookup query). A code
   // collision on the unique tokenHash is astronomically unlikely (~43 bits)
@@ -151,7 +148,7 @@ export async function addMessage(
   content: string,
 ): Promise<{ crisisFlagged: boolean }> {
   let crisisFlagged = false;
-  if (senderRole === "SEEKER" && screenForCrisis(content, thread.language)) {
+  if (senderRole === "SEEKER" && screenForCrisis(content)) {
     crisisFlagged = true;
     await prisma.crisisFlag.create({ data: { threadId: thread.id, source: "KEYWORD_SCREEN" } });
   }
