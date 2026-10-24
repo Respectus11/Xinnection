@@ -41,3 +41,6 @@ server.err
 __pycache__/
 .cdp*
 *.pyc
+
+playwright-report/
+test-results/
