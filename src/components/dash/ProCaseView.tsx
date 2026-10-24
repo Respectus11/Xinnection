@@ -207,6 +207,13 @@ export function ProCaseView({ threadId }: { threadId: string }) {
     }
   };
 
+  // Clean up recording streams, speech recognition, and timers on component unmount
+  useEffect(() => {
+    return () => {
+      stopAudioStreams();
+    };
+  }, []);
+
   const cancelRecording = () => {
     stopAudioStreams();
     setIsRecording(false);
