@@ -14,7 +14,8 @@ const CRISIS_KEYWORDS = [
 ];
 
 export function screenForCrisis(content: string): boolean {
-  const text = content.toLowerCase();
+  if (!content || typeof content !== "string") return false;
+  const text = content.toLowerCase().replace(/\s+/g, " ");
   return CRISIS_KEYWORDS.some((kw) => text.includes(kw));
 }
 
